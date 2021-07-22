@@ -5,17 +5,16 @@ import { CoreService } from '../../service/core.service';
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent implements OnInit {
   appVersion: string;
   logoImagePath = 'assets/images/logo.png';
   collapsed = true;
 
-  constructor(private coreService: CoreService) { }
+  constructor(private coreService: CoreService) {}
 
   ngOnInit(): void {
     this.appVersion = this.coreService.getAppVersion();
   }
-
 }

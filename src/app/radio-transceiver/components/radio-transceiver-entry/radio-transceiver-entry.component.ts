@@ -7,18 +7,15 @@ import { RadioTransceiver } from '../../models/radio-transceiver.model';
     <a [routerLink]="[entry.id]">
       <div>{{ entry.nameOfStation }}</div>
       <div>
-        <small> {{ entry.date | date: "mediumDate" }} </small>
+        <small> {{ entry.date | date: 'mediumDate' }} </small>
       </div>
     </a>
   `,
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioTransceiverEntryComponent implements OnInit {
   @Input() entry: RadioTransceiver;
-  constructor() { }
-  ngOnInit(): void {
-  }
-
+  constructor() {}
+  ngOnInit(): void {}
 }

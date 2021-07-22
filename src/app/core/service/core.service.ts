@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { version } from '../../../../package.json';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CoreService {
   private appVersion = version;
 
-  constructor() { }
+  constructor() {}
 
   getAppVersion(): string {
     return this.appVersion;

@@ -5,36 +5,36 @@ import { ServiceCenterReportSummary } from './models/service-center-summary.mode
 import { ServiceCenterReport } from './models/service-center.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ServiceCenterReportService {
-private sampleEntries: ServiceCenterReportSummary[]  = [
+  private sampleEntries: ServiceCenterReportSummary[] = [
     {
       dateInspected: new Date(),
       id: '1111',
       approver: 'Me',
       isApproved: true,
       nameOfServiceCenter: 'WIMAX',
-      notedby: 'DJXCDS'
+      notedby: 'DJXCDS',
     },
   ];
   private summaryEntries: ServiceCenterReportSummary[] = [];
   private entries: ServiceCenterReport[] = [];
 
-  constructor() { }
+  constructor() {}
 
   getEntries(): ServiceCenterReportSummary[] {
     return this.summaryEntries;
   }
 
   getSelectedEntry(id: string): ServiceCenterReport {
-    return this.entries.find(entry => entry.id === id);
+    return this.entries.find((entry) => entry.id === id);
   }
 
   addOne(data: ServiceCenterReport): void {
     const dateISO = new Date(DateTime.fromISO(dateWithPadding(data.dateInspected as string)).toISO());
     const idGenerated = (Math.random() * (100 - 1) + 1).toFixed();
-    this.entries = [...this.entries, {...data, dateInspected: dateISO, id: `${idGenerated}` }];
+    this.entries = [...this.entries, { ...data, dateInspected: dateISO, id: `${idGenerated}` }];
     this.summaryEntries = [
       ...this.summaryEntries,
       {
@@ -43,8 +43,8 @@ private sampleEntries: ServiceCenterReportSummary[]  = [
         approver: data.approver,
         isApproved: data.isApproved,
         nameOfServiceCenter: data.nameOfServiceCenter,
-        notedby: data.notedby
-      }
+        notedby: data.notedby,
+      },
     ];
   }
 }

@@ -8,26 +8,25 @@ import { RadioTransceiverViewComponent } from './containers/radio-transceiver-vi
 const routes: Routes = [
   {
     path: '',
-     component: RadioTransceiverLayoutComponent,
-     children: [
-       {
-         path: '',
-         component: RadioTransceiverCollectionComponent
-       },
-       {
-         path: 'new',
-         component: RadioTransceiverEditComponent
-       },
-              {
-         path: ':id',
-         component: RadioTransceiverViewComponent
-       }
-     ]
+    component: RadioTransceiverLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: RadioTransceiverCollectionComponent,
+      },
+      {
+        path: 'new',
+        component: RadioTransceiverEditComponent,
+      },
+      {
+        path: ':id',
+        component: RadioTransceiverViewComponent,
+      },
+    ],
   },
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class RadioTransceiverRoutingModule { }
+export class RadioTransceiverRoutingModule {}

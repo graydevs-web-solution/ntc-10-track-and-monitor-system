@@ -13,26 +13,27 @@ import { MobilePhoneDealerSummary } from '../../models/mobile-phone-dealer-summa
           [ngClass]="{
             'text-success': entry.isApproved,
             'text-danger': !entry.isApproved
-          }">
-            {{ entry.isApproved ? 'Yes' : 'No' }}</span>
+          }"
+        >
+          {{ entry.isApproved ? 'Yes' : 'No' }}</span
+        >
       </div>
       <div>
         <small>
-          Date Inspected: <span class="font-weight-bold">
-            {{ entry.dateInspected | date: "mediumDate" }}
-          </span>  </small>
+          Date Inspected:
+          <span class="font-weight-bold">
+            {{ entry.dateInspected | date: 'mediumDate' }}
+          </span>
+        </small>
       </div>
     </a>
   `,
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MobilePhoneDealerEntryComponent implements OnInit {
   @Input() entry: MobilePhoneDealerSummary;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

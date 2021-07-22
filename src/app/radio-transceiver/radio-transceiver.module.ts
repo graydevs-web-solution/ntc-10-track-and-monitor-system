@@ -21,7 +21,7 @@ import { RadioTransceiverEntryComponent } from './components/radio-transceiver-e
     RadioTransceiverCollectionComponent,
     RadioTransceiverViewComponent,
     RadioTransceiverListComponent,
-    RadioTransceiverEntryComponent
+    RadioTransceiverEntryComponent,
   ],
   imports: [
     CommonModule,
@@ -32,11 +32,11 @@ import { RadioTransceiverEntryComponent } from './components/radio-transceiver-e
     FontAwesomeModule,
     NgbNavModule,
     CardModule,
-    RouterModule
+    RouterModule,
   ],
   providers: [
-    {provide: NgbDateAdapter, useClass: CustomAdapter},
-    {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter}
-  ]
+    { provide: NgbDateAdapter, useClass: CustomAdapter },
+    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
+  ],
 })
-export class RadioTransceiverModule { }
+export class RadioTransceiverModule {}

@@ -6,15 +6,14 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-service-center-report-edit',
   templateUrl: './service-center-report-edit.component.html',
-  styleUrls: ['./service-center-report-edit.component.css']
+  styleUrls: ['./service-center-report-edit.component.css'],
 })
 export class ServiceCenterReportEditComponent implements OnInit {
   form: FormGroup;
 
   faCalendarAlt = faCalendarAlt;
 
-  constructor(private formBuilder: FormBuilder,
-    private serviceCenterReportService: ServiceCenterReportService) { }
+  constructor(private formBuilder: FormBuilder, private serviceCenterReportService: ServiceCenterReportService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -30,7 +29,7 @@ export class ServiceCenterReportEditComponent implements OnInit {
       exactLocationOfServiceCenter: [''],
       mpscInfo: this.formBuilder.group({
         permitNumber: [''],
-        expiryDate: ['']
+        expiryDate: [''],
       }),
       secDtiRegistrationNumber: [''],
       businessMayorPermitNumber: [''],
@@ -39,18 +38,18 @@ export class ServiceCenterReportEditComponent implements OnInit {
       sundryOfInformation: this.formBuilder.group({
         one: [''],
         two: [''],
-        three: ['']
+        three: [''],
       }),
       remarksDeficienciesDiscrepanciesNoted: [''],
       inspectedBy: [''],
       ownerInfo: this.formBuilder.group({
         name: [''],
-        position: ['']
+        position: [''],
       }),
       recommendations: [''],
       notedBy: [''],
       isApproved: [false],
-      approver: ['']
+      approver: [''],
     });
   }
 
@@ -59,17 +58,21 @@ export class ServiceCenterReportEditComponent implements OnInit {
   }
 
   addServiceOrTestEquipment(): void {
-    this.listOfServiceOrTestEquipments.push(this.formBuilder.group({
-      particular: [''],
-      numberOfUnits: [0]
-    }));
+    this.listOfServiceOrTestEquipments.push(
+      this.formBuilder.group({
+        particular: [''],
+        numberOfUnits: [0],
+      })
+    );
   }
 
   addEmployedElectronicTechnician() {
-    this.employedElectronicsTechnicians.push(this.formBuilder.group({
-      name: [''],
-      qualifications: [''],
-    }));
+    this.employedElectronicsTechnicians.push(
+      this.formBuilder.group({
+        name: [''],
+        qualifications: [''],
+      })
+    );
   }
 
   get listOfServiceOrTestEquipments(): FormArray {

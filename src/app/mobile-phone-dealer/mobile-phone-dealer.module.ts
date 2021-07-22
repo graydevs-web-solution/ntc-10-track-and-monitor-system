@@ -5,7 +5,7 @@ import { MobilePhoneDealerRoutingModule } from './mobile-phone-dealer-routing.mo
 import { NgbNavModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {AutosizeModule} from 'ngx-autosize';
+import { AutosizeModule } from 'ngx-autosize';
 import { MobilePhoneDealerLayoutComponent } from './components/mobile-phone-dealer-layout/mobile-phone-dealer-layout.component';
 import { MobilePhoneDealerCollectionComponent } from './containers/mobile-phone-dealer-collection/mobile-phone-dealer-collection.component';
 import { MobilePhoneDealerListComponent } from './components/mobile-phone-dealer-list/mobile-phone-dealer-list.component';
@@ -18,7 +18,7 @@ import { CardModule } from '../ui/card/card.module';
     MobilePhoneDealerLayoutComponent,
     MobilePhoneDealerCollectionComponent,
     MobilePhoneDealerListComponent,
-    MobilePhoneDealerEntryComponent
+    MobilePhoneDealerEntryComponent,
   ],
   imports: [
     CommonModule,
@@ -29,7 +29,7 @@ import { CardModule } from '../ui/card/card.module';
     FontAwesomeModule,
     NgbDatepickerModule,
     AutosizeModule,
-    CardModule
-  ]
+    CardModule,
+  ],
 })
-export class MobilePhoneDealerModule { }
+export class MobilePhoneDealerModule {}

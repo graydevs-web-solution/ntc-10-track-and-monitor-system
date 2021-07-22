@@ -8,15 +8,12 @@ import { ServiceCenterReportSummary } from '../../models/service-center-summary.
       <app-service-center-report-entry [entry]="entry"></app-service-center-report-entry>
     </app-card>
   `,
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServiceCenterReportListComponent implements OnInit {
   @Input() entries: ServiceCenterReportSummary[];
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

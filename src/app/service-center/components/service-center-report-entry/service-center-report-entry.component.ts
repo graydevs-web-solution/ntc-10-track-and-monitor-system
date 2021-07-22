@@ -4,7 +4,7 @@ import { ServiceCenterReportSummary } from '../../models/service-center-summary.
 @Component({
   selector: 'app-service-center-report-entry',
   template: `
-<a [routerLink]="[entry.id]">
+    <a [routerLink]="[entry.id]">
       <div>{{ entry.nameOfServiceCenter }}</div>
       <div>
         Approved?:
@@ -13,26 +13,27 @@ import { ServiceCenterReportSummary } from '../../models/service-center-summary.
           [ngClass]="{
             'text-success': entry.isApproved,
             'text-danger': !entry.isApproved
-          }">
-            {{ entry.isApproved ? 'Yes' : 'No' }}</span>
+          }"
+        >
+          {{ entry.isApproved ? 'Yes' : 'No' }}</span
+        >
       </div>
       <div>
         <small>
-          Date Inspected: <span class="font-weight-bold">
-            {{ entry.dateInspected | date: "mediumDate" }}
-          </span>  </small>
+          Date Inspected:
+          <span class="font-weight-bold">
+            {{ entry.dateInspected | date: 'mediumDate' }}
+          </span>
+        </small>
       </div>
     </a>
   `,
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServiceCenterReportEntryComponent implements OnInit {
   @Input() entry: ServiceCenterReportSummary;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

@@ -7,15 +7,7 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    LayoutComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    NgbDropdownModule
-  ]
+  declarations: [AppComponent, NavbarComponent, LayoutComponent],
+  imports: [CommonModule, RouterModule, NgbDropdownModule],
 })
-export class CoreModule { }
+export class CoreModule {}

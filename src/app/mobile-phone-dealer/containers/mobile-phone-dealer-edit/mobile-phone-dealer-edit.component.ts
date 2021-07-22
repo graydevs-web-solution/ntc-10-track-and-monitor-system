@@ -6,15 +6,14 @@ import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 @Component({
   selector: 'app-mobile-phone-dealer-edit',
   templateUrl: './mobile-phone-dealer-edit.component.html',
-  styleUrls: ['./mobile-phone-dealer-edit.component.css']
+  styleUrls: ['./mobile-phone-dealer-edit.component.css'],
 })
 export class MobilePhoneDealerEditComponent implements OnInit {
   form: FormGroup;
 
   faCalendarAlt = faCalendarAlt;
 
-  constructor(private formBuilder: FormBuilder,
-    private mobilePhoneDealerService: MobilePhoneDealerService) { }
+  constructor(private formBuilder: FormBuilder, private mobilePhoneDealerService: MobilePhoneDealerService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -30,7 +29,7 @@ export class MobilePhoneDealerEditComponent implements OnInit {
       addressOfMobilePhoneWarehouse: [''],
       mobilePhoneDealerInfo: this.formBuilder.group({
         permitNumber: [''],
-        expiryDate: ['']
+        expiryDate: [''],
       }),
       secDtiRegistrationNumber: [''],
       businessMayorPermitNumber: [''],
@@ -39,18 +38,18 @@ export class MobilePhoneDealerEditComponent implements OnInit {
       listOfStocksOfSubscriberIdentificationModule: this.formBuilder.array([]),
       sundryOfInformation: this.formBuilder.group({
         one: [''],
-        two: ['']
+        two: [''],
       }),
       remarksDeficienciesDiscrepanciesNoted: [''],
       inspectedBy: [''],
       ownerInfo: this.formBuilder.group({
         name: [''],
-        position: ['']
+        position: [''],
       }),
       recommendations: [''],
       notedBy: [''],
       isApproved: [false],
-      approver: ['']
+      approver: [''],
     });
   }
 
@@ -59,25 +58,31 @@ export class MobilePhoneDealerEditComponent implements OnInit {
   }
 
   addStockSpareAndAccessory(): void {
-    this.listOfStocksOfSparesAndAccessories.push(this.formBuilder.group({
-      particular: [''],
-      numberOfUnits: [0]
-    }));
+    this.listOfStocksOfSparesAndAccessories.push(
+      this.formBuilder.group({
+        particular: [''],
+        numberOfUnits: [0],
+      })
+    );
   }
 
   addStockMobilePhone() {
-    this.listOfStocksOfMobilePhone.push(this.formBuilder.group({
-      model: [''],
-      imeiNumber: [''],
-      source: ['']
-    }));
+    this.listOfStocksOfMobilePhone.push(
+      this.formBuilder.group({
+        model: [''],
+        imeiNumber: [''],
+        source: [''],
+      })
+    );
   }
 
   addStockSIM() {
-    this.listOfStocksOfSubscriberIdentificationModule.push(this.formBuilder.group({
-      simNumber: [''],
-      mobilePhoneCompany: ['']
-    }));
+    this.listOfStocksOfSubscriberIdentificationModule.push(
+      this.formBuilder.group({
+        simNumber: [''],
+        mobilePhoneCompany: [''],
+      })
+    );
   }
 
   get listOfStocksOfSparesAndAccessories(): FormArray {

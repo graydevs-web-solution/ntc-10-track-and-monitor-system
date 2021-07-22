@@ -5,8 +5,7 @@ import { ServiceCenterRoutingModule } from './service-center-routing.module';
 import { NgbNavModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ServiceCenterLayoutComponent } from './components/service-center-layout/service-center-layout.component';
-import { ServiceCenterReportCollectionComponent } from
-  './containers/service-center-report-collection/service-center-report-collection.component';
+import { ServiceCenterReportCollectionComponent } from './containers/service-center-report-collection/service-center-report-collection.component';
 import { ServiceCenterReportListComponent } from './components/service-center-report-list/service-center-report-list.component';
 import { ServiceCenterReportEntryComponent } from './components/service-center-report-entry/service-center-report-entry.component';
 import { CardModule } from '../ui/card/card.module';
@@ -18,7 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ServiceCenterLayoutComponent,
     ServiceCenterReportCollectionComponent,
     ServiceCenterReportListComponent,
-    ServiceCenterReportEntryComponent
+    ServiceCenterReportEntryComponent,
   ],
   imports: [
     CommonModule,
@@ -28,7 +27,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FontAwesomeModule,
     CardModule,
     FormsModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class ServiceCenterModule { }
+export class ServiceCenterModule {}

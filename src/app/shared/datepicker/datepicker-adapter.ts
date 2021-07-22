@@ -7,7 +7,6 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class CustomAdapter extends NgbDateAdapter<string> {
-
   // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly DELIMITER = '-';
 
@@ -17,7 +16,7 @@ export class CustomAdapter extends NgbDateAdapter<string> {
       return {
         day: parseInt(date[2], 10),
         month: parseInt(date[1], 10),
-        year: parseInt(date[0], 10)
+        year: parseInt(date[0], 10),
       };
     }
     return null;
@@ -52,7 +51,7 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
       return {
         day: parseInt(date[1], 10),
         month: monthNumber,
-        year: parseInt(date[2], 10)
+        year: parseInt(date[2], 10),
       };
     }
     return null;

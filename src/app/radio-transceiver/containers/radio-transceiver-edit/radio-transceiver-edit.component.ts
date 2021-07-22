@@ -6,97 +6,99 @@ import { RadioTransceiverService } from './../../radio-transceiver.service';
 @Component({
   selector: 'app-radio-transceiver-edit',
   templateUrl: './radio-transceiver-edit.component.html',
-  styleUrls: ['./radio-transceiver-edit.component.css']
+  styleUrls: ['./radio-transceiver-edit.component.css'],
 })
 export class RadioTransceiverEditComponent implements OnInit {
   form: FormGroup;
 
   faCalendarAlt = faCalendarAlt;
 
-  constructor(private formBuilder: FormBuilder, private radioTransceiverService: RadioTransceiverService) { }
+  constructor(private formBuilder: FormBuilder, private radioTransceiverService: RadioTransceiverService) {}
 
   ngOnInit(): void {
     this.initForm();
   }
 
   initForm() {
-    this.form = this.formBuilder.group(
-      {
-        date: [''],
-        nameOfStation: [''],
-        officePostalAddress: [''],
-        exactLocationOfStation: [''],
-        class: [''],
-        natureOfService: [''],
-        workingHours: [''],
-        type: [''],
-        callSign: [''],
-        ppInfo: this.formBuilder.group({
-          ppNumber: [''],
-          dateIssued: ['']
-        }),
-        cpInfo: this.formBuilder.group({
-          cpNumber: [''],
-          expirationDate: [''],
-        }),
-        licInfo: this.formBuilder.group({
-          licNumber: [''],
-          expirationDate: ['']
-        }),
-        pointsOfCommunication: [''],
-        operators: this.formBuilder.array([]),
-        radioTransceivers: this.formBuilder.array([]),
-        frequenciesInfo: this.formBuilder.group({
-          assignedFreq: [''],
-          crystalFreq: [''],
-          measuredFreq: [''],
-          ifReceiver: [''],
-          typeOfEmission: [''],
-          antennaSystemType: [''],
-          elevationFromGmd: [''],
-          gain: [''],
-          directivity: [''],
-          powerSupply: [''],
-          battery: [''],
-          voltageAndType: [''],
-          capacity: [''],
-          ah: ['']
-        }),
-        illegalConstructionInfo: this.formBuilder.group({
-          constructionsOfRadioStationsWithoutConstructionPermit: [false],
-          illegalTransfer: [false]
-        }),
-        illegalOperationInfo: this.formBuilder.group({
-          operationWithoutRadioStationLicensePermit: [false],
-          operationWithoutLicenseRadioOperator: [false],
-          operationWithoutLogbook: [false],
-          operatingOnUnauthorizedFrequency: [false]
-        }),
-        illegalPossession: [false],
-        others: [''],
-        radioRegulationInspector: [''],
-        authorizedRepresentative: [''],
-        regionalDirector: ['']
-      }
-    );
+    this.form = this.formBuilder.group({
+      date: [''],
+      nameOfStation: [''],
+      officePostalAddress: [''],
+      exactLocationOfStation: [''],
+      class: [''],
+      natureOfService: [''],
+      workingHours: [''],
+      type: [''],
+      callSign: [''],
+      ppInfo: this.formBuilder.group({
+        ppNumber: [''],
+        dateIssued: [''],
+      }),
+      cpInfo: this.formBuilder.group({
+        cpNumber: [''],
+        expirationDate: [''],
+      }),
+      licInfo: this.formBuilder.group({
+        licNumber: [''],
+        expirationDate: [''],
+      }),
+      pointsOfCommunication: [''],
+      operators: this.formBuilder.array([]),
+      radioTransceivers: this.formBuilder.array([]),
+      frequenciesInfo: this.formBuilder.group({
+        assignedFreq: [''],
+        crystalFreq: [''],
+        measuredFreq: [''],
+        ifReceiver: [''],
+        typeOfEmission: [''],
+        antennaSystemType: [''],
+        elevationFromGmd: [''],
+        gain: [''],
+        directivity: [''],
+        powerSupply: [''],
+        battery: [''],
+        voltageAndType: [''],
+        capacity: [''],
+        ah: [''],
+      }),
+      illegalConstructionInfo: this.formBuilder.group({
+        constructionsOfRadioStationsWithoutConstructionPermit: [false],
+        illegalTransfer: [false],
+      }),
+      illegalOperationInfo: this.formBuilder.group({
+        operationWithoutRadioStationLicensePermit: [false],
+        operationWithoutLicenseRadioOperator: [false],
+        operationWithoutLogbook: [false],
+        operatingOnUnauthorizedFrequency: [false],
+      }),
+      illegalPossession: [false],
+      others: [''],
+      radioRegulationInspector: [''],
+      authorizedRepresentative: [''],
+      regionalDirector: [''],
+    });
   }
 
   addOperatorInput(): void {
-    this.operators.push(this.formBuilder.group({
-      name: [''],
-      particularOfLicense: [''],
-      expirationDate: ['']
-    }));
+    this.operators.push(
+      this.formBuilder.group({
+        name: [''],
+        particularOfLicense: [''],
+        expirationDate: [''],
+      })
+    );
   }
 
   addRadioTransceiverInput(): void {
-    this.radioTransceivers.push(this.formBuilder.group({
-      model: [''],
-      serialNumber: [''],
-      freqRange: [''],
-      powerOutput: [''],
-      freqControl: ['']
-    }));
+    this.radioTransceivers.push(
+      this.formBuilder.group({
+        model: [''],
+        serialNumber: [''],
+        freqRange: [''],
+        powerOutput: [''],
+        freqControl: [''],
+      })
+    );
   }
 
   submit() {
@@ -110,5 +112,4 @@ export class RadioTransceiverEditComponent implements OnInit {
   get radioTransceivers() {
     return this.form.get('radioTransceivers') as FormArray;
   }
-
 }

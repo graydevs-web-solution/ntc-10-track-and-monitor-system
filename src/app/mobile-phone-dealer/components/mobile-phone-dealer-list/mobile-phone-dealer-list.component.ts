@@ -8,16 +8,13 @@ import { MobilePhoneDealerSummary } from '../../models/mobile-phone-dealer-summa
       <app-mobile-phone-dealer-entry [entry]="entry"></app-mobile-phone-dealer-entry>
     </app-card>
   `,
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MobilePhoneDealerListComponent implements OnInit {
   @Input() entries: MobilePhoneDealerSummary[];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

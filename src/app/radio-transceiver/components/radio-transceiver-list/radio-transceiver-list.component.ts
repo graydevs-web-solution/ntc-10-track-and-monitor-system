@@ -8,15 +8,12 @@ import { RadioTransceiverSummary } from './../../models/radio-transceiver-summar
       <app-radio-transceiver-entry [entry]="entry"></app-radio-transceiver-entry>
     </app-card>
   `,
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioTransceiverListComponent implements OnInit {
   @Input() entries: RadioTransceiverSummary[];
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

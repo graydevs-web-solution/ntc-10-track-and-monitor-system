@@ -18,9 +18,9 @@ import { CardModule } from './ui/card/card.module';
     MobilePhoneDealerModule,
     CoreModule,
     ServiceCenterModule,
-    CardModule
+    CardModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

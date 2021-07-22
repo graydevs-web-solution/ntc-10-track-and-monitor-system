@@ -6,15 +6,14 @@ import { MobilePhoneDealerSummary } from '../../models/mobile-phone-dealer-summa
   selector: 'app-mobile-phone-dealer-collection',
   templateUrl: './mobile-phone-dealer-collection.component.html',
   styleUrls: ['./mobile-phone-dealer-collection.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MobilePhoneDealerCollectionComponent implements OnInit {
   entries: MobilePhoneDealerSummary[] = [];
 
-  constructor(private mobilePhoneDealerService: MobilePhoneDealerService) { }
+  constructor(private mobilePhoneDealerService: MobilePhoneDealerService) {}
 
   ngOnInit(): void {
     this.entries = this.mobilePhoneDealerService.getEntries();
   }
-
 }

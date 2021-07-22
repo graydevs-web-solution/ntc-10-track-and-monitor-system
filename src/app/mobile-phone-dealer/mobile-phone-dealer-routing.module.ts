@@ -7,22 +7,22 @@ import { MobilePhoneDealerCollectionComponent } from './containers/mobile-phone-
 const routes: Routes = [
   {
     path: '',
-     component: MobilePhoneDealerLayoutComponent,
-     children: [
-       {
-         path: '',
-         component: MobilePhoneDealerCollectionComponent
-       },
+    component: MobilePhoneDealerLayoutComponent,
+    children: [
       {
-         path: 'new',
-         component: MobilePhoneDealerEditComponent
-       }
-     ]
+        path: '',
+        component: MobilePhoneDealerCollectionComponent,
+      },
+      {
+        path: 'new',
+        component: MobilePhoneDealerEditComponent,
+      },
+    ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MobilePhoneDealerRoutingModule { }
+export class MobilePhoneDealerRoutingModule {}

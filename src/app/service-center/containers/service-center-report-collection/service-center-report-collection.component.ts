@@ -5,14 +5,13 @@ import { ServiceCenterReportSummary } from '../../models/service-center-summary.
 @Component({
   selector: 'app-service-center-report-collection',
   templateUrl: './service-center-report-collection.component.html',
-  styleUrls: ['./service-center-report-collection.component.css']
+  styleUrls: ['./service-center-report-collection.component.css'],
 })
 export class ServiceCenterReportCollectionComponent implements OnInit {
   entries: ServiceCenterReportSummary[];
-  constructor(private serviceCenterReportService: ServiceCenterReportService) { }
+  constructor(private serviceCenterReportService: ServiceCenterReportService) {}
 
   ngOnInit(): void {
     this.entries = this.serviceCenterReportService.getEntries();
   }
-
 }
