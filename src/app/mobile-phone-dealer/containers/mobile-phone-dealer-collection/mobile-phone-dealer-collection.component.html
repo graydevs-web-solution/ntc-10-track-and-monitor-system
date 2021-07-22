@@ -1,0 +1,9 @@
+<div>
+  <app-mobile-phone-dealer-list
+    [entries]="entries"
+  ></app-mobile-phone-dealer-list>
+
+  <app-card *ngIf="!entries.length" [centered]="true">
+    <div class="font-weight-bold">No entries</div>
+  </app-card>
+</div>

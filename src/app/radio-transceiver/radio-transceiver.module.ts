@@ -7,11 +7,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CustomAdapter, CustomDateParserFormatter } from '../shared/datepicker/datepicker-adapter';
 import { RadioTransceiverLayoutComponent } from './components/radio-transceiver-layout/radio-transceiver-layout.component';
+import { RadioTransceiverCollectionComponent } from './containers/radio-transceiver-collection/radio-transceiver-collection.component';
+import { CardModule } from '../ui/card/card.module';
+import { RadioTransceiverViewComponent } from './containers/radio-transceiver-view/radio-transceiver-view.component';
+import { RouterModule } from '@angular/router';
+import { RadioTransceiverListComponent } from './components/radio-transceiver-list/radio-transceiver-list.component';
+import { RadioTransceiverEntryComponent } from './components/radio-transceiver-entry/radio-transceiver-entry.component';
 
 @NgModule({
   declarations: [
     RadioTransceiverEditComponent,
     RadioTransceiverLayoutComponent,
+    RadioTransceiverCollectionComponent,
+    RadioTransceiverViewComponent,
+    RadioTransceiverListComponent,
+    RadioTransceiverEntryComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +30,9 @@ import { RadioTransceiverLayoutComponent } from './components/radio-transceiver-
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    NgbNavModule
+    NgbNavModule,
+    CardModule,
+    RouterModule
   ],
   providers: [
     {provide: NgbDateAdapter, useClass: CustomAdapter},

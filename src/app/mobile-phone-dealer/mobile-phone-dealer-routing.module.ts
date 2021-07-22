@@ -2,6 +2,7 @@ import { MobilePhoneDealerLayoutComponent } from './components/mobile-phone-deal
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MobilePhoneDealerEditComponent } from './containers/mobile-phone-dealer-edit/mobile-phone-dealer-edit.component';
+import { MobilePhoneDealerCollectionComponent } from './containers/mobile-phone-dealer-collection/mobile-phone-dealer-collection.component';
 
 const routes: Routes = [
   {
@@ -10,6 +11,10 @@ const routes: Routes = [
      children: [
        {
          path: '',
+         component: MobilePhoneDealerCollectionComponent
+       },
+      {
+         path: 'new',
          component: MobilePhoneDealerEditComponent
        }
      ]

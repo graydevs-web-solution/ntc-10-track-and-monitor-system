@@ -1,3 +1,4 @@
+import { ServiceCenterReportService } from './../../service-center-report.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +13,8 @@ export class ServiceCenterReportEditComponent implements OnInit {
 
   faCalendarAlt = faCalendarAlt;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+    private serviceCenterReportService: ServiceCenterReportService) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -53,7 +55,7 @@ export class ServiceCenterReportEditComponent implements OnInit {
   }
 
   submit(): void {
-
+    this.serviceCenterReportService.addOne(this.form.value);
   }
 
   addServiceOrTestEquipment(): void {

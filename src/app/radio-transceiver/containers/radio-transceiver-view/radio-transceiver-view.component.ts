@@ -1,25 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { RadioTransceiverService } from './../../radio-transceiver.service';
 
 @Component({
-  selector: 'app-radio-transceiver-edit',
-  templateUrl: './radio-transceiver-edit.component.html',
-  styleUrls: ['./radio-transceiver-edit.component.css']
+  selector: 'app-radio-transceiver-view',
+  templateUrl: './radio-transceiver-view.component.html',
+  styleUrls: ['./radio-transceiver-view.component.css']
 })
-export class RadioTransceiverEditComponent implements OnInit {
+export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
   form: FormGroup;
+  formId: string;
+
+  getDestroyed = new Subject();
 
   faCalendarAlt = faCalendarAlt;
 
-  constructor(private formBuilder: FormBuilder, private radioTransceiverService: RadioTransceiverService) { }
+  constructor(private formBuilder: FormBuilder,
+    private radioTransceiverService: RadioTransceiverService,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.route.params.pipe(
+      map((params: Params) => params.id),
+      takeUntil(this.getDestroyed))
+      .subscribe({ next: (value => {
+        this.formId = value;
+      }) });
+
+      this.form.patchValue(this.radioTransceiverService.getSelectedEntry(this.formId));
   }
 
-  initForm() {
+  ngOnDestroy(): void {
+    this.getDestroyed.next();
+    this.getDestroyed.complete();
+  }
+
+  initForm(): void {
     this.form = this.formBuilder.group(
       {
         date: [''],
@@ -97,10 +118,6 @@ export class RadioTransceiverEditComponent implements OnInit {
       powerOutput: [''],
       freqControl: ['']
     }));
-  }
-
-  submit() {
-    this.radioTransceiverService.addOne(this.form.value);
   }
 
   get operators() {

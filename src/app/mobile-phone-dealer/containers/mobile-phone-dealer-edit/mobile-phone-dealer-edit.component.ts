@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 
 @Component({
   selector: 'app-mobile-phone-dealer-edit',
@@ -12,7 +13,8 @@ export class MobilePhoneDealerEditComponent implements OnInit {
 
   faCalendarAlt = faCalendarAlt;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+    private mobilePhoneDealerService: MobilePhoneDealerService) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -53,7 +55,7 @@ export class MobilePhoneDealerEditComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.form.value);
+    this.mobilePhoneDealerService.addOne(this.form.value);
   }
 
   addStockSpareAndAccessory(): void {

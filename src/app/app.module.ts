@@ -8,10 +8,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './core/container/app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import { CardModule } from './ui/card/card.module';
 @NgModule({
-  declarations: [
-  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -19,7 +17,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FontAwesomeModule,
     MobilePhoneDealerModule,
     CoreModule,
-    ServiceCenterModule
+    ServiceCenterModule,
+    CardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
