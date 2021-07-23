@@ -2,23 +2,19 @@
 
 <app-layout>
   <div class="mb-2">
-    <button
-      class="btn btn-sm btn-primary mr-1"
-      [routerLink]="['radio-transceiver']"
-    >
-      Radio Transceiver
-    </button>
+    <button class="btn btn-sm btn-primary mr-1" [routerLink]="['radio-transceiver']">Radio Transceiver</button>
 
-    <button
-      class="btn btn-sm btn-primary mr-1"
-      [routerLink]="['mobile-phone-dealer']"
-    >
-      Mobile Phone Dealer
-    </button>
+    <button class="btn btn-sm btn-primary mr-1" [routerLink]="['mobile-phone-dealer']">Mobile Phone Dealer</button>
 
-    <button class="btn btn-sm btn-primary" [routerLink]="['service-center']">
-      Service Center
-    </button>
+    <button class="btn btn-sm btn-primary" [routerLink]="['service-center']">Service Center</button>
+  </div>
+
+  <div class="mb-2">
+    <button class="btn btn-sm btn-primary mr-1" [routerLink]="['master-list', 'stations']">Stations</button>
+
+    <button class="btn btn-sm btn-primary mr-1" [routerLink]="['master-list', 'dealers']">Dealers</button>
+
+    <button class="btn btn-sm btn-primary mr-1" [routerLink]="['master-list', 'service-centers']">Service Centers</button>
   </div>
 
   <router-outlet></router-outlet>

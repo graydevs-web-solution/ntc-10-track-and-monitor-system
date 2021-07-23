@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './core/container/app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CardModule } from './ui/card/card.module';
+import { MasterListModule } from './master-list/master-list.module';
 @NgModule({
   imports: [
     BrowserModule,
@@ -21,6 +22,7 @@ import { CardModule } from './ui/card/card.module';
     ServiceCenterModule,
     CardModule,
     ModalModule,
+    MasterListModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'service-center',
     loadChildren: () => import('./service-center/service-center.module').then((m) => m.ServiceCenterModule),
   },
+  {
+    path: 'master-list',
+    loadChildren: () => import('./master-list/master-list.module').then((m) => m.MasterListModule),
+  },
 ];
 
 @NgModule({
