@@ -1,0 +1,471 @@
+<div class="mb-3">
+  <button class="btn btm-sm btn-primary" (click)="submit()">Submit</button>
+</div>
+
+<nav ngbNav #nav="ngbNav" class="nav-tabs">
+  <ng-container ngbNavItem>
+    <a ngbNavLink>One</a>
+    <ng-template ngbNavContent>
+      <div class="border p-2" [formGroup]="form">
+        <div class="form-group row">
+          <label for="staticEmail" class="col-2 col-form-label"
+            >Date Inspected</label
+          >
+          <div class="col-10">
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="mmm-dd-yyyy"
+                name="dp"
+                formControlName="dateInspected"
+                ngbDatepicker
+                readonly
+                #d="ngbDatepicker"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-secondary calendar"
+                  (click)="d.toggle()"
+                  type="button"
+                >
+                  <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="form-group row">
+          <label for="name-of-service-center" class="col-sm-2 col-form-label"
+            >Name of Service Center</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control"
+              id="name-of-service-center"
+              formControlName="nameOfServiceCenter"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="business-address" class="col-sm-2 col-form-label"
+            >Business Address</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control"
+              id="business-address"
+              formControlName="businessAddress"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="cellphoneNumber" class="col-sm-2 col-form-label"
+            >Telephone/Cellphone No.</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control"
+              id="cellphoneNumber"
+              formControlName="cellphoneNumber"
+            />
+          </div>
+        </div>
+
+        <br />
+
+        <div class="form-group row">
+          <label for="fax-number" class="col-sm-2 col-form-label"
+            >Fax Number</label
+          >
+          <div class="col-sm-8">
+            <input
+              type="text"
+              class="form-control"
+              id="fax-number"
+              formControlName="faxNumber"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="exact-location" class="col-sm-2 col-form-label"
+            >Exact Location of Service Center</label
+          >
+          <div class="col-sm-8">
+            <input
+              type="text"
+              class="form-control"
+              id="exact-location"
+              formControlName="exactLocationOfServiceCenter"
+            />
+          </div>
+        </div>
+
+        <div class="row" formGroupName="mpscInfo">
+          <div class="col-6">
+            <div class="form-group row">
+              <label for="permit-number" class="col-sm-2 col-form-label"
+                >MPSC Permit No.</label
+              >
+              <div class="col-sm-8">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="permit-number"
+                  formControlName="permitNumber"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <label for="expiry-date" class="col-sm-2 col-form-label"
+                >Expiry Date</label
+              >
+              <div class="col-sm-8">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="expiry-date"
+                  formControlName="expiryDate"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="secDtiRegistrationNumber" class="col-sm-2 col-form-label"
+            >SEC/DTI Registration No.</label
+          >
+          <div class="col-sm-8">
+            <input
+              type="text"
+              class="form-control"
+              id="secDtiRegistrationNumber"
+              formControlName="secDtiRegistrationNumber"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label
+            for="businessMayorPermitNumbern"
+            class="col-sm-2 col-form-label"
+            >Business/Mayor's permit No.</label
+          >
+          <div class="col-sm-8">
+            <input
+              type="text"
+              class="form-control"
+              id="businessMayorPermitNumber"
+              formControlName="businessMayorPermitNumber"
+            />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-container ngbNavItem>
+    <a ngbNavLink>Two</a>
+    <ng-template ngbNavContent>
+      <div class="border p-2" [formGroup]="form">
+        <div class="mb-3">
+          <div class="d-flex justify-content-between mb-2">
+            <div class="h5">List of Stocks of Spares and Accessories</div>
+            <div>
+              <button
+                class="btn btn-sm btn-primary"
+                (click)="addServiceOrTestEquipment()"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+
+          <div
+            *ngFor="
+              let item of listOfServiceOrTestEquipments.controls;
+              let i = index
+            "
+            class="border p-2 mb-2"
+          >
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'particular' + i">Particular</label>
+                  <input
+                    type="text"
+                    [formControl]="item.get('particular')"
+                    class="form-control"
+                    [id]="'particular' + i"
+                    placeholder="Particular"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'no-of-units' + i">No. Of Units</label>
+                  <input
+                    type="number"
+                    [formControl]="item.get('numberOfUnits')"
+                    class="form-control"
+                    [id]="'no-of-units' + i"
+                    placeholder="No. Of Units"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            *ngIf="!listOfServiceOrTestEquipments.controls.length"
+            class="border p-3 text-center"
+          >
+            No Services or Test Equipments
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <div class="d-flex justify-content-between mb-2">
+            <div class="h5">Employed Electronics Technician</div>
+            <div>
+              <button
+                class="btn btn-sm btn-primary"
+                (click)="addEmployedElectronicTechnician()"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+
+          <div
+            *ngFor="
+              let item of employedElectronicsTechnicians.controls;
+              let i = index
+            "
+            class="border p-2 mb-2"
+          >
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'name' + i">Name</label>
+                  <input
+                    type="text"
+                    [formControl]="item.get('name')"
+                    class="form-control"
+                    [id]="'name' + i"
+                    placeholder="Name"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'qualifications' + i">Qualification/s</label>
+                  <input
+                    type="text"
+                    [formControl]="item.get('source')"
+                    class="form-control"
+                    [id]="'qualifications' + i"
+                    placeholder="Qualifications"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            *ngIf="!employedElectronicsTechnicians.controls.length"
+            class="border p-3 text-center"
+          >
+            No Employed Electronics Technicians
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-container ngbNavItem>
+    <a ngbNavLink>Three</a>
+    <ng-template ngbNavContent>
+      <div class="border p-2" [formGroup]="form">
+        <div formGroupName="sundryOfInformation">
+          <div class="form-group">
+            <label for="sundry-one" class="form-label"
+              >1.) Is a signboard indicating registered name, type of services,
+              business address, and the Permit Number conspicously posted at the
+              entrance of its premises?</label
+            >
+            <div>
+              <input
+                type="text"
+                class="form-control"
+                id="sundry-one"
+                formControlName="one"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="sundry-two" class="form-label"
+              >2.) Are the stocks of spares and accessories sufficient enough to
+              cover the warranty of mobile phones?</label
+            >
+            <div>
+              <input
+                type="text"
+                class="form-control"
+                id="sundry-two"
+                formControlName="two"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="remarks">Remarks/Deficiency(ies)/Discrepancy(ies)</label>
+          <textarea
+            autosize
+            class="form-control"
+            id="remarks"
+            formControlName="remarksDeficienciesDiscrepanciesNoted"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-container ngbNavItem>
+    <a ngbNavLink>Four</a>
+    <ng-template ngbNavContent>
+      <div class="border p-2" [formGroup]="form">
+        <div class="form-group row">
+          <label for="inspector" class="col-sm-2 col-form-label"
+            >Inspector</label
+          >
+          <div class="col-sm-8">
+            <input
+              type="text"
+              class="form-control"
+              id="inspector"
+              formControlName="inspectedBy"
+            />
+          </div>
+        </div>
+
+        <br />
+
+        <div formGroupName="ownerInfo">
+          <div class="form-group row">
+            <label for="owner-name" class="col-sm-2 col-form-label"
+              >Owner/Representative Name</label
+            >
+            <div class="col-sm-8">
+              <input
+                type="text"
+                class="form-control"
+                id="owner-name"
+                formControlName="name"
+              />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="position" class="col-sm-2 col-form-label"
+              >Position/Designation</label
+            >
+            <div class="col-sm-8">
+              <input
+                type="text"
+                class="form-control"
+                id="position"
+                formControlName="position"
+              />
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label" for="recommendation"
+            >Recommendation/s</label
+          >
+          <div class="col-sm-8">
+            <textarea
+              autosize
+              class="form-control"
+              id="recommendation"
+              formControlName="recommendations"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="noted-by" class="col-sm-2 col-form-label">Noted By</label>
+          <div class="col-sm-8">
+            <input
+              type="text"
+              class="form-control"
+              id="noted-by"
+              formControlName="notedBy"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="working-hours" class="col-sm-2 col-form-label"
+            >Approved?</label
+          >
+          <div class="col-sm-8">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="approve-yes"
+                name="isApproved"
+                class="custom-control-input"
+                formControlName="isApproved"
+                [value]="true"
+              />
+              <label class="custom-control-label" for="approve-yes">Yes</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="approve-no"
+                name="isApproved"
+                formControlName="isApproved"
+                class="custom-control-input"
+                [value]="false"
+              />
+              <label class="custom-control-label" for="approve-no">No</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="approver" class="col-sm-2 col-form-label"
+            >Regional Director</label
+          >
+          <div class="col-sm-8">
+            <input
+              type="text"
+              class="form-control"
+              id="approver"
+              formControlName="approver"
+            />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+</nav>
+
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

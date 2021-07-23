@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { Params, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
@@ -8,14 +8,13 @@ import { map, takeUntil } from 'rxjs/operators';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 
 @Component({
-  selector: 'app-mobile-phone-dealer-edit',
-  templateUrl: './mobile-phone-dealer-edit.component.html',
-  styleUrls: ['./mobile-phone-dealer-edit.component.css'],
+  selector: 'app-mobile-phone-dealer-view',
+  templateUrl: './mobile-phone-dealer-view.component.html',
+  styleUrls: ['./mobile-phone-dealer-view.component.css'],
 })
-export class MobilePhoneDealerEditComponent implements OnInit {
+export class MobilePhoneDealerViewComponent implements OnInit {
   form: FormGroup;
   formId: string;
-  formMode = 'create';
 
   faCalendarAlt = faCalendarAlt;
 
@@ -37,15 +36,12 @@ export class MobilePhoneDealerEditComponent implements OnInit {
       .subscribe({
         next: (value) => {
           this.formId = value;
-          this.formMode = value ? 'edit' : 'create';
         },
       });
-    if (this.formMode === 'edit') {
-      const fetchedValue = this.mobilePhoneDealerService.getSelectedEntry(this.formId);
-      const entryDate = new Date(fetchedValue.dateInspected).toISOString();
-      const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
-      this.form.patchValue({ ...fetchedValue, dateInspected: formattedDate });
-    }
+    const fetchedValue = this.mobilePhoneDealerService.getSelectedEntry(this.formId);
+    const entryDate = new Date(fetchedValue.dateInspected).toISOString();
+    const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
+    this.form.patchValue({ ...fetchedValue, dateInspected: formattedDate });
   }
 
   initForm(): void {
@@ -83,11 +79,7 @@ export class MobilePhoneDealerEditComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.formMode === 'create') {
-      this.mobilePhoneDealerService.addOne(this.form.value);
-    } else {
-      this.mobilePhoneDealerService.updateOne(this.formId, this.form.value);
-    }
+    this.mobilePhoneDealerService.addOne(this.form.value);
   }
 
   addStockSpareAndAccessory(): void {

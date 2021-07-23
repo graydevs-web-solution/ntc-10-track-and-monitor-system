@@ -10,6 +10,9 @@ import { ServiceCenterReportListComponent } from './components/service-center-re
 import { ServiceCenterReportEntryComponent } from './components/service-center-report-entry/service-center-report-entry.component';
 import { CardModule } from '../ui/card/card.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ServiceCenterReportViewComponent } from './containers/service-center-report-view/service-center-report-view.component';
+import { RouterModule } from '@angular/router';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ServiceCenterReportCollectionComponent,
     ServiceCenterReportListComponent,
     ServiceCenterReportEntryComponent,
+    ServiceCenterReportViewComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +32,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CardModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
+    NgbModalModule,
   ],
 })
 export class ServiceCenterModule {}

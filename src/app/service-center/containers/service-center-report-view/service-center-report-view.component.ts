@@ -1,21 +1,20 @@
-import { ActivatedRoute, Params } from '@angular/router';
 import { ServiceCenterReportService } from './../../service-center-report.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { ActivatedRoute, Params } from '@angular/router';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DateTime } from 'luxon';
 
 @Component({
-  selector: 'app-service-center-report-edit',
-  templateUrl: './service-center-report-edit.component.html',
-  styleUrls: ['./service-center-report-edit.component.css'],
+  selector: 'app-service-center-report-view',
+  templateUrl: './service-center-report-view.component.html',
+  styleUrls: ['./service-center-report-view.component.css'],
 })
-export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
+export class ServiceCenterReportViewComponent implements OnInit {
   form: FormGroup;
   formId: string;
-  formMode = 'create';
 
   faCalendarAlt = faCalendarAlt;
 
@@ -37,20 +36,12 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (value) => {
           this.formId = value;
-          this.formMode = value ? 'edit' : 'create';
         },
       });
-    if (this.formMode === 'edit') {
-      const fetchedValue = this.serviceCenterReportService.getSelectedEntry(this.formId);
-      const entryDate = new Date(fetchedValue.dateInspected).toISOString();
-      const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
-      this.form.patchValue({ ...fetchedValue, dateInspected: formattedDate });
-    }
-  }
-
-  ngOnDestroy() {
-    this.getDestroyed.next();
-    this.getDestroyed.complete();
+    const fetchedValue = this.serviceCenterReportService.getSelectedEntry(this.formId);
+    const entryDate = new Date(fetchedValue.dateInspected).toISOString();
+    const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
+    this.form.patchValue({ ...fetchedValue, dateInspected: formattedDate });
   }
 
   initForm(): void {
@@ -88,11 +79,7 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    if (this.formMode === 'create') {
-      this.serviceCenterReportService.addOne(this.form.value);
-    } else {
-      this.serviceCenterReportService.updateOne(this.formId, this.form.value);
-    }
+    this.serviceCenterReportService.addOne(this.form.value);
   }
 
   addServiceOrTestEquipment(): void {

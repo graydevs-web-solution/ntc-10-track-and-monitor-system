@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RadioTransceiverEditComponent } from './containers/radio-transceiver-edit/radio-transceiver-edit.component';
 import { RadioTransceiverRoutingModule } from './radio-transceiver-routing.module';
-import { NgbDatepickerModule, NgbDateAdapter, NgbDateParserFormatter, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbDateAdapter, NgbDateParserFormatter, NgbNavModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CustomAdapter, CustomDateParserFormatter } from '../shared/datepicker/datepicker-adapter';
@@ -13,7 +13,7 @@ import { RadioTransceiverViewComponent } from './containers/radio-transceiver-vi
 import { RouterModule } from '@angular/router';
 import { RadioTransceiverListComponent } from './components/radio-transceiver-list/radio-transceiver-list.component';
 import { RadioTransceiverEntryComponent } from './components/radio-transceiver-entry/radio-transceiver-entry.component';
-
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     RadioTransceiverEditComponent,
@@ -33,6 +33,7 @@ import { RadioTransceiverEntryComponent } from './components/radio-transceiver-e
     NgbNavModule,
     CardModule,
     RouterModule,
+    NgbModalModule,
   ],
   providers: [
     { provide: NgbDateAdapter, useClass: CustomAdapter },

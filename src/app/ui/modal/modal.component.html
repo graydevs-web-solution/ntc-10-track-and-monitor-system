@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <h4 class="modal-title">Remove entry</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p><strong>Are you sure you want to remove this entry?</strong></p>
+  <p><span class="text-danger">This operation can not be undone.</span></p>
+</div>
+<div class="modal-footer">
+  <!-- <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button> -->
+  <button type="button" class="btn btn-outline-dark" (click)="removeEntry()">Remove</button>
+</div>

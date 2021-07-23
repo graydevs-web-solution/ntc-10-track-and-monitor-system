@@ -22,6 +22,10 @@ const routes: Routes = [
         path: ':id',
         component: RadioTransceiverViewComponent,
       },
+      {
+        path: ':id/edit',
+        component: RadioTransceiverEditComponent,
+      },
     ],
   },
 ];

@@ -2,6 +2,8 @@
   <button class="btn btm-sm btn-primary" (click)="submit()">Submit</button>
 </div>
 
+Mode: {{ formMode }}
+
 <nav ngbNav #nav="ngbNav" class="nav-tabs">
   <ng-container ngbNavItem>
     <a ngbNavLink>One</a>
@@ -21,11 +23,7 @@
                 #d="ngbDatepicker"
               />
               <div class="input-group-append">
-                <button
-                  class="btn btn-outline-secondary calendar"
-                  (click)="d.toggle()"
-                  type="button"
-                >
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
                   <fa-icon [icon]="faCalendarAlt"></fa-icon>
                 </button>
               </div>
@@ -36,44 +34,23 @@
         <br />
 
         <div class="form-group row">
-          <label for="name-of-station" class="col-sm-2 col-form-label"
-            >Name of Station</label
-          >
+          <label for="name-of-station" class="col-sm-2 col-form-label">Name of Station</label>
           <div class="col-sm-10">
-            <input
-              type="text"
-              class="form-control"
-              id="name-of-station"
-              formControlName="nameOfStation"
-            />
+            <input type="text" class="form-control" id="name-of-station" formControlName="nameOfStation" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="office-postal-address" class="col-sm-2 col-form-label"
-            >Office Postal Address</label
-          >
+          <label for="office-postal-address" class="col-sm-2 col-form-label">Office Postal Address</label>
           <div class="col-sm-10">
-            <input
-              type="text"
-              class="form-control"
-              id="office-postal-address"
-              formControlName="officePostalAddress"
-            />
+            <input type="text" class="form-control" id="office-postal-address" formControlName="officePostalAddress" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="exact-location" class="col-sm-2 col-form-label"
-            >Exact Location of Station</label
-          >
+          <label for="exact-location" class="col-sm-2 col-form-label">Exact Location of Station</label>
           <div class="col-sm-10">
-            <input
-              type="text"
-              class="form-control"
-              id="exact-location"
-              formControlName="exactLocationOfStation"
-            />
+            <input type="text" class="form-control" id="exact-location" formControlName="exactLocationOfStation" />
           </div>
         </div>
 
@@ -82,85 +59,41 @@
         <div class="form-group row">
           <label for="class" class="col-sm-2 col-form-label">Class</label>
           <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="class"
-              formControlName="class"
-            />
+            <input type="text" class="form-control" id="class" formControlName="class" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="nature-of-service" class="col-sm-2 col-form-label"
-            >Nature of Service</label
-          >
+          <label for="nature-of-service" class="col-sm-2 col-form-label">Nature of Service</label>
           <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="nature-of-service"
-              formControlName="natureOfService"
-            />
+            <input type="text" class="form-control" id="nature-of-service" formControlName="natureOfService" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="working-hours" class="col-sm-2 col-form-label"
-            >Working Hours</label
-          >
+          <label for="working-hours" class="col-sm-2 col-form-label">Working Hours</label>
           <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="working-hours"
-              formControlName="workingHours"
-            />
+            <input type="text" class="form-control" id="working-hours" formControlName="workingHours" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="call-sign" class="col-sm-2 col-form-label"
-            >Call Sign</label
-          >
+          <label for="call-sign" class="col-sm-2 col-form-label">Call Sign</label>
           <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="call-sign"
-              formControlName="callSign"
-            />
+            <input type="text" class="form-control" id="call-sign" formControlName="callSign" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="working-hours" class="col-sm-2 col-form-label"
-            >Type</label
-          >
+          <label for="working-hours" class="col-sm-2 col-form-label">Type</label>
           <div class="col-sm-8">
             <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="type-new"
-                name="type"
-                class="custom-control-input"
-                formControlName="type"
-                value="new"
-              />
+              <input type="radio" id="type-new" name="type" class="custom-control-input" formControlName="type" value="new" />
               <label class="custom-control-label" for="type-new">New</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="type-renewal"
-                name="type"
-                formControlName="type"
-                class="custom-control-input"
-                value="renewal"
-              />
-              <label class="custom-control-label" for="type-renewal"
-                >Renewal</label
-              >
+              <input type="radio" id="type-renewal" name="type" formControlName="type" class="custom-control-input" value="renewal" />
+              <label class="custom-control-label" for="type-renewal">Renewal</label>
             </div>
           </div>
         </div>
@@ -172,27 +105,15 @@
             <div class="form-group row">
               <label for="pp-no" class="col-sm-2 col-form-label">P/P No.</label>
               <div class="col-sm-8">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="pp-no"
-                  formControlName="ppNumber"
-                />
+                <input type="text" class="form-control" id="pp-no" formControlName="ppNumber" />
               </div>
             </div>
           </div>
           <div class="col-6">
             <div class="form-group row">
-              <label for="pp-date-issued" class="col-sm-2 col-form-label"
-                >Date Issued</label
-              >
+              <label for="pp-date-issued" class="col-sm-2 col-form-label">Date Issued</label>
               <div class="col-sm-8">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="pp-date-issued"
-                  formControlName="dateIssued"
-                />
+                <input type="text" class="form-control" id="pp-date-issued" formControlName="dateIssued" />
               </div>
             </div>
           </div>
@@ -201,31 +122,17 @@
         <div class="row" formGroupName="cpInfo">
           <div class="col-6">
             <div class="form-group row">
-              <label for="cp-no" class="col-sm-2 col-form-label"
-                >C.P. No.</label
-              >
+              <label for="cp-no" class="col-sm-2 col-form-label">C.P. No.</label>
               <div class="col-sm-8">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="cp-no"
-                  formControlName="cpNumber"
-                />
+                <input type="text" class="form-control" id="cp-no" formControlName="cpNumber" />
               </div>
             </div>
           </div>
           <div class="col-6">
             <div class="form-group row">
-              <label for="cp-exp-date" class="col-sm-2 col-form-label"
-                >Exp. Date</label
-              >
+              <label for="cp-exp-date" class="col-sm-2 col-form-label">Exp. Date</label>
               <div class="col-sm-8">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="cp-exp-date"
-                  formControlName="expirationDate"
-                />
+                <input type="text" class="form-control" id="cp-exp-date" formControlName="expirationDate" />
               </div>
             </div>
           </div>
@@ -234,47 +141,26 @@
         <div class="row" formGroupName="licInfo">
           <div class="col-6">
             <div class="form-group row">
-              <label for="lic-no" class="col-sm-2 col-form-label"
-                >Lic. No.</label
-              >
+              <label for="lic-no" class="col-sm-2 col-form-label">Lic. No.</label>
               <div class="col-sm-8">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="lic-no"
-                  formControlName="licNumber"
-                />
+                <input type="text" class="form-control" id="lic-no" formControlName="licNumber" />
               </div>
             </div>
           </div>
           <div class="col-6">
             <div class="form-group row">
-              <label for="lic-exp-date" class="col-sm-2 col-form-label"
-                >Exp. Date</label
-              >
+              <label for="lic-exp-date" class="col-sm-2 col-form-label">Exp. Date</label>
               <div class="col-sm-8">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="lic-exp-date"
-                  formControlName="expirationDate"
-                />
+                <input type="text" class="form-control" id="lic-exp-date" formControlName="expirationDate" />
               </div>
             </div>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="points-of-communication" class="col-sm-2 col-form-label"
-            >Points of Communication</label
-          >
+          <label for="points-of-communication" class="col-sm-2 col-form-label">Points of Communication</label>
           <div class="col-sm-10">
-            <input
-              type="text"
-              class="form-control"
-              id="points-of-communication"
-              formControlName="pointsOfCommunication"
-            />
+            <input type="text" class="form-control" id="points-of-communication" formControlName="pointsOfCommunication" />
           </div>
         </div>
       </div>
@@ -288,19 +174,11 @@
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">Operators</div>
             <div>
-              <button
-                class="btn btn-sm btn-primary"
-                (click)="addOperatorInput()"
-              >
-                Add
-              </button>
+              <button class="btn btn-sm btn-primary" (click)="addOperatorInput()">Add</button>
             </div>
           </div>
 
-          <div
-            *ngFor="let operator of operators.controls; let i = index"
-            class="border p-2 mb-2"
-          >
+          <div *ngFor="let operator of operators.controls; let i = index" class="border p-2 mb-2">
             <div class="row">
               <div class="col-4">
                 <div class="form-group">
@@ -340,11 +218,7 @@
                       #d="ngbDatepicker"
                     />
                     <div class="input-group-append">
-                      <button
-                        class="btn btn-outline-secondary calendar"
-                        (click)="d.toggle()"
-                        type="button"
-                      >
+                      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
                         <fa-icon [icon]="faCalendarAlt"></fa-icon>
                       </button>
                     </div>
@@ -354,34 +228,18 @@
             </div>
           </div>
 
-          <div
-            *ngIf="!operators.controls.length"
-            class="border p-3 text-center"
-          >
-            No Operators
-          </div>
+          <div *ngIf="!operators.controls.length" class="border p-3 text-center">No Operators</div>
         </div>
 
         <div class="mb-3">
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">Transmitter(s)/Transreceiver(s)</div>
             <div>
-              <button
-                class="btn btn-sm btn-primary"
-                (click)="addRadioTransceiverInput()"
-              >
-                Add
-              </button>
+              <button class="btn btn-sm btn-primary" (click)="addRadioTransceiverInput()">Add</button>
             </div>
           </div>
 
-          <div
-            *ngFor="
-              let transreceiver of radioTransceivers.controls;
-              let i = index
-            "
-            class="border p-2 mb-2"
-          >
+          <div *ngFor="let transreceiver of radioTransceivers.controls; let i = index" class="border p-2 mb-2">
             <div class="row">
               <div class="col-4">
                 <div class="form-group">
@@ -397,9 +255,7 @@
               </div>
               <div class="col-4">
                 <div class="form-group">
-                  <label [for]="'frequnecyControl' + i"
-                    >Frequency Control</label
-                  >
+                  <label [for]="'frequnecyControl' + i">Frequency Control</label>
                   <input
                     type="text"
                     [formControl]="transreceiver.get('freqControl')"
@@ -451,12 +307,7 @@
             </div>
           </div>
 
-          <div
-            *ngIf="!radioTransceivers.controls.length"
-            class="border p-3 text-center"
-          >
-            No Transmitter(s)/Transreceiver(s)
-          </div>
+          <div *ngIf="!radioTransceivers.controls.length" class="border p-3 text-center">No Transmitter(s)/Transreceiver(s)</div>
         </div>
       </div>
     </ng-template>
@@ -466,9 +317,7 @@
     <ng-template ngbNavContent>
       <div class="border p-2" [formGroup]="form">
         <div class="form-group row" formGroupName="illegalConstructionInfo">
-          <label for="illegal-construction" class="col-sm-2 col-form-label"
-            >Illegal Construction</label
-          >
+          <label for="illegal-construction" class="col-sm-2 col-form-label">Illegal Construction</label>
           <div class="col-sm- mt-2">
             <div class="custom-control custom-checkbox">
               <input
@@ -483,23 +332,14 @@
             </div>
 
             <div class="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="illegalTransfer"
-                formControlName="illegalTransfer"
-              />
-              <label class="custom-control-label" for="illegalTransfer"
-                >Illegal Transfer</label
-              >
+              <input type="checkbox" class="custom-control-input" id="illegalTransfer" formControlName="illegalTransfer" />
+              <label class="custom-control-label" for="illegalTransfer">Illegal Transfer</label>
             </div>
           </div>
         </div>
 
         <div class="form-group row" formGroupName="illegalOperationInfo">
-          <label for="illegal-construction" class="col-sm-2 col-form-label"
-            >Illegal Operation</label
-          >
+          <label for="illegal-construction" class="col-sm-2 col-form-label">Illegal Operation</label>
           <div class="col-sm-10 mt-2">
             <div class="custom-control custom-checkbox">
               <input
@@ -508,9 +348,7 @@
                 id="operationPermitless"
                 formControlName="operationWithoutRadioStationLicensePermit"
               />
-              <label class="custom-control-label" for="operationPermitless"
-                >Operation without Radio Station License/Temporary Permit</label
-              >
+              <label class="custom-control-label" for="operationPermitless">Operation without Radio Station License/Temporary Permit</label>
             </div>
 
             <div class="custom-control custom-checkbox">
@@ -520,9 +358,7 @@
                 id="operation-without-license-radio-operator"
                 formControlName="operationWithoutLicenseRadioOperator"
               />
-              <label
-                class="custom-control-label"
-                for="operation-without-license-radio-operator"
+              <label class="custom-control-label" for="operation-without-license-radio-operator"
                 >Operation without license radio Operator</label
               >
             </div>
@@ -534,11 +370,7 @@
                 id="operation-without-logbook"
                 formControlName="operationWithoutLogbook"
               />
-              <label
-                class="custom-control-label"
-                for="operation-without-logbook"
-                >Operation without logbook</label
-              >
+              <label class="custom-control-label" for="operation-without-logbook">Operation without logbook</label>
             </div>
 
             <div class="custom-control custom-checkbox">
@@ -548,30 +380,18 @@
                 id="operating-unauthorized-frequency"
                 formControlName="operatingOnUnauthorizedFrequency"
               />
-              <label
-                class="custom-control-label"
-                for="operating-unauthorized-frequency"
-                >Operating on unauthorized frequency</label
-              >
+              <label class="custom-control-label" for="operating-unauthorized-frequency">Operating on unauthorized frequency</label>
             </div>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="illegal-construction" class="col-sm-2 col-form-label"
-            >Illegal Possession</label
-          >
+          <label for="illegal-construction" class="col-sm-2 col-form-label">Illegal Possession</label>
           <div class="col-sm-10 mt-2">
             <div class="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="illegalPossession"
-                formControlName="illegalPossession"
-              />
+              <input type="checkbox" class="custom-control-input" id="illegalPossession" formControlName="illegalPossession" />
               <label class="custom-control-label" for="illegalPossession"
-                >Possession of Radio Transmitter/Transceiver without Permit to
-                Purchase/Possess</label
+                >Possession of Radio Transmitter/Transceiver without Permit to Purchase/Possess</label
               >
             </div>
           </div>
@@ -580,12 +400,7 @@
         <div class="form-group row">
           <label for="others" class="col-sm-2 col-form-label">Others</label>
           <div class="col-sm-10">
-            <input
-              type="text"
-              class="form-control"
-              id="others"
-              formControlName="others"
-            />
+            <input type="text" class="form-control" id="others" formControlName="others" />
           </div>
         </div>
       </div>
@@ -596,46 +411,23 @@
     <ng-template ngbNavContent>
       <div class="border p-2" [formGroup]="form">
         <div class="form-group row">
-          <label
-            for="working-radioRegulationInspector"
-            class="col-sm-2 col-form-label"
-            >Radio Regulation Inspector</label
-          >
+          <label for="working-radioRegulationInspector" class="col-sm-2 col-form-label">Radio Regulation Inspector</label>
           <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="working-radioRegulationInspector"
-              formControlName="radioRegulationInspector"
-            />
+            <input type="text" class="form-control" id="working-radioRegulationInspector" formControlName="radioRegulationInspector" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="authorizedRepresentative" class="col-sm-2 col-form-label"
-            >Authorized Representative</label
-          >
+          <label for="authorizedRepresentative" class="col-sm-2 col-form-label">Authorized Representative</label>
           <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="authorizedRepresentative"
-              formControlName="authorizedRepresentative"
-            />
+            <input type="text" class="form-control" id="authorizedRepresentative" formControlName="authorizedRepresentative" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="regionalDirector" class="col-sm-2 col-form-label"
-            >Regional Director</label
-          >
+          <label for="regionalDirector" class="col-sm-2 col-form-label">Regional Director</label>
           <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="regionalDirector"
-              formControlName="regionalDirector"
-            />
+            <input type="text" class="form-control" id="regionalDirector" formControlName="regionalDirector" />
           </div>
         </div>
       </div>

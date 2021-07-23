@@ -1,3 +1,4 @@
+import { ModalModule } from './ui/modal/modal.module';
 import { ServiceCenterModule } from './service-center/service-center.module';
 import { CoreModule } from './core/core.module';
 import { MobilePhoneDealerModule } from './mobile-phone-dealer/mobile-phone-dealer.module';
@@ -19,6 +20,7 @@ import { CardModule } from './ui/card/card.module';
     CoreModule,
     ServiceCenterModule,
     CardModule,
+    ModalModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -5,6 +5,7 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { RadioTransceiverService } from './../../radio-transceiver.service';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-radio-transceiver-view',
@@ -33,8 +34,10 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
           this.formId = value;
         },
       });
-
-    this.form.patchValue(this.radioTransceiverService.getSelectedEntry(this.formId));
+    const fetchedValue = this.radioTransceiverService.getSelectedEntry(this.formId);
+    const entryDate = new Date(fetchedValue.date).toISOString();
+    const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
+    this.form.patchValue({ ...fetchedValue, date: formattedDate });
   }
 
   ngOnDestroy(): void {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
+import { Observable, Subject } from 'rxjs';
 import { dateWithPadding } from '../shared/utility';
 import { MobilePhoneDealerSummary } from './models/mobile-phone-dealer-summary.model';
 import { MobilePhoneDealer } from './models/mobile-phone-dealer.model';
@@ -18,13 +19,17 @@ export class MobilePhoneDealerService {
       notedby: 'DJXCDS',
     },
   ];
-  private summaryEntries: MobilePhoneDealerSummary[] = [];
   private entries: MobilePhoneDealer[] = [];
+  private entriesListener = new Subject<MobilePhoneDealer[]>();
 
   constructor() {}
 
   getEntries(): MobilePhoneDealerSummary[] {
-    return this.summaryEntries;
+    return this.entries;
+  }
+
+  getEntriesListener(): Observable<MobilePhoneDealer[]> {
+    return this.entriesListener.asObservable();
   }
 
   getSelectedEntry(id: string): MobilePhoneDealer {
@@ -35,16 +40,21 @@ export class MobilePhoneDealerService {
     const dateISO = new Date(DateTime.fromISO(dateWithPadding(data.dateInspected as string)).toISO());
     const idGenerated = (Math.random() * (100 - 1) + 1).toFixed();
     this.entries = [...this.entries, { ...data, dateInspected: dateISO, id: `${idGenerated}` }];
-    this.summaryEntries = [
-      ...this.summaryEntries,
-      {
-        dateInspected: dateISO,
-        id: idGenerated,
-        approver: data.approver,
-        isApproved: data.isApproved,
-        nameOfDealer: data.nameOfDealer,
-        notedby: data.notedby,
-      },
-    ];
+    this.entriesListener.next(this.entries);
+  }
+
+  updateOne(formId: string, data: MobilePhoneDealer): void {
+    const existingEntryIndex = this.entries.findIndex((entry) => entry.id === formId);
+    const newEntries = [...this.entries];
+    const dateISO = new Date(DateTime.fromISO(dateWithPadding(data.dateInspected as string)).toISO());
+    newEntries[existingEntryIndex] = { ...data, dateInspected: dateISO, id: formId };
+    this.entries = newEntries;
+    this.entriesListener.next(this.entries);
+  }
+
+  deleteOne(formId: string): void {
+    const newEntries = this.entries.filter((entry) => entry.id !== formId);
+    this.entries = newEntries;
+    this.entriesListener.next(this.entries);
   }
 }

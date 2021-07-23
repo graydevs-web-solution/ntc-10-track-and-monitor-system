@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ServiceCenterReportEditComponent } from './containers/service-center-report-edit/service-center-report-edit.component';
 import { ServiceCenterReportCollectionComponent } from './containers/service-center-report-collection/service-center-report-collection.component';
+import { ServiceCenterReportViewComponent } from './containers/service-center-report-view/service-center-report-view.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,14 @@ const routes: Routes = [
       },
       {
         path: 'new',
+        component: ServiceCenterReportEditComponent,
+      },
+      {
+        path: ':id',
+        component: ServiceCenterReportViewComponent,
+      },
+      {
+        path: ':id/edit',
         component: ServiceCenterReportEditComponent,
       },
     ],
