@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { serviceCenterReport } from 'src/app/shared/constants';
+import { DELETE, serviceCenterReport } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { ServiceCenterReportSummary } from '../../models/service-center-summary.model';
 
@@ -52,5 +52,6 @@ export class ServiceCenterReportEntryComponent implements OnInit {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
     modalRef.componentInstance.formId = this.entry.id;
     modalRef.componentInstance.componentName = serviceCenterReport;
+    modalRef.componentInstance.formMode = DELETE;
   }
 }

@@ -6,6 +6,7 @@ import { RadioTransceiverService } from './../../radio-transceiver.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DateTime } from 'luxon';
+import { ADD, EDIT } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-radio-transceiver-edit',
@@ -15,7 +16,7 @@ import { DateTime } from 'luxon';
 export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
   form: FormGroup;
   formId: string;
-  formMode = 'create';
+  formMode = ADD;
 
   faCalendarAlt = faCalendarAlt;
 
@@ -33,10 +34,10 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (value) => {
           this.formId = value;
-          this.formMode = value ? 'edit' : 'create';
+          this.formMode = value ? EDIT : ADD;
         },
       });
-    if (this.formMode === 'edit') {
+    if (this.formMode === EDIT) {
       const fetchedValue = this.radioTransceiverService.getSelectedEntry(this.formId);
       const entryDate = new Date(fetchedValue.date).toISOString();
       const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
@@ -132,7 +133,7 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    if (this.formMode === 'create') {
+    if (this.formMode === ADD) {
       this.radioTransceiverService.addOne(this.form.value);
     } else {
       this.radioTransceiverService.updateOne(this.formId, this.form.value);

@@ -1,0 +1,46 @@
+Mode {{ formMode }}
+<div [formGroup]="form">
+  <div class="form-group">
+    <label for="name-of-station">Name of Station</label>
+    <div>
+      <input type="text" class="form-control" id="name-of-station" formControlName="nameOfStation" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="office-postal-address">Office Postal Address</label>
+    <div>
+      <input type="text" class="form-control" id="office-postal-address" formControlName="officePostalAddress" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="exact-location">Exact Location of Station</label>
+    <div>
+      <input type="text" class="form-control" id="exact-location" formControlName="exactLocationOfStation" />
+    </div>
+  </div>
+
+  <br />
+
+  <div class="form-group">
+    <label for="class">Class</label>
+    <div>
+      <input type="text" class="form-control" id="class" formControlName="class" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="nature-of-service">Nature of Service</label>
+    <div>
+      <input type="text" class="form-control" id="nature-of-service" formControlName="natureOfService" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="working-hours">Working Hours</label>
+    <div>
+      <input type="text" class="form-control" id="working-hours" formControlName="workingHours" />
+    </div>
+  </div>
+</div>

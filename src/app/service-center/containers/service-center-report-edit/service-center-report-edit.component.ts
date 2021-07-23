@@ -6,6 +6,7 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DateTime } from 'luxon';
+import { ADD, EDIT } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-service-center-report-edit',
@@ -15,7 +16,7 @@ import { DateTime } from 'luxon';
 export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
   form: FormGroup;
   formId: string;
-  formMode = 'create';
+  formMode = ADD;
 
   faCalendarAlt = faCalendarAlt;
 
@@ -37,10 +38,10 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (value) => {
           this.formId = value;
-          this.formMode = value ? 'edit' : 'create';
+          this.formMode = value ? EDIT : ADD;
         },
       });
-    if (this.formMode === 'edit') {
+    if (this.formMode === EDIT) {
       const fetchedValue = this.serviceCenterReportService.getSelectedEntry(this.formId);
       const entryDate = new Date(fetchedValue.dateInspected).toISOString();
       const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
@@ -88,7 +89,7 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    if (this.formMode === 'create') {
+    if (this.formMode === ADD) {
       this.serviceCenterReportService.addOne(this.form.value);
     } else {
       this.serviceCenterReportService.updateOne(this.formId, this.form.value);

@@ -5,10 +5,11 @@
   </button>
 </div>
 <div class="modal-body">
-  <p><strong>Are you sure you want to remove this entry?</strong></p>
-  <p><span class="text-danger">This operation can not be undone.</span></p>
+  <app-remove-message *ngIf="isRemoveEntry()"></app-remove-message>
+  <app-station-edit *ngIf="isStationEdit()"></app-station-edit>
+  <app-station-view *ngIf="isStationView()"></app-station-view>
 </div>
 <div class="modal-footer">
-  <!-- <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button> -->
-  <button type="button" class="btn btn-outline-dark" (click)="removeEntry()">Remove</button>
+  <button type="button" class="btn btn-outline-dark" *ngIf="isStationEdit()" (click)="saveStation()">Add</button>
+  <button type="button" class="btn btn-outline-dark" *ngIf="isRemoveEntry()" (click)="removeEntry()">Remove</button>
 </div>

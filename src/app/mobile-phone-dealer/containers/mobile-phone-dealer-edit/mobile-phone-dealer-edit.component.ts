@@ -5,6 +5,7 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { ADD, EDIT } from 'src/app/shared/constants';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 
 @Component({
@@ -15,7 +16,7 @@ import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 export class MobilePhoneDealerEditComponent implements OnInit {
   form: FormGroup;
   formId: string;
-  formMode = 'create';
+  formMode = ADD;
 
   faCalendarAlt = faCalendarAlt;
 
@@ -37,10 +38,10 @@ export class MobilePhoneDealerEditComponent implements OnInit {
       .subscribe({
         next: (value) => {
           this.formId = value;
-          this.formMode = value ? 'edit' : 'create';
+          this.formMode = value ? EDIT : ADD;
         },
       });
-    if (this.formMode === 'edit') {
+    if (this.formMode === EDIT) {
       const fetchedValue = this.mobilePhoneDealerService.getSelectedEntry(this.formId);
       const entryDate = new Date(fetchedValue.dateInspected).toISOString();
       const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
@@ -83,7 +84,7 @@ export class MobilePhoneDealerEditComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.formMode === 'create') {
+    if (this.formMode === ADD) {
       this.mobilePhoneDealerService.addOne(this.form.value);
     } else {
       this.mobilePhoneDealerService.updateOne(this.formId, this.form.value);

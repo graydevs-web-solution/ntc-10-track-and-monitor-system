@@ -24,7 +24,7 @@ export class MobilePhoneDealerService {
 
   constructor() {}
 
-  getEntries(): MobilePhoneDealerSummary[] {
+  getEntries(): MobilePhoneDealer[] {
     return this.entries;
   }
 

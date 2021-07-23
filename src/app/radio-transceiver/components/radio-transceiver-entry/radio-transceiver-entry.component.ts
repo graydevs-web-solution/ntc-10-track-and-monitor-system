@@ -2,7 +2,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { RadioTransceiver } from '../../models/radio-transceiver.model';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
-import { radioTransceiver } from 'src/app/shared/constants';
+import { DELETE, radioTransceiver } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-radio-transceiver-entry',
@@ -34,5 +34,6 @@ export class RadioTransceiverEntryComponent implements OnInit {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
     modalRef.componentInstance.formId = this.entry.id;
     modalRef.componentInstance.componentName = radioTransceiver;
+    modalRef.componentInstance.formMode = DELETE;
   }
 }

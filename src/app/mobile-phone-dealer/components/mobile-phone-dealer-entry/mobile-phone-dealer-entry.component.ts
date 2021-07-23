@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { mobilePhoneDealer } from 'src/app/shared/constants';
+import { DELETE, mobilePhoneDealer } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { MobilePhoneDealerSummary } from '../../models/mobile-phone-dealer-summary.model';
 
@@ -52,5 +52,6 @@ export class MobilePhoneDealerEntryComponent implements OnInit {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
     modalRef.componentInstance.formId = this.entry.id;
     modalRef.componentInstance.componentName = mobilePhoneDealer;
+    modalRef.componentInstance.formMode = DELETE;
   }
 }
