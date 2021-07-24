@@ -1,4 +1,4 @@
-# MonitoringSystem
+# NTC 10 Tracking and Monitoring System
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.14.
 
