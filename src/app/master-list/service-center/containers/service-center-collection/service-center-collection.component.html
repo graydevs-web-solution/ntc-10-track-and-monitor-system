@@ -1,1 +1,11 @@
-<p>service-center-collection works!</p>
+<div>
+  <div class="mb-3">
+    <button class="btn btn-sm btn-primary" (click)="open()">Add</button>
+  </div>
+
+  <app-service-center-list [entries]="entries"></app-service-center-list>
+
+  <app-card *ngIf="!entries.length" [centered]="true">
+    <div class="font-weight-bold">No entries</div>
+  </app-card>
+</div>

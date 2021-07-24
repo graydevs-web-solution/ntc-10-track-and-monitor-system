@@ -17,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: 'service-center',
-    loadChildren: () => import('./service-center/service-center.module').then((m) => m.ServiceCenterModule),
+    loadChildren: () => import('./service-center/service-center-report.module').then((m) => m.ServiceCenterReportModule),
   },
   {
     path: 'master-list',

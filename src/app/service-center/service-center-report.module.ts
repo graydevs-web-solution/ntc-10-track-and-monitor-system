@@ -36,4 +36,4 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModalModule,
   ],
 })
-export class ServiceCenterModule {}
+export class ServiceCenterReportModule {}

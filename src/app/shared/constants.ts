@@ -7,6 +7,12 @@ export const serviceCenterReport = 'serviceCenterReport';
 export const stationEdit = 'stationEdit';
 export const stationView = 'stationView';
 export const stationDelete = 'stationDelete';
+export const serviceCenterEdit = 'serviceCenterEdit';
+export const serviceCenterView = 'serviceCenterView';
+export const serviceCenterDelete = 'serviceCenterDelete';
+export const dealerEdit = 'dealerEdit';
+export const dealerView = 'dealerView';
+export const dealerDelete = 'dealerDelete';
 
 // Resource type
 export const ADD = 'ADD';

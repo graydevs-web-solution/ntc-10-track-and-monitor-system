@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DELETE, serviceCenterReport } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
-import { ServiceCenterReportSummary } from '../../models/service-center-summary.model';
+import { ServiceCenterReportSummary } from '../../models/service-center-report-summary.model';
 
 @Component({
   selector: 'app-service-center-report-entry',

@@ -1,6 +1,6 @@
 import { ServiceCenterReportService } from './../../service-center-report.service';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ServiceCenterReportSummary } from '../../models/service-center-summary.model';
+import { ServiceCenterReportSummary } from '../../models/service-center-report-summary.model';
 import { Subscription } from 'rxjs';
 
 @Component({

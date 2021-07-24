@@ -1,12 +1,18 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, AfterViewInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   ADD,
+  dealerDelete,
+  dealerEdit,
+  dealerView,
   DELETE,
   EDIT,
   mobilePhoneDealer,
   radioTransceiver,
+  serviceCenterDelete,
+  serviceCenterEdit,
   serviceCenterReport,
+  serviceCenterView,
   stationDelete,
   stationEdit,
   stationView,
@@ -16,6 +22,8 @@ import { MobilePhoneDealerService } from './../../mobile-phone-dealer/mobile-pho
 import { ServiceCenterReportService } from './../../service-center/service-center-report.service';
 import { RadioTransceiverService } from './../../radio-transceiver/radio-transceiver.service';
 import { StationService } from './../../master-list/station/station.service';
+import { ServiceCenterService } from 'src/app/master-list/service-center/service-center.service';
+import { DealerService } from 'src/app/master-list/dealer/dealer.service';
 
 @Component({
   selector: 'app-modal',
@@ -23,7 +31,7 @@ import { StationService } from './../../master-list/station/station.service';
   styleUrls: ['./modal.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, AfterViewInit {
   @Input() formMode: string;
   @Input() formId: string;
   @Input() componentName: string;
@@ -35,13 +43,20 @@ export class ModalComponent implements OnInit {
     private mobilePhoneDealerService: MobilePhoneDealerService,
     private radioTransceiverService: RadioTransceiverService,
     private serviceCenterReportService: ServiceCenterReportService,
-    private stationService: StationService
+    private stationService: StationService,
+    private serviceCenterService: ServiceCenterService,
+    private dealerService: DealerService
   ) {}
 
   ngOnInit(): void {}
 
+  ngAfterViewInit(): void {
+    console.log(this.componentName);
+    console.log(this.formMode);
+  }
+
   isRemoveEntry = (): boolean => {
-    const allowedComponents = [mobilePhoneDealer, radioTransceiver, serviceCenterReport, stationDelete];
+    const allowedComponents = [mobilePhoneDealer, radioTransceiver, serviceCenterReport, stationDelete, serviceCenterDelete, dealerDelete];
     return allowedComponents.includes(this.componentName) && this.formMode === DELETE;
   };
 
@@ -51,6 +66,22 @@ export class ModalComponent implements OnInit {
 
   isStationView(): boolean {
     return this.componentName === stationView && this.formMode === VIEW;
+  }
+
+  isServiceCenterEdit(): boolean {
+    return this.componentName === serviceCenterEdit && (this.formMode === EDIT || this.formMode === ADD);
+  }
+
+  isServiceCenterView(): boolean {
+    return this.componentName === serviceCenterView && this.formMode === VIEW;
+  }
+
+  isDealerEdit(): boolean {
+    return this.componentName === dealerEdit && (this.formMode === EDIT || this.formMode === ADD);
+  }
+
+  isDealerView(): boolean {
+    return this.componentName === dealerView && this.formMode === VIEW;
   }
 
   removeEntry(): void {
@@ -67,6 +98,12 @@ export class ModalComponent implements OnInit {
       case stationDelete:
         this.stationService.deleteOne(this.formId);
         break;
+      case serviceCenterDelete:
+        this.serviceCenterService.deleteOne(this.formId);
+        break;
+      case dealerDelete:
+        this.dealerService.deleteOne(this.formId);
+        break;
       default:
         break;
     }
@@ -75,5 +112,13 @@ export class ModalComponent implements OnInit {
 
   saveStation() {
     this.stationService.saveStationListener.next();
+  }
+
+  saveServiceCenter() {
+    this.serviceCenterService.saveServiceCenterListener.next();
+  }
+
+  saveDealer() {
+    this.dealerService.saveDealerListener.next();
   }
 }

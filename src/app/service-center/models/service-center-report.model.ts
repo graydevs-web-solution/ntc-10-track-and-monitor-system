@@ -1,19 +1,18 @@
-import { ServiceCenterReportSummary } from './service-center-summary.model';
+import { ServiceCenterReportSummary } from './service-center-report-summary.model';
 
-interface MobilePhoneDealerInfo {
+interface MPSCInfo {
   permitNumber: string;
   expiryDate: string;
 }
 
-interface StocksOfSparesAndAccessories {
+interface ServiceOrTestEquipments {
   particular: string;
   numberOfUnits: number;
 }
 
-interface MobilePhone {
-  model: string;
-  imeiNumber: string;
-  numberOfUnits: string;
+interface EmployedElectronicsTechnicians {
+  name: string;
+  qualifications: string;
 }
 
 interface SIM {
@@ -24,6 +23,7 @@ interface SIM {
 interface SundryOfInformation {
   one: string;
   two: string;
+  three: string;
 }
 
 interface OwnerInfo {
@@ -35,13 +35,12 @@ export interface ServiceCenterReport extends ServiceCenterReportSummary {
   businessAddress: string;
   cellphoneNumber: string;
   faxNumber: string;
-  addressOfMobilePhoneWarehouse: string;
-  mobilePhoneDealerInfo: MobilePhoneDealerInfo;
+  exactLocationOfService: string;
+  mpscInfo: MPSCInfo;
   secDtiRegistrationNumber: string;
   businessMayorPermitNumber: string;
-  listOfStocksOfSparesAndAccessories: StocksOfSparesAndAccessories[];
-  listOfStocksOfMobilePhone: MobilePhone[];
-  listOfStocksOfSubscriberIdentificationModule: SIM[];
+  listOfServiceOrTestEquipments: ServiceOrTestEquipments[];
+  employedElectronicsTechnicians: EmployedElectronicsTechnicians[];
   sundryOfInformation: SundryOfInformation;
   remarksDeficienciesDiscrepanciesNoted: string;
   inspectedBy: string;

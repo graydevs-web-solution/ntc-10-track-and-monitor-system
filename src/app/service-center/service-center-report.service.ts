@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
 import { Observable, Subject } from 'rxjs';
 import { dateWithPadding } from '../shared/utility';
-import { ServiceCenterReportSummary } from './models/service-center-summary.model';
-import { ServiceCenterReport } from './models/service-center.model';
+import { ServiceCenterReportSummary } from './models/service-center-report-summary.model';
+import { ServiceCenterReport } from './models/service-center-report.model';
 
 @Injectable({
   providedIn: 'root',

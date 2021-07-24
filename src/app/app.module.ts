@@ -1,5 +1,4 @@
 import { ModalModule } from './ui/modal/modal.module';
-import { ServiceCenterModule } from './service-center/service-center.module';
 import { CoreModule } from './core/core.module';
 import { MobilePhoneDealerModule } from './mobile-phone-dealer/mobile-phone-dealer.module';
 import { RadioTransceiverModule } from './radio-transceiver/radio-transceiver.module';
@@ -11,6 +10,7 @@ import { AppComponent } from './core/container/app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CardModule } from './ui/card/card.module';
 import { MasterListModule } from './master-list/master-list.module';
+import { ServiceCenterReportModule } from './service-center/service-center-report.module';
 @NgModule({
   imports: [
     BrowserModule,
@@ -19,7 +19,7 @@ import { MasterListModule } from './master-list/master-list.module';
     FontAwesomeModule,
     MobilePhoneDealerModule,
     CoreModule,
-    ServiceCenterModule,
+    ServiceCenterReportModule,
     CardModule,
     ModalModule,
     MasterListModule,

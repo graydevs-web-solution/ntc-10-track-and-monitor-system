@@ -1,1 +1,11 @@
-<p>dealer-collections works!</p>
+<div>
+  <div class="mb-3">
+    <button class="btn btn-sm btn-primary" (click)="open()">Add</button>
+  </div>
+
+  <app-dealer-list [entries]="entries"></app-dealer-list>
+
+  <app-card *ngIf="!entries.length" [centered]="true">
+    <div class="font-weight-bold">No entries</div>
+  </app-card>
+</div>

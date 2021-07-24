@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { ServiceCenterReportSummary } from '../../models/service-center-summary.model';
+import { ServiceCenterReportSummary } from '../../models/service-center-report-summary.model';
 
 @Component({
   selector: 'app-service-center-report-list',
