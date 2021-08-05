@@ -13,6 +13,10 @@ export const serviceCenterDelete = 'serviceCenterDelete';
 export const dealerEdit = 'dealerEdit';
 export const dealerView = 'dealerView';
 export const dealerDelete = 'dealerDelete';
+export const clientEdit = 'clientEdit';
+export const clientView = 'clientView';
+export const clientDelete = 'clientDelete';
+export const clientSearch = 'clientSearch';
 
 // Resource type
 export const ADD = 'ADD';
