@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { RadioTransceiverSummary } from './../../models/radio-transceiver-summary.model';
+import { RadioTransceiver } from '../../models/radio-transceiver.model';
 
 @Component({
   selector: 'app-radio-transceiver-list',
@@ -12,7 +12,7 @@ import { RadioTransceiverSummary } from './../../models/radio-transceiver-summar
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioTransceiverListComponent implements OnInit {
-  @Input() entries: RadioTransceiverSummary[];
+  @Input() entries: RadioTransceiver[];
   constructor() {}
 
   ngOnInit(): void {}

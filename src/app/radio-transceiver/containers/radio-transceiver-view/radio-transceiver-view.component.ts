@@ -15,6 +15,7 @@ import { DateTime } from 'luxon';
 export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
   form: FormGroup;
   formId: string;
+  clientName = '';
 
   getDestroyed = new Subject();
 
@@ -35,9 +36,14 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
         },
       });
     const fetchedValue = this.radioTransceiverService.getSelectedEntry(this.formId);
-    const entryDate = new Date(fetchedValue.date).toISOString();
-    const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
-    this.form.patchValue({ ...fetchedValue, date: formattedDate });
+    fetchedValue.operators.forEach(() => {
+      this.addOperatorInput();
+    });
+    fetchedValue.radioTransceivers.forEach(() => {
+      this.addRadioTransceiverInput();
+    });
+    this.clientName = fetchedValue.clientName;
+    this.form.patchValue({ ...fetchedValue });
   }
 
   ngOnDestroy(): void {
@@ -47,14 +53,12 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
 
   initForm(): void {
     this.form = this.formBuilder.group({
-      date: [''],
-      nameOfStation: [''],
-      officePostalAddress: [''],
-      exactLocationOfStation: [''],
-      class: [''],
+      dateIssued: [''],
+      clientId: [''],
+      classType: [''],
       natureOfService: [''],
       workingHours: [''],
-      type: [''],
+      formType: [''],
       callSign: [''],
       ppInfo: this.formBuilder.group({
         ppNumber: [''],

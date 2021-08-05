@@ -3,6 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 import { RadioTransceiver } from '../../models/radio-transceiver.model';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { DELETE, radioTransceiver } from 'src/app/shared/constants';
+import { Client } from 'src/app/master-list/clients/models/client.model';
 
 @Component({
   selector: 'app-radio-transceiver-entry',
@@ -10,9 +11,9 @@ import { DELETE, radioTransceiver } from 'src/app/shared/constants';
     <div class="d-flex">
       <div class="flex-grow-1">
         <a [routerLink]="[entry.id]">
-          <div>{{ entry.nameOfStation }}</div>
+          <div>{{ entry.clientName }}</div>
           <div>
-            <small> {{ entry.date | date: 'mediumDate' }} </small>
+            <small> {{ entry.dateIssued | date: 'mediumDate' }} </small>
           </div>
         </a>
       </div>
@@ -29,6 +30,10 @@ export class RadioTransceiverEntryComponent implements OnInit {
   @Input() entry: RadioTransceiver;
   constructor(private modalService: NgbModal) {}
   ngOnInit(): void {}
+
+  // clientName = (client: RadioTransceiver): string => {
+  //   return (client.clientId as Client).name;
+  // };
 
   open() {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
