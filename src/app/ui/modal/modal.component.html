@@ -12,10 +12,14 @@
   <app-service-center-view *ngIf="isServiceCenterView()"></app-service-center-view>
   <app-dealer-edit *ngIf="isDealerEdit()"></app-dealer-edit>
   <app-dealer-view *ngIf="isDealerView()"></app-dealer-view>
+  <app-client-edit *ngIf="isClientEdit()"></app-client-edit>
+  <app-client-view *ngIf="isClientView()"></app-client-view>
+  <app-client-search *ngIf="isClientSearch()"></app-client-search>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark" *ngIf="isStationEdit()" (click)="saveStation()">Add</button>
   <button type="button" class="btn btn-outline-dark" *ngIf="isServiceCenterEdit()" (click)="saveServiceCenter()">Add</button>
   <button type="button" class="btn btn-outline-dark" *ngIf="isDealerEdit()" (click)="saveDealer()">Add</button>
+  <button type="button" class="btn btn-outline-dark" *ngIf="isClientEdit()" (click)="saveClient()">Add</button>
   <button type="button" class="btn btn-outline-dark" *ngIf="isRemoveEntry()" (click)="removeEntry()">Remove</button>
 </div>
