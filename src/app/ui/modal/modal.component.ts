@@ -2,6 +2,10 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, AfterViewInit } from
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   ADD,
+  clientDelete,
+  clientEdit,
+  clientSearch,
+  clientView,
   dealerDelete,
   dealerEdit,
   dealerView,
@@ -21,6 +25,7 @@ import {
 import { MobilePhoneDealerService } from './../../mobile-phone-dealer/mobile-phone-dealer.service';
 import { ServiceCenterReportService } from './../../service-center/service-center-report.service';
 import { RadioTransceiverService } from './../../radio-transceiver/radio-transceiver.service';
+import { ClientService } from './../../master-list/clients/client.service';
 import { StationService } from './../../master-list/station/station.service';
 import { ServiceCenterService } from 'src/app/master-list/service-center/service-center.service';
 import { DealerService } from 'src/app/master-list/dealer/dealer.service';
@@ -29,7 +34,7 @@ import { DealerService } from 'src/app/master-list/dealer/dealer.service';
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ModalComponent implements OnInit, AfterViewInit {
   @Input() formMode: string;
@@ -45,7 +50,8 @@ export class ModalComponent implements OnInit, AfterViewInit {
     private serviceCenterReportService: ServiceCenterReportService,
     private stationService: StationService,
     private serviceCenterService: ServiceCenterService,
-    private dealerService: DealerService
+    private dealerService: DealerService,
+    private clientService: ClientService
   ) {}
 
   ngOnInit(): void {}
@@ -56,7 +62,15 @@ export class ModalComponent implements OnInit, AfterViewInit {
   }
 
   isRemoveEntry = (): boolean => {
-    const allowedComponents = [mobilePhoneDealer, radioTransceiver, serviceCenterReport, stationDelete, serviceCenterDelete, dealerDelete];
+    const allowedComponents = [
+      mobilePhoneDealer,
+      radioTransceiver,
+      serviceCenterReport,
+      stationDelete,
+      serviceCenterDelete,
+      dealerDelete,
+      clientDelete,
+    ];
     return allowedComponents.includes(this.componentName) && this.formMode === DELETE;
   };
 
@@ -84,30 +98,47 @@ export class ModalComponent implements OnInit, AfterViewInit {
     return this.componentName === dealerView && this.formMode === VIEW;
   }
 
-  removeEntry(): void {
-    switch (this.componentName) {
-      case mobilePhoneDealer:
-        this.mobilePhoneDealerService.deleteOne(this.formId);
-        break;
-      case radioTransceiver:
-        this.radioTransceiverService.deleteOne(this.formId);
-        break;
-      case serviceCenterReport:
-        this.serviceCenterReportService.deleteOne(this.formId);
-        break;
-      case stationDelete:
-        this.stationService.deleteOne(this.formId);
-        break;
-      case serviceCenterDelete:
-        this.serviceCenterService.deleteOne(this.formId);
-        break;
-      case dealerDelete:
-        this.dealerService.deleteOne(this.formId);
-        break;
-      default:
-        break;
+  isClientEdit(): boolean {
+    return this.componentName === clientEdit && (this.formMode === EDIT || this.formMode === ADD);
+  }
+
+  isClientSearch(): boolean {
+    return this.componentName === clientSearch;
+  }
+
+  isClientView(): boolean {
+    return this.componentName === clientView && this.formMode === VIEW;
+  }
+
+  async removeEntry(): Promise<void> {
+    try {
+      switch (this.componentName) {
+        case mobilePhoneDealer:
+          this.mobilePhoneDealerService.deleteOne(this.formId);
+          break;
+        case radioTransceiver:
+          await this.radioTransceiverService.deleteOne(this.formId).toPromise();
+          this.radioTransceiverService.getEntriesAPI();
+          break;
+        case serviceCenterReport:
+          this.serviceCenterReportService.deleteOne(this.formId);
+          break;
+        case stationDelete:
+          this.stationService.deleteOne(this.formId);
+          break;
+        case serviceCenterDelete:
+          this.serviceCenterService.deleteOne(this.formId);
+          break;
+        case dealerDelete:
+          this.dealerService.deleteOne(this.formId);
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+    } finally {
+      this.activeModal.close();
     }
-    this.activeModal.close();
   }
 
   saveStation() {
@@ -120,5 +151,9 @@ export class ModalComponent implements OnInit, AfterViewInit {
 
   saveDealer() {
     this.dealerService.saveDealerListener.next();
+  }
+
+  saveClient() {
+    this.clientService.saveClientListener.next();
   }
 }

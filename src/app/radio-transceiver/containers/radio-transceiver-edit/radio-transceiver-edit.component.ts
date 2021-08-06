@@ -1,12 +1,15 @@
 import { ActivatedRoute, Params } from '@angular/router';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { RadioTransceiverService } from './../../radio-transceiver.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DateTime } from 'luxon';
-import { ADD, EDIT } from 'src/app/shared/constants';
+import { ADD, clientSearch, EDIT } from 'src/app/shared/constants';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ClientService } from 'src/app/master-list/clients/client.service';
+import { ModalComponent } from 'src/app/ui/modal/modal.component';
 
 @Component({
   selector: 'app-radio-transceiver-edit',
@@ -17,12 +20,20 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
   form: FormGroup;
   formId: string;
   formMode = ADD;
+  clientName = '';
 
   faCalendarAlt = faCalendarAlt;
 
   getDestroyed = new Subject();
 
-  constructor(private formBuilder: FormBuilder, private radioTransceiverService: RadioTransceiverService, private route: ActivatedRoute) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private radioTransceiverService: RadioTransceiverService,
+    private route: ActivatedRoute,
+    private modalService: NgbModal,
+    private clientService: ClientService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -37,11 +48,26 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
           this.formMode = value ? EDIT : ADD;
         },
       });
+
+    this.clientService.selectedEntry.pipe(takeUntil(this.getDestroyed)).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.form.patchValue({ clientId: response.id });
+        this.clientName = response.name;
+        this.cd.detectChanges();
+      },
+    });
+
     if (this.formMode === EDIT) {
       const fetchedValue = this.radioTransceiverService.getSelectedEntry(this.formId);
-      const entryDate = new Date(fetchedValue.date).toISOString();
-      const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
-      this.form.patchValue({ ...fetchedValue, date: formattedDate });
+      fetchedValue.operators.forEach(() => {
+        this.addOperatorInput();
+      });
+      fetchedValue.radioTransceivers.forEach(() => {
+        this.addRadioTransceiverInput();
+      });
+      this.clientName = fetchedValue.clientName;
+      this.form.patchValue({ ...fetchedValue });
     }
   }
 
@@ -52,14 +78,12 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.form = this.formBuilder.group({
-      date: [''],
-      nameOfStation: [''],
-      officePostalAddress: [''],
-      exactLocationOfStation: [''],
-      class: [''],
+      dateIssued: [''],
+      clientId: [''],
+      classType: [''],
       natureOfService: [''],
       workingHours: [''],
-      type: [''],
+      formType: [''],
       callSign: [''],
       ppInfo: this.formBuilder.group({
         ppNumber: [''],
@@ -113,6 +137,7 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
   addOperatorInput(): void {
     this.operators.push(
       this.formBuilder.group({
+        id: [''],
         name: [''],
         particularOfLicense: [''],
         expirationDate: [''],
@@ -123,6 +148,7 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
   addRadioTransceiverInput(): void {
     this.radioTransceivers.push(
       this.formBuilder.group({
+        id: [''],
         model: [''],
         serialNumber: [''],
         freqRange: [''],
@@ -134,10 +160,29 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
 
   submit() {
     if (this.formMode === ADD) {
-      this.radioTransceiverService.addOne(this.form.value);
+      this.radioTransceiverService
+        .addOne(this.form.value)
+        .pipe(takeUntil(this.getDestroyed))
+        .subscribe({
+          next: (response) => {
+            console.log('done');
+          },
+        });
     } else {
-      this.radioTransceiverService.updateOne(this.formId, this.form.value);
+      this.radioTransceiverService
+        .updateOne(this.formId, this.form.value)
+        .pipe(takeUntil(this.getDestroyed))
+        .subscribe({
+          next: (response) => {
+            console.log('done');
+          },
+        });
     }
+  }
+
+  open() {
+    const modalRef = this.modalService.open(ModalComponent, { centered: true, size: 'lg' });
+    modalRef.componentInstance.componentName = clientSearch;
   }
 
   get operators() {

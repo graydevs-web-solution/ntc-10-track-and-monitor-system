@@ -1,0 +1,11 @@
+<div>
+  <div class="mb-3">
+    <button class="btn btn-sm btn-primary" (click)="open()">Add</button>
+  </div>
+
+  <app-client-list [entries]="entries"></app-client-list>
+
+  <app-card *ngIf="!entries.length" [centered]="true">
+    <div class="font-weight-bold">No entries</div>
+  </app-card>
+</div>

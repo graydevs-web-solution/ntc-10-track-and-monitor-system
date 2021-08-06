@@ -1,25 +1,29 @@
+import { Client } from 'src/app/master-list/clients/models/client.model';
+
 interface PPInfo {
   ppNumber: string;
-  dateIssued: Date;
+  dateIssued: Date | string;
 }
 
 interface CPInfo {
-  ppNumber: string;
-  dateIssued: Date;
+  cpNumber: string;
+  expirationDate: Date | string;
 }
 
 interface LicInfo {
-  ppNumber: string;
-  dateIssued: Date;
+  licNumber: string;
+  expirationDate: Date | string;
 }
 
 interface Operator {
+  id?: number;
   name: string;
   particularOfLicense: string;
-  expirationDate: Date;
+  expirationDate: Date | string;
 }
 
 interface RadioTransceiverItem {
+  id?: number;
   model: string;
   serialNumber: string;
   freqRange: string;
@@ -57,15 +61,14 @@ interface IllegalOperationInfo {
 }
 
 export interface RadioTransceiver {
-  id?: string;
-  date: Date | string;
-  nameOfStation: string;
-  officePostalAddress: string;
-  exactLocationOfStation: string;
-  class: string;
+  id?: number;
+  dateIssued: Date | string;
+  clientId: number | Client;
+  clientName?: string;
+  classType: string;
   natureOfService: string;
   workingHours: string;
-  type: string;
+  formType: string;
   callSign: string;
   ppInfo: PPInfo;
   cpInfo: CPInfo;
@@ -74,7 +77,7 @@ export interface RadioTransceiver {
   operators: Operator[];
   radioTransceivers: RadioTransceiverItem[];
   frequenciesInfo: FrequenciesInfo;
-  illegalCOnstructionInfo: IllegalConstructionInfo;
+  illegalConstructionInfo: IllegalConstructionInfo;
   illegalOperationInfo: IllegalOperationInfo;
   illegalPossession: boolean;
   others: string;

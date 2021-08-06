@@ -1,9 +1,12 @@
 {
   "name": "monitoring-system",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild:major": "npm --no-git-tag-version version major",
+    "prebuild:minor": "npm --no-git-tag-version version minor",
+    "prebuild:patch": "npm --no-git-tag-version version patch",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",

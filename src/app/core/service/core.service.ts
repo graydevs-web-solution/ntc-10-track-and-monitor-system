@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { version } from '../../../../package.json';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoreService {
-  private appVersion = version;
+  private appVersion = environment.appVersion;
 
   constructor() {}
 
