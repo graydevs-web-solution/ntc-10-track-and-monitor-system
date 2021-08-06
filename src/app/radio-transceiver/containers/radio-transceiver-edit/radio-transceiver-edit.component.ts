@@ -51,7 +51,6 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
 
     this.clientService.selectedEntry.pipe(takeUntil(this.getDestroyed)).subscribe({
       next: (response) => {
-        console.log(response);
         this.form.patchValue({ clientId: response.id });
         this.clientName = response.name;
         this.cd.detectChanges();
@@ -165,7 +164,7 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.getDestroyed))
         .subscribe({
           next: (response) => {
-            console.log('done');
+            //
           },
         });
     } else {
@@ -174,7 +173,7 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.getDestroyed))
         .subscribe({
           next: (response) => {
-            console.log('done');
+            //
           },
         });
     }

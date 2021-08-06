@@ -21,7 +21,6 @@ export class ClientCollectionComponent implements OnInit, OnDestroy {
     this.entries = this.clientService.getEntries();
     this.entriesSubs = this.clientService.getEntriesListener().subscribe({
       next: (value) => {
-        console.log(value);
         this.entries = value;
         this.cd.detectChanges();
       },

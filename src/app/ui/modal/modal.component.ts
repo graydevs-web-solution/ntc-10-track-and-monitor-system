@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   ADD,
@@ -36,7 +36,7 @@ import { DealerService } from 'src/app/master-list/dealer/dealer.service';
   styleUrls: ['./modal.component.css'],
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ModalComponent implements OnInit, AfterViewInit {
+export class ModalComponent implements OnInit {
   @Input() formMode: string;
   @Input() formId: string;
   @Input() componentName: string;
@@ -55,11 +55,6 @@ export class ModalComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    console.log(this.componentName);
-    console.log(this.formMode);
-  }
 
   isRemoveEntry = (): boolean => {
     const allowedComponents = [

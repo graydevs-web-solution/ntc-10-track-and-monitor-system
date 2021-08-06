@@ -56,8 +56,6 @@ export class RadioTransceiverService {
   }
 
   getSelectedEntry(id: string): RadioTransceiver {
-    console.log(this.entries);
-    console.log(id);
     return this.entries.find((entry) => entry.id === +id);
   }
 
