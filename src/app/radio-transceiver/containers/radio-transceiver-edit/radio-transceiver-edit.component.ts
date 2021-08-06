@@ -137,7 +137,7 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
   addOperatorInput(): void {
     this.operators.push(
       this.formBuilder.group({
-        id: [''],
+        id: [null],
         name: [''],
         particularOfLicense: [''],
         expirationDate: [''],
@@ -148,7 +148,7 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
   addRadioTransceiverInput(): void {
     this.radioTransceivers.push(
       this.formBuilder.group({
-        id: [''],
+        id: [null],
         model: [''],
         serialNumber: [''],
         freqRange: [''],

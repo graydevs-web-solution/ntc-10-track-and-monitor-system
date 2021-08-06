@@ -112,6 +112,7 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
   addOperatorInput(): void {
     this.operators.push(
       this.formBuilder.group({
+        id: [null],
         name: [''],
         particularOfLicense: [''],
         expirationDate: [''],
@@ -122,6 +123,7 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
   addRadioTransceiverInput(): void {
     this.radioTransceivers.push(
       this.formBuilder.group({
+        id: [null],
         model: [''],
         serialNumber: [''],
         freqRange: [''],
