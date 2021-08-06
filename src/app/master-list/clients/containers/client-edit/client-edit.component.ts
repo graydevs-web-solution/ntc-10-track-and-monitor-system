@@ -30,7 +30,7 @@ export class ClientEditComponent implements OnInit, OnDestroy {
     this.initForm();
     this.saveClientSubs = this.clientService.saveClientListener.subscribe({
       next: () => {
-        console.log('fired');
+        //
         this.submit();
       },
     });
