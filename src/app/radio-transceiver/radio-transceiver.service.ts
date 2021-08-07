@@ -8,7 +8,7 @@ import { PageOptions } from '../shared/models/page-options';
 import { environment } from 'src/environments/environment';
 import { RadioTransceiverAPI } from './models/radio-transceiver-api.model';
 import { map } from 'rxjs/operators';
-
+import { saveAs } from 'file-saver';
 @Injectable({
   providedIn: 'root',
 })
@@ -79,6 +79,17 @@ export class RadioTransceiverService {
     });
   }
 
+  generatePdf() {
+    this.http.get(`${this.domainURL}/${this.resource1}/pdf`, { responseType: 'text' }).subscribe({
+      next: (response) => {
+        saveAs(response, 'sss.pdf');
+      },
+      error: (err) => {
+        console.log('err', err);
+      },
+    });
+  }
+
   formatData = (data: RadioTransceiver): RadioTransceiver => {
     const formattedData: RadioTransceiver = {
       ...data,
@@ -110,7 +121,7 @@ export class RadioTransceiverService {
   formatList = (data: RadioTransceiverAPI): RadioTransceiver => {
     const value: RadioTransceiver = {
       id: data.id,
-      dateIssued: data.date_issued ? data.date_issued.toLocaleString() : null,
+      dateIssued: data.date_issued ? DateTime.fromISO(data.date_issued.toLocaleString()).toISO() : null,
       clientId: data.client_id,
       clientName: data.clients.name,
       classType: data.class_type,
@@ -118,13 +129,20 @@ export class RadioTransceiverService {
       workingHours: data.working_hours,
       formType: data.form_type,
       callSign: data.call_sign,
+      motorNumber: data.motor_number,
+      plateNumber: data.plate_number,
+      grossTonnage: data.gross_tonnage,
       ppInfo: {
         ppNumber: data.pp_number,
-        dateIssued: data.pp_date_issued,
+        dateIssued: data.pp_date_issued ? DateTime.fromISO(data.pp_date_issued.toLocaleString()).toISO() : null,
+      },
+      tpInfo: {
+        tpNumber: data.tp_number,
+        expirationDate: data.tp_expiration_date ? DateTime.fromISO(data.tp_expiration_date.toLocaleString()).toISO() : null,
       },
       cpInfo: {
         cpNumber: data.cp_number,
-        expirationDate: data.cp_expiration_date,
+        expirationDate: data.cp_expiration_date ? DateTime.fromISO(data.cp_expiration_date.toLocaleString()).toISO() : null,
       },
       licInfo: {
         licNumber: data.license_number,
@@ -146,7 +164,7 @@ export class RadioTransceiverService {
             id: val.id,
             name: val.name,
             particularOfLicense: val.particular_of_license,
-            expirationDate: val.expiration_date ? val.expiration_date.toLocaleString() : null,
+            expirationDate: val.expiration_date ? DateTime.fromISO(val.expiration_date.toLocaleString()).toISO() : null,
           }))
         : null,
       frequenciesInfo: {
@@ -173,10 +191,20 @@ export class RadioTransceiverService {
         operationWithoutRadioStationLicensePermit: data.operation_without_rsl,
         operationWithoutLicenseRadioOperator: data.operation_without_lro,
         operationWithoutLogbook: data.operation_without_logbook,
+        operationOnLowerSideband: data.operation_on_lower_sideband,
+        operationOnUnauthorizedHours: data.operation_on_unauthorized_hours,
         operatingOnUnauthorizedFrequency: data.operation_operating_unauthorized_freq,
+        offFrequency: data.off_frequency,
+        stillInTheOldFrequencyGrouping: data.still_in_the_old_frequency_grouping,
       },
       illegalPossession: data.illegal_possession,
       others: data.others,
+      sundrayInformationAboutRS: {
+        isRadioOperatorEntryLogbooK: data.sundray_info_radio_operator_logbook,
+        isStationProduceUnwantedSignals: data.sundray_info_station_product_unwanted_signal,
+        isRadioEquipmentOperativeOnInspection: data.sundray_info_radio_equipment_operative,
+      },
+      recommendations: data.recommendations,
       radioRegulationInspector: data.radio_requlation_inspector,
       authorizedRepresentative: data.authorized_representative,
       regionalDirector: data.regional_director,
