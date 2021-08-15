@@ -10,6 +10,7 @@ import { ADD, clientSearch, EDIT } from 'src/app/shared/constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClientService } from 'src/app/master-list/clients/client.service';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
+import { operatorInput, radioTransceiverEntryInput, initForm } from '../../radio-transceiver-shared';
 
 @Component({
   selector: 'app-radio-transceiver-edit',
@@ -76,85 +77,15 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    this.form = this.formBuilder.group({
-      dateIssued: [''],
-      clientId: [''],
-      classType: [''],
-      natureOfService: [''],
-      workingHours: [''],
-      formType: [''],
-      callSign: [''],
-      ppInfo: this.formBuilder.group({
-        ppNumber: [''],
-        dateIssued: [''],
-      }),
-      cpInfo: this.formBuilder.group({
-        cpNumber: [''],
-        expirationDate: [''],
-      }),
-      licInfo: this.formBuilder.group({
-        licNumber: [''],
-        expirationDate: [''],
-      }),
-      pointsOfCommunication: [''],
-      operators: this.formBuilder.array([]),
-      radioTransceivers: this.formBuilder.array([]),
-      frequenciesInfo: this.formBuilder.group({
-        assignedFreq: [''],
-        crystalFreq: [''],
-        measuredFreq: [''],
-        ifReceiver: [''],
-        typeOfEmission: [''],
-        antennaSystemType: [''],
-        elevationFromGmd: [''],
-        gain: [''],
-        directivity: [''],
-        powerSupply: [''],
-        battery: [''],
-        voltageAndType: [''],
-        capacity: [''],
-        ah: [''],
-      }),
-      illegalConstructionInfo: this.formBuilder.group({
-        constructionsOfRadioStationsWithoutConstructionPermit: [false],
-        illegalTransfer: [false],
-      }),
-      illegalOperationInfo: this.formBuilder.group({
-        operationWithoutRadioStationLicensePermit: [false],
-        operationWithoutLicenseRadioOperator: [false],
-        operationWithoutLogbook: [false],
-        operatingOnUnauthorizedFrequency: [false],
-      }),
-      illegalPossession: [false],
-      others: [''],
-      radioRegulationInspector: [''],
-      authorizedRepresentative: [''],
-      regionalDirector: [''],
-    });
+    this.form = initForm();
   }
 
   addOperatorInput(): void {
-    this.operators.push(
-      this.formBuilder.group({
-        id: [null],
-        name: [''],
-        particularOfLicense: [''],
-        expirationDate: [''],
-      })
-    );
+    this.operators.push(operatorInput);
   }
 
   addRadioTransceiverInput(): void {
-    this.radioTransceivers.push(
-      this.formBuilder.group({
-        id: [null],
-        model: [''],
-        serialNumber: [''],
-        freqRange: [''],
-        powerOutput: [''],
-        freqControl: [''],
-      })
-    );
+    this.radioTransceivers.push(radioTransceiverEntryInput);
   }
 
   submit() {
