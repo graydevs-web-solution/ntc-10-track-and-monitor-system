@@ -21,7 +21,7 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
 
   faCalendarAlt = faCalendarAlt;
 
-  constructor(private formBuilder: FormBuilder, private radioTransceiverService: RadioTransceiverService, private route: ActivatedRoute) {}
+  constructor(private radioTransceiverService: RadioTransceiverService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -64,7 +64,7 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
   }
 
   generatePdf(): void {
-    this.radioTransceiverService.generatePdf();
+    this.radioTransceiverService.generatePdf(this.formId);
   }
 
   get operators() {

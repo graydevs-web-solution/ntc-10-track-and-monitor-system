@@ -79,15 +79,25 @@ export class RadioTransceiverService {
     });
   }
 
-  generatePdf() {
-    this.http.get(`${this.domainURL}/${this.resource1}/pdf`, { responseType: 'text' }).subscribe({
-      next: (response) => {
-        saveAs(response, 'sss.pdf');
-      },
-      error: (err) => {
-        console.log('err', err);
+  generatePdf(formId: string) {
+    const PARAMS = new HttpParams({
+      fromObject: {
+        id: `${formId}`,
       },
     });
+    this.http
+      .get(`${this.domainURL}/${this.resource1}/pdf`, {
+        responseType: 'text',
+        params: PARAMS,
+      })
+      .subscribe({
+        next: (response) => {
+          saveAs(response, 'sss.pdf');
+        },
+        error: (err) => {
+          console.log('err', err);
+        },
+      });
   }
 
   formatData = (data: RadioTransceiver): RadioTransceiver => {
@@ -175,6 +185,7 @@ export class RadioTransceiverService {
         typeOfEmission: data.freq_type_of_emission,
         antennaSystemType: data.freq_antenna_system_type,
         elevationFromGmd: data.freq_elevation_from_gmd,
+        lengthOfRadiator: data.freq_length_of_radiator,
         gain: data.freq_gain,
         directivity: data.freq_directivity,
         powerSupply: data.freq_power_supply,
@@ -204,9 +215,10 @@ export class RadioTransceiverService {
         isStationProduceUnwantedSignals: data.sundray_info_station_product_unwanted_signal,
         isRadioEquipmentOperativeOnInspection: data.sundray_info_radio_equipment_operative,
       },
-      recommendations: data.recommendations,
-      radioRegulationInspector: data.radio_requlation_inspector,
       authorizedRepresentative: data.authorized_representative,
+      radioRegulationInspector: data.radio_requlation_inspector,
+      recommendations: data.recommendations,
+      notedBy: data.noted_by,
       regionalDirector: data.regional_director,
     };
     return value;

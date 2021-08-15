@@ -1,6 +1,12 @@
 import { ClientAPI } from 'src/app/master-list/clients/models/client-api.model';
 import { Client } from 'src/app/master-list/clients/models/client.model';
 
+enum FormType {
+  new = 'new',
+  renewal = 'renawal',
+  modificatin = 'modification',
+}
+
 interface Operator {
   ['id']?: number;
   ['name']: string;
@@ -25,7 +31,7 @@ export interface RadioTransceiverAPI {
   ['class_type']: string;
   ['nature_of_service']: string;
   ['working_hours']: string;
-  ['form_type']: string;
+  ['form_type']: FormType;
   ['call_sign']: string;
   ['motor_number']: string;
   ['plate_number']: string;
@@ -48,6 +54,7 @@ export interface RadioTransceiverAPI {
   ['freq_type_of_emission']: string;
   ['freq_antenna_system_type']: string;
   ['freq_elevation_from_gmd']: string;
+  ['freq_length_of_radiator']: string;
   ['freq_gain']: string;
   ['freq_directivity']: string;
   ['freq_power_supply']: string;
@@ -70,8 +77,9 @@ export interface RadioTransceiverAPI {
   ['sundray_info_radio_operator_logbook']: string;
   ['sundray_info_station_product_unwanted_signal']: string;
   ['sundray_info_radio_equipment_operative']: string;
-  ['recommendations']: string;
-  ['radio_requlation_inspector']: string;
   ['authorized_representative']: string;
+  ['radio_requlation_inspector']: string;
+  ['recommendations']: string;
+  ['noted_by']: string;
   ['regional_director']: string;
 }

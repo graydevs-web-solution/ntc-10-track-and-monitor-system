@@ -39,6 +39,7 @@ export const initForm = (readState = false): FormGroup => {
       typeOfEmission: new FormControl({ value: '', disabled: false }),
       antennaSystemType: new FormControl({ value: '', disabled: false }),
       elevationFromGmd: new FormControl({ value: '', disabled: false }),
+      lengthOfRadiator: new FormControl({ value: '', disabled: false }),
       gain: new FormControl({ value: '', disabled: false }),
       directivity: new FormControl({ value: '', disabled: false }),
       powerSupply: new FormControl({ value: '', disabled: false }),
@@ -68,9 +69,10 @@ export const initForm = (readState = false): FormGroup => {
       isStationProduceUnwantedSignals: new FormControl({ value: '', disabled: false }),
       isRadioEquipmentOperativeOnInspection: new FormControl({ value: '', disabled: false }),
     }),
-    radioRegulationInspector: new FormControl({ value: '', disabled: false }),
     authorizedRepresentative: new FormControl({ value: '', disabled: false }),
+    radioRegulationInspector: new FormControl({ value: '', disabled: false }),
     recommendations: new FormControl({ value: '', disabled: false }),
+    notedBy: new FormControl({ value: '', disabled: false }),
     regionalDirector: new FormControl({ value: '', disabled: false }),
   });
 };
