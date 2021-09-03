@@ -5,6 +5,7 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { initForm, stockMobilePhoneInput, stockSIMInput, stockSpareAndAccessoryInput } from '../../mobile-phone-dealer-shared';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 
 @Component({
@@ -15,16 +16,13 @@ import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 export class MobilePhoneDealerViewComponent implements OnInit {
   form: FormGroup;
   formId: string;
+  clientName = '';
 
   faCalendarAlt = faCalendarAlt;
 
   getDestroyed = new Subject();
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private mobilePhoneDealerService: MobilePhoneDealerService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private mobilePhoneDealerService: MobilePhoneDealerService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -39,75 +37,37 @@ export class MobilePhoneDealerViewComponent implements OnInit {
         },
       });
     const fetchedValue = this.mobilePhoneDealerService.getSelectedEntry(this.formId);
-    const entryDate = new Date(fetchedValue.dateInspected).toISOString();
-    const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
-    this.form.patchValue({ ...fetchedValue, dateInspected: formattedDate });
+    fetchedValue.listOfStocksOfSparesAndAccessories.forEach(() => {
+      this.addStockSpareAndAccessory();
+    });
+    fetchedValue.listOfStocksOfMobilePhone.forEach(() => {
+      this.addStockMobilePhone();
+    });
+    fetchedValue.listOfStocksOfSubscriberIdentificationModule.forEach(() => {
+      this.addStockSIM();
+    });
+    this.clientName = fetchedValue.clientName;
+    this.form.patchValue({ ...fetchedValue });
   }
 
   initForm(): void {
-    this.form = this.formBuilder.group({
-      dateInspected: [''],
-      nameOfDealer: [''],
-      businessAddress: [''],
-      cellphoneNumber: [''],
-      faxNumber: [''],
-      addressOfMobilePhoneWarehouse: [''],
-      mobilePhoneDealerInfo: this.formBuilder.group({
-        permitNumber: [''],
-        expiryDate: [''],
-      }),
-      secDtiRegistrationNumber: [''],
-      businessMayorPermitNumber: [''],
-      listOfStocksOfSparesAndAccessories: this.formBuilder.array([]),
-      listOfStocksOfMobilePhone: this.formBuilder.array([]),
-      listOfStocksOfSubscriberIdentificationModule: this.formBuilder.array([]),
-      sundryOfInformation: this.formBuilder.group({
-        one: [''],
-        two: [''],
-      }),
-      remarksDeficienciesDiscrepanciesNoted: [''],
-      inspectedBy: [''],
-      ownerInfo: this.formBuilder.group({
-        name: [''],
-        position: [''],
-      }),
-      recommendations: [''],
-      notedBy: [''],
-      isApproved: [false],
-      approver: [''],
-    });
-  }
-
-  submit(): void {
-    this.mobilePhoneDealerService.addOne(this.form.value);
+    this.form = initForm(true);
   }
 
   addStockSpareAndAccessory(): void {
-    this.listOfStocksOfSparesAndAccessories.push(
-      this.formBuilder.group({
-        particular: [''],
-        numberOfUnits: [0],
-      })
-    );
+    this.listOfStocksOfSparesAndAccessories.push(stockSpareAndAccessoryInput());
   }
 
   addStockMobilePhone() {
-    this.listOfStocksOfMobilePhone.push(
-      this.formBuilder.group({
-        model: [''],
-        imeiNumber: [''],
-        source: [''],
-      })
-    );
+    this.listOfStocksOfMobilePhone.push(stockMobilePhoneInput());
   }
 
   addStockSIM() {
-    this.listOfStocksOfSubscriberIdentificationModule.push(
-      this.formBuilder.group({
-        simNumber: [''],
-        mobilePhoneCompany: [''],
-      })
-    );
+    this.listOfStocksOfSubscriberIdentificationModule.push(stockSIMInput());
+  }
+
+  generatePdf(): void {
+    this.mobilePhoneDealerService.generatePdf(this.formId);
   }
 
   get listOfStocksOfSparesAndAccessories(): FormArray {
@@ -120,5 +80,9 @@ export class MobilePhoneDealerViewComponent implements OnInit {
 
   get listOfStocksOfSubscriberIdentificationModule(): FormArray {
     return this.form.get('listOfStocksOfSubscriberIdentificationModule') as FormArray;
+  }
+
+  get isApproved(): string {
+    return !!this.form.get('isApproved').value ? 'YES' : 'NO';
   }
 }

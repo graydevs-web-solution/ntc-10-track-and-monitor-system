@@ -6,6 +6,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DateTime } from 'luxon';
+import { employedETInput, initForm, serviceOrTestEquipmentInput } from '../../service-center-shared';
 
 @Component({
   selector: 'app-service-center-report-view',
@@ -15,16 +16,13 @@ import { DateTime } from 'luxon';
 export class ServiceCenterReportViewComponent implements OnInit {
   form: FormGroup;
   formId: string;
+  clientName = '';
 
   faCalendarAlt = faCalendarAlt;
 
   getDestroyed = new Subject();
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private serviceCenterReportService: ServiceCenterReportService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private serviceCenterReportService: ServiceCenterReportService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -39,43 +37,18 @@ export class ServiceCenterReportViewComponent implements OnInit {
         },
       });
     const fetchedValue = this.serviceCenterReportService.getSelectedEntry(this.formId);
-    const entryDate = new Date(fetchedValue.dateInspected).toISOString();
-    const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
-    this.form.patchValue({ ...fetchedValue, dateInspected: formattedDate });
+    fetchedValue.listOfServiceOrTestEquipments.forEach(() => {
+      this.addServiceOrTestEquipment();
+    });
+    fetchedValue.employedElectronicsTechnicians.forEach(() => {
+      this.addEmployedElectronicTechnician();
+    });
+    this.clientName = fetchedValue.clientName;
+    this.form.patchValue({ ...fetchedValue });
   }
 
   initForm(): void {
-    this.form = this.formBuilder.group({
-      dateInspected: [''],
-      nameOfServiceCenter: [''],
-      businessAddress: [''],
-      cellphoneNumber: [''],
-      faxNumber: [''],
-      exactLocationOfServiceCenter: [''],
-      mpscInfo: this.formBuilder.group({
-        permitNumber: [''],
-        expiryDate: [''],
-      }),
-      secDtiRegistrationNumber: [''],
-      businessMayorPermitNumber: [''],
-      listOfServiceOrTestEquipments: this.formBuilder.array([]),
-      employedElectronicsTechnicians: this.formBuilder.array([]),
-      sundryOfInformation: this.formBuilder.group({
-        one: [''],
-        two: [''],
-        three: [''],
-      }),
-      remarksDeficienciesDiscrepanciesNoted: [''],
-      inspectedBy: [''],
-      ownerInfo: this.formBuilder.group({
-        name: [''],
-        position: [''],
-      }),
-      recommendations: [''],
-      notedBy: [''],
-      isApproved: [false],
-      approver: [''],
-    });
+    this.form = initForm();
   }
 
   submit(): void {
@@ -83,21 +56,11 @@ export class ServiceCenterReportViewComponent implements OnInit {
   }
 
   addServiceOrTestEquipment(): void {
-    this.listOfServiceOrTestEquipments.push(
-      this.formBuilder.group({
-        particular: [''],
-        numberOfUnits: [0],
-      })
-    );
+    this.listOfServiceOrTestEquipments.push(serviceOrTestEquipmentInput());
   }
 
   addEmployedElectronicTechnician() {
-    this.employedElectronicsTechnicians.push(
-      this.formBuilder.group({
-        name: [''],
-        qualifications: [''],
-      })
-    );
+    this.employedElectronicsTechnicians.push(employedETInput());
   }
 
   get listOfServiceOrTestEquipments(): FormArray {

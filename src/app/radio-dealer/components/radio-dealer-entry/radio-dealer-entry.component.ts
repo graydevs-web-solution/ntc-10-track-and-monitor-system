@@ -1,28 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DELETE, serviceCenterReport } from 'src/app/shared/constants';
+import { DELETE, mobilePhoneDealer } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
-import { ServiceCenterReport } from '../../models/service-center-report.model';
+import { RadioDealer } from '../../models/radio-dealer.model';
 
 @Component({
-  selector: 'app-service-center-report-entry',
+  selector: 'app-radio-dealer-entry',
   template: `
     <div class="d-flex">
       <div class="flex-grow-1">
         <a [routerLink]="[entry.id]">
           <div>{{ entry.clientName }}</div>
-          <div>
-            Approved?:
-            <span
-              class="font-weight-bold"
-              [ngClass]="{
-                'text-success': entry.isApproved,
-                'text-danger': !entry.isApproved
-              }"
-            >
-              {{ entry.isApproved ? 'Yes' : 'No' }}</span
-            >
-          </div>
           <div>
             <small>
               Date Inspected:
@@ -42,8 +30,8 @@ import { ServiceCenterReport } from '../../models/service-center-report.model';
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ServiceCenterReportEntryComponent implements OnInit {
-  @Input() entry: ServiceCenterReport;
+export class RadioDealerEntryComponent implements OnInit {
+  @Input() entry: RadioDealer;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {}
@@ -51,7 +39,7 @@ export class ServiceCenterReportEntryComponent implements OnInit {
   open() {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
     modalRef.componentInstance.formId = this.entry.id;
-    modalRef.componentInstance.componentName = serviceCenterReport;
+    modalRef.componentInstance.componentName = mobilePhoneDealer;
     modalRef.componentInstance.formMode = DELETE;
   }
 }

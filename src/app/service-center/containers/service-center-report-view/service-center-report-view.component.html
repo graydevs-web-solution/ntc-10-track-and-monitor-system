@@ -8,9 +8,7 @@
     <ng-template ngbNavContent>
       <div class="border p-2" [formGroup]="form">
         <div class="form-group row">
-          <label for="staticEmail" class="col-2 col-form-label"
-            >Date Inspected</label
-          >
+          <label for="staticEmail" class="col-2 col-form-label">Date Inspected</label>
           <div class="col-10">
             <div class="input-group">
               <input
@@ -23,11 +21,7 @@
                 #d="ngbDatepicker"
               />
               <div class="input-group-append">
-                <button
-                  class="btn btn-outline-secondary calendar"
-                  (click)="d.toggle()"
-                  type="button"
-                >
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
                   <fa-icon [icon]="faCalendarAlt"></fa-icon>
                 </button>
               </div>
@@ -38,137 +32,20 @@
         <br />
 
         <div class="form-group row">
-          <label for="name-of-service-center" class="col-sm-2 col-form-label"
-            >Name of Service Center</label
-          >
-          <div class="col-sm-10">
+          <label for="name-of-station" class="col-sm-2 col-form-label">Client</label>
+          <div class="input-group col-sm-10">
             <input
               type="text"
               class="form-control"
-              id="name-of-service-center"
-              formControlName="nameOfServiceCenter"
+              placeholder="Client name"
+              aria-label="Client name"
+              [value]="clientName"
+              aria-describedby="button-addon2"
+              readonly
             />
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="business-address" class="col-sm-2 col-form-label"
-            >Business Address</label
-          >
-          <div class="col-sm-10">
-            <input
-              type="text"
-              class="form-control"
-              id="business-address"
-              formControlName="businessAddress"
-            />
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="cellphoneNumber" class="col-sm-2 col-form-label"
-            >Telephone/Cellphone No.</label
-          >
-          <div class="col-sm-10">
-            <input
-              type="text"
-              class="form-control"
-              id="cellphoneNumber"
-              formControlName="cellphoneNumber"
-            />
-          </div>
-        </div>
-
-        <br />
-
-        <div class="form-group row">
-          <label for="fax-number" class="col-sm-2 col-form-label"
-            >Fax Number</label
-          >
-          <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="fax-number"
-              formControlName="faxNumber"
-            />
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="exact-location" class="col-sm-2 col-form-label"
-            >Exact Location of Service Center</label
-          >
-          <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="exact-location"
-              formControlName="exactLocationOfServiceCenter"
-            />
-          </div>
-        </div>
-
-        <div class="row" formGroupName="mpscInfo">
-          <div class="col-6">
-            <div class="form-group row">
-              <label for="permit-number" class="col-sm-2 col-form-label"
-                >MPSC Permit No.</label
-              >
-              <div class="col-sm-8">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="permit-number"
-                  formControlName="permitNumber"
-                />
-              </div>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2" (click)="open()">Select</button>
             </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group row">
-              <label for="expiry-date" class="col-sm-2 col-form-label"
-                >Expiry Date</label
-              >
-              <div class="col-sm-8">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="expiry-date"
-                  formControlName="expiryDate"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="secDtiRegistrationNumber" class="col-sm-2 col-form-label"
-            >SEC/DTI Registration No.</label
-          >
-          <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="secDtiRegistrationNumber"
-              formControlName="secDtiRegistrationNumber"
-            />
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label
-            for="businessMayorPermitNumbern"
-            class="col-sm-2 col-form-label"
-            >Business/Mayor's permit No.</label
-          >
-          <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="businessMayorPermitNumber"
-              formControlName="businessMayorPermitNumber"
-            />
           </div>
         </div>
       </div>
@@ -182,22 +59,11 @@
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">List of Stocks of Spares and Accessories</div>
             <div>
-              <button
-                class="btn btn-sm btn-primary"
-                (click)="addServiceOrTestEquipment()"
-              >
-                Add
-              </button>
+              <button class="btn btn-sm btn-primary" (click)="addServiceOrTestEquipment()">Add</button>
             </div>
           </div>
 
-          <div
-            *ngFor="
-              let item of listOfServiceOrTestEquipments.controls;
-              let i = index
-            "
-            class="border p-2 mb-2"
-          >
+          <div *ngFor="let item of listOfServiceOrTestEquipments.controls; let i = index" class="border p-2 mb-2">
             <div class="row">
               <div class="col-4">
                 <div class="form-group">
@@ -226,45 +92,23 @@
             </div>
           </div>
 
-          <div
-            *ngIf="!listOfServiceOrTestEquipments.controls.length"
-            class="border p-3 text-center"
-          >
-            No Services or Test Equipments
-          </div>
+          <div *ngIf="!listOfServiceOrTestEquipments.controls.length" class="border p-3 text-center">No Services or Test Equipments</div>
         </div>
 
         <div class="mb-3">
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">Employed Electronics Technician</div>
             <div>
-              <button
-                class="btn btn-sm btn-primary"
-                (click)="addEmployedElectronicTechnician()"
-              >
-                Add
-              </button>
+              <button class="btn btn-sm btn-primary" (click)="addEmployedElectronicTechnician()">Add</button>
             </div>
           </div>
 
-          <div
-            *ngFor="
-              let item of employedElectronicsTechnicians.controls;
-              let i = index
-            "
-            class="border p-2 mb-2"
-          >
+          <div *ngFor="let item of employedElectronicsTechnicians.controls; let i = index" class="border p-2 mb-2">
             <div class="row">
               <div class="col-4">
                 <div class="form-group">
                   <label [for]="'name' + i">Name</label>
-                  <input
-                    type="text"
-                    [formControl]="item.get('name')"
-                    class="form-control"
-                    [id]="'name' + i"
-                    placeholder="Name"
-                  />
+                  <input type="text" [formControl]="item.get('name')" class="form-control" [id]="'name' + i" placeholder="Name" />
                 </div>
               </div>
               <div class="col-4">
@@ -272,7 +116,7 @@
                   <label [for]="'qualifications' + i">Qualification/s</label>
                   <input
                     type="text"
-                    [formControl]="item.get('source')"
+                    [formControl]="item.get('qualifications')"
                     class="form-control"
                     [id]="'qualifications' + i"
                     placeholder="Qualifications"
@@ -282,10 +126,7 @@
             </div>
           </div>
 
-          <div
-            *ngIf="!employedElectronicsTechnicians.controls.length"
-            class="border p-3 text-center"
-          >
+          <div *ngIf="!employedElectronicsTechnicians.controls.length" class="border p-3 text-center">
             No Employed Electronics Technicians
           </div>
         </div>
@@ -299,44 +140,34 @@
         <div formGroupName="sundryOfInformation">
           <div class="form-group">
             <label for="sundry-one" class="form-label"
-              >1.) Is a signboard indicating registered name, type of services,
-              business address, and the Permit Number conspicously posted at the
-              entrance of its premises?</label
+              >1.) Is a signboard indicating registered name, type of services, business address, and the Permit Number conspicously posted
+              at the entrance of its premises?</label
             >
             <div>
-              <input
-                type="text"
-                class="form-control"
-                id="sundry-one"
-                formControlName="one"
-              />
+              <input type="text" class="form-control" id="sundry-one" formControlName="one" />
             </div>
           </div>
           <div class="form-group">
             <label for="sundry-two" class="form-label"
-              >2.) Are the stocks of spares and accessories sufficient enough to
-              cover the warranty of mobile phones?</label
+              >2.) Are the stocks of spares and accessories sufficient enough to cover the warranty of mobile phones?</label
             >
             <div>
-              <input
-                type="text"
-                class="form-control"
-                id="sundry-two"
-                formControlName="two"
-              />
+              <input type="text" class="form-control" id="sundry-two" formControlName="two" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="sundry-three" class="form-label"
+              >3.) Is/are electronics technician/s qualified to repair mobile phone equipments?</label
+            >
+            <div>
+              <input type="text" class="form-control" id="sundry-three" formControlName="three" />
             </div>
           </div>
         </div>
 
         <div class="form-group">
           <label for="remarks">Remarks/Deficiency(ies)/Discrepancy(ies)</label>
-          <textarea
-            autosize
-            class="form-control"
-            id="remarks"
-            formControlName="remarksDeficienciesDiscrepanciesNoted"
-            rows="3"
-          ></textarea>
+          <textarea autosize class="form-control" id="remarks" formControlName="remarksDeficienciesDiscrepanciesNoted" rows="3"></textarea>
         </div>
       </div>
     </ng-template>
@@ -346,16 +177,9 @@
     <ng-template ngbNavContent>
       <div class="border p-2" [formGroup]="form">
         <div class="form-group row">
-          <label for="inspector" class="col-sm-2 col-form-label"
-            >Inspector</label
-          >
+          <label for="inspector" class="col-sm-2 col-form-label">Inspector</label>
           <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="inspector"
-              formControlName="inspectedBy"
-            />
+            <input type="text" class="form-control" id="inspector" formControlName="inspectedBy" />
           </div>
         </div>
 
@@ -363,30 +187,16 @@
 
         <div formGroupName="ownerInfo">
           <div class="form-group row">
-            <label for="owner-name" class="col-sm-2 col-form-label"
-              >Owner/Representative Name</label
-            >
+            <label for="owner-name" class="col-sm-2 col-form-label">Owner/Representative Name</label>
             <div class="col-sm-8">
-              <input
-                type="text"
-                class="form-control"
-                id="owner-name"
-                formControlName="name"
-              />
+              <input type="text" class="form-control" id="owner-name" formControlName="name" />
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="position" class="col-sm-2 col-form-label"
-              >Position/Designation</label
-            >
+            <label for="position" class="col-sm-2 col-form-label">Position/Designation</label>
             <div class="col-sm-8">
-              <input
-                type="text"
-                class="form-control"
-                id="position"
-                formControlName="position"
-              />
+              <input type="text" class="form-control" id="position" formControlName="position" />
             </div>
           </div>
         </div>
@@ -394,36 +204,21 @@
         <br />
 
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="recommendation"
-            >Recommendation/s</label
-          >
+          <label class="col-sm-2 col-form-label" for="recommendation">Recommendation/s</label>
           <div class="col-sm-8">
-            <textarea
-              autosize
-              class="form-control"
-              id="recommendation"
-              formControlName="recommendations"
-              rows="3"
-            ></textarea>
+            <textarea autosize class="form-control" id="recommendation" formControlName="recommendations" rows="3"></textarea>
           </div>
         </div>
 
         <div class="form-group row">
           <label for="noted-by" class="col-sm-2 col-form-label">Noted By</label>
           <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="noted-by"
-              formControlName="notedBy"
-            />
+            <input type="text" class="form-control" id="noted-by" formControlName="notedBy" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="working-hours" class="col-sm-2 col-form-label"
-            >Approved?</label
-          >
+          <label for="working-hours" class="col-sm-2 col-form-label">Approved?</label>
           <div class="col-sm-8">
             <div class="custom-control custom-radio custom-control-inline">
               <input
@@ -451,16 +246,9 @@
         </div>
 
         <div class="form-group row">
-          <label for="approver" class="col-sm-2 col-form-label"
-            >Regional Director</label
-          >
+          <label for="regionalDirector" class="col-sm-2 col-form-label">Regional Director</label>
           <div class="col-sm-8">
-            <input
-              type="text"
-              class="form-control"
-              id="approver"
-              formControlName="approver"
-            />
+            <input type="text" class="form-control" id="regionalDirector" formControlName="regionalDirector" />
           </div>
         </div>
       </div>

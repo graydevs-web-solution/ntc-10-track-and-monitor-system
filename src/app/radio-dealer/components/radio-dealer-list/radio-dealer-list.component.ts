@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { MobilePhoneDealer } from '../../models/mobile-phone-dealer.model';
+import { RadioDealer } from '../../models/radio-dealer.model';
 
 @Component({
-  selector: 'app-mobile-phone-dealer-list',
+  selector: 'app-radio-dealer-list',
   template: `
     <app-card *ngFor="let entry of entries">
       <app-mobile-phone-dealer-entry [entry]="entry"></app-mobile-phone-dealer-entry>
@@ -11,8 +11,8 @@ import { MobilePhoneDealer } from '../../models/mobile-phone-dealer.model';
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MobilePhoneDealerListComponent implements OnInit {
-  @Input() entries: MobilePhoneDealer[];
+export class RadioDealerListComponent implements OnInit {
+  @Input() entries: RadioDealer[];
 
   constructor() {}
 

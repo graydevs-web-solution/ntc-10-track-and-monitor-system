@@ -1,23 +1,23 @@
-import { ActivatedRoute, Params } from '@angular/router';
-import { ServiceCenterReportService } from './../../service-center-report.service';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { Params, ActivatedRoute } from '@angular/router';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { DateTime } from 'luxon';
-import { ADD, clientSearch, EDIT } from 'src/app/shared/constants';
-import { employedETInput, initForm, serviceOrTestEquipmentInput } from '../../service-center-shared';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DateTime } from 'luxon';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { ClientService } from 'src/app/master-list/clients/client.service';
+import { ADD, clientSearch, EDIT } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
+import { initForm, supervisingECEInput, techniciansInput } from '../../radio-dealer-shared';
+import { RadioDealerService } from '../../radio-dealer.service';
 
 @Component({
-  selector: 'app-service-center-report-edit',
-  templateUrl: './service-center-report-edit.component.html',
-  styleUrls: ['./service-center-report-edit.component.css'],
+  selector: 'app-radio-dealer-edit',
+  templateUrl: './radio-dealer-edit.component.html',
+  styleUrls: ['./radio-dealer-edit.component.css'],
 })
-export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
+export class RadioDealerEditComponent implements OnInit {
   form: FormGroup;
   formId: string;
   formMode = ADD;
@@ -28,7 +28,7 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
   getDestroyed = new Subject();
 
   constructor(
-    private serviceCenterReportService: ServiceCenterReportService,
+    private radioDealerService: RadioDealerService,
     private route: ActivatedRoute,
     private clientService: ClientService,
     private cd: ChangeDetectorRef,
@@ -58,21 +58,16 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
     });
 
     if (this.formMode === EDIT) {
-      const fetchedValue = this.serviceCenterReportService.getSelectedEntry(this.formId);
-      fetchedValue.listOfServiceOrTestEquipments.forEach(() => {
-        this.addServiceOrTestEquipment();
+      const fetchedValue = this.radioDealerService.getSelectedEntry(this.formId);
+      fetchedValue.supervisingECE.forEach(() => {
+        this.addSupervisingECE();
       });
-      fetchedValue.employedElectronicsTechnicians.forEach(() => {
-        this.addEmployedElectronicTechnician();
+      fetchedValue.radioTechnicians.forEach(() => {
+        this.addTechnicians();
       });
       this.clientName = fetchedValue.clientName;
       this.form.patchValue({ ...fetchedValue });
     }
-  }
-
-  ngOnDestroy() {
-    this.getDestroyed.next();
-    this.getDestroyed.complete();
   }
 
   initForm(): void {
@@ -80,8 +75,9 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    console.log(this.form.value);
     if (this.formMode === ADD) {
-      this.serviceCenterReportService
+      this.radioDealerService
         .addOne(this.form.value)
         .pipe(takeUntil(this.getDestroyed))
         .subscribe({
@@ -93,7 +89,7 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.serviceCenterReportService
+      this.radioDealerService
         .updateOne(this.formId, this.form.value)
         .pipe(takeUntil(this.getDestroyed))
         .subscribe({
@@ -107,12 +103,12 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  addServiceOrTestEquipment(): void {
-    this.listOfServiceOrTestEquipments.push(serviceOrTestEquipmentInput());
+  addSupervisingECE(): void {
+    this.supervisingECE.push(supervisingECEInput());
   }
 
-  addEmployedElectronicTechnician() {
-    this.employedElectronicsTechnicians.push(employedETInput());
+  addTechnicians() {
+    this.radioTechnicians.push(techniciansInput());
   }
 
   open() {
@@ -120,11 +116,11 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.componentName = clientSearch;
   }
 
-  get listOfServiceOrTestEquipments(): FormArray {
-    return this.form.get('listOfServiceOrTestEquipments') as FormArray;
+  get supervisingECE(): FormArray {
+    return this.form.get('supervisingECE') as FormArray;
   }
 
-  get employedElectronicsTechnicians(): FormArray {
-    return this.form.get('employedElectronicsTechnicians') as FormArray;
+  get radioTechnicians(): FormArray {
+    return this.form.get('radioTechnicians') as FormArray;
   }
 }

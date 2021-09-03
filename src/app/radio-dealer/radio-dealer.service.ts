@@ -6,28 +6,28 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PageOptions } from '../shared/models/page-options';
 import { dateWithPadding } from '../shared/utility';
-import { ServiceCenterReportAPI } from './models/service-center-report-api.model';
-import { ServiceCenterReport } from './models/service-center-report.model';
+import { RadioDealerAPI } from './models/radio-dealer-api.model';
+import { RadioDealer } from './models/radio-dealer.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ServiceCenterReportService {
+export class RadioDealerService {
   page: PageOptions = {
     current: 1,
     size: 10,
     search: '',
   };
 
-  private entries: ServiceCenterReport[] = [];
-  private entriesListener = new Subject<ServiceCenterReport[]>();
+  private entries: RadioDealer[] = [];
+  private entriesListener = new Subject<RadioDealer[]>();
 
   private domainURL = environment.apiUrl;
-  private resource1 = 'api/main/service-center';
+  private resource1 = 'api/main/radio-dealer';
 
   constructor(private http: HttpClient) {}
 
-  getEntries(): ServiceCenterReport[] {
+  getEntries(): RadioDealer[] {
     return this.entries;
   }
 
@@ -39,7 +39,7 @@ export class ServiceCenterReportService {
       },
     });
     this.http
-      .get<{ data: ServiceCenterReportAPI[] }>(`${this.domainURL}/${this.resource1}`, {
+      .get<{ data: RadioDealerAPI[] }>(`${this.domainURL}/${this.resource1}`, {
         params: PARAMS,
       })
       .pipe(map(({ data }) => ({ data: data.map(this.formatList) })))
@@ -51,19 +51,19 @@ export class ServiceCenterReportService {
       });
   }
 
-  getEntriesListener(): Observable<ServiceCenterReport[]> {
+  getEntriesListener(): Observable<RadioDealer[]> {
     return this.entriesListener.asObservable();
   }
 
-  getSelectedEntry(id: string): ServiceCenterReport {
+  getSelectedEntry(id: string): RadioDealer {
     return this.entries.find((entry) => entry.id === +id);
   }
 
-  addOne(data: ServiceCenterReport): Observable<{ data: ServiceCenterReport }> {
-    return this.http.post<{ data: ServiceCenterReport }>(`${this.domainURL}/${this.resource1}/`, this.formatData(data));
+  addOne(data: RadioDealer): Observable<{ data: RadioDealer }> {
+    return this.http.post<{ data: RadioDealer }>(`${this.domainURL}/${this.resource1}/`, this.formatData(data));
   }
 
-  updateOne(formId: string, data: ServiceCenterReport): Observable<{ message: string }> {
+  updateOne(formId: string, data: RadioDealer): Observable<{ message: string }> {
     data.id = +formId;
     return this.http.patch<{ message: string }>(`${this.domainURL}/${this.resource1}/`, this.formatData(data));
   }
@@ -100,47 +100,52 @@ export class ServiceCenterReportService {
       });
   }
 
-  formatData = (data: ServiceCenterReport): ServiceCenterReport => {
-    const formattedData: ServiceCenterReport = {
+  formatData = (data: RadioDealer): RadioDealer => {
+    const formattedData: RadioDealer = {
       ...data,
       dateInspected: new Date(DateTime.fromISO(dateWithPadding(data.dateInspected as string)).toISO()),
     };
     return formattedData;
   };
 
-  formatList = (data: ServiceCenterReportAPI): ServiceCenterReport => {
-    const value: ServiceCenterReport = {
+  formatList = (data: RadioDealerAPI): RadioDealer => {
+    const value: RadioDealer = {
       id: data.id,
       dateInspected: data.date_inspected ? DateTime.fromISO(data.date_inspected.toLocaleString()).toISO() : null,
       clientId: data.client_id,
       clientName: data.clients.name,
-      listOfServiceOrTestEquipments: data.list_of_service_or_test_equipments
-        ? data.list_of_service_or_test_equipments.map((val) => ({
-            particular: val.particular,
-            numberOfUnits: val.number_of_units,
-          }))
-        : [],
-      employedElectronicsTechnicians: data.employed_electronics_technicians
-        ? data.employed_electronics_technicians.map((val) => ({
+      supervisingECE: data.supervising_ece
+        ? data.supervising_ece.map((val) => ({
             name: val.name,
-            qualifications: val.qualifications,
+            licenseNumber: val.license_number,
+            expiryDate: val.expiry_date ? DateTime.fromISO(val.expiry_date.toLocaleString()).toISO() : null,
+            ptrNumber: val.ptr_number,
+            dateIssued: val.date_issued ? DateTime.fromISO(val.date_issued.toLocaleString()).toISO() : null,
           }))
         : [],
-      sundryOfInformation: {
-        one: data.sundry_one,
-        two: data.sundry_two,
-        three: data.sundry_three,
+      radioTechnicians: data.radio_technicians
+        ? data.radio_technicians.map((val) => ({
+            name: val.name,
+            particularsOfLicense: val.particulars_of_license,
+            expiryDate: val.expiry_date ? DateTime.fromISO(val.expiry_date.toLocaleString()).toISO() : null,
+          }))
+        : [],
+      diagnosticTestEquipmentAndMeasuringInstrumentInfo: {
+        reflectometer: data.dtemi_reflectometer,
+        frequencyCounter: data.dtemi_frequency_counter,
+        powerMeter: data.dtemi_power_meter,
+        vtvmDigitalMultimeter: data.dtemi_vtvm_digital_multimeter,
+        signalGenerator: data.dtemi_signal_generator,
+        oscilloscope: data.dtemi_oscilloscope,
+        vomDigitalMultimeter: data.dtemi_vom_digital_multimeter,
+        dummyLoadAntenna: data.dtemi_dummy_load_antenna,
       },
-      remarksDeficienciesDiscrepanciesNoted: data.remarks_deficiencies_discrepancies_noted,
-      inspectedBy: data.inspected_by,
-      ownerInfo: {
-        name: data.owner_name,
-        position: data.owner_position,
-      },
+      isLaboratoryRoomShielded: data.is_laboratory_room_shielded,
+      remarks: data.remarks,
+      radioRegulationInspector: data.radio_regulation_inspector,
+      ownerName: data.owner_name,
       recommendations: data.recommendations,
-      notedBy: data.noted_by,
       regionalDirector: data.regional_director,
-      isApproved: data.is_approved,
     };
     return value;
   };

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DELETE, mobilePhoneDealer } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
-import { MobilePhoneDealerSummary } from '../../models/mobile-phone-dealer-summary.model';
+import { MobilePhoneDealer } from '../../models/mobile-phone-dealer.model';
 
 @Component({
   selector: 'app-mobile-phone-dealer-entry',
@@ -10,7 +10,7 @@ import { MobilePhoneDealerSummary } from '../../models/mobile-phone-dealer-summa
     <div class="d-flex">
       <div class="flex-grow-1">
         <a [routerLink]="[entry.id]">
-          <div>{{ entry.nameOfDealer }}</div>
+          <div>{{ entry.clientName }}</div>
           <div>
             Approved?:
             <span
@@ -43,7 +43,7 @@ import { MobilePhoneDealerSummary } from '../../models/mobile-phone-dealer-summa
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MobilePhoneDealerEntryComponent implements OnInit {
-  @Input() entry: MobilePhoneDealerSummary;
+  @Input() entry: MobilePhoneDealer;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {}
