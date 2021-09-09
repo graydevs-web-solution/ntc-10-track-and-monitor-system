@@ -81,11 +81,11 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
   }
 
   addOperatorInput(): void {
-    this.operators.push(operatorInput);
+    this.operators.push(operatorInput());
   }
 
   addRadioTransceiverInput(): void {
-    this.radioTransceivers.push(radioTransceiverEntryInput);
+    this.radioTransceivers.push(radioTransceiverEntryInput());
   }
 
   submit() {

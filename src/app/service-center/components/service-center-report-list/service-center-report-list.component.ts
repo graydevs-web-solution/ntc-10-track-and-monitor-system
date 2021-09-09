@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { ServiceCenterReportSummary } from '../../models/service-center-report-summary.model';
+import { ServiceCenterReport } from '../../models/service-center-report.model';
 
 @Component({
   selector: 'app-service-center-report-list',
@@ -12,7 +12,7 @@ import { ServiceCenterReportSummary } from '../../models/service-center-report-s
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServiceCenterReportListComponent implements OnInit {
-  @Input() entries: ServiceCenterReportSummary[];
+  @Input() entries: ServiceCenterReport[];
   constructor() {}
 
   ngOnInit(): void {}

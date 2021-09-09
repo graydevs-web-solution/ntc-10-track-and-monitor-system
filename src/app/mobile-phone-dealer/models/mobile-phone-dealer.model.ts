@@ -1,9 +1,4 @@
-import { MobilePhoneDealerSummary } from './mobile-phone-dealer-summary.model';
-interface MobilePhoneDealerInfo {
-  permitNumber: string;
-  expiryDate: string;
-}
-
+import { Client } from 'src/app/master-list/clients/models/client.model';
 interface StocksOfSparesAndAccessories {
   particular: string;
   numberOfUnits: number;
@@ -12,7 +7,7 @@ interface StocksOfSparesAndAccessories {
 interface MobilePhone {
   model: string;
   imeiNumber: string;
-  numberOfUnits: string;
+  source: string;
 }
 
 interface SIM {
@@ -30,14 +25,11 @@ interface OwnerInfo {
   position: string;
 }
 
-export interface MobilePhoneDealer extends MobilePhoneDealerSummary {
-  businessAddress: string;
-  cellphoneNumber: string;
-  faxNumber: string;
-  addressOfMobilePhoneWarehouse: string;
-  mobilePhoneDealerInfo: MobilePhoneDealerInfo;
-  secDtiRegistrationNumber: string;
-  businessMayorPermitNumber: string;
+export interface MobilePhoneDealer {
+  id?: number;
+  dateInspected: Date | string;
+  clientId: number | Client;
+  clientName?: string;
   listOfStocksOfSparesAndAccessories: StocksOfSparesAndAccessories[];
   listOfStocksOfMobilePhone: MobilePhone[];
   listOfStocksOfSubscriberIdentificationModule: SIM[];
@@ -46,4 +38,7 @@ export interface MobilePhoneDealer extends MobilePhoneDealerSummary {
   inspectedBy: string;
   ownerInfo: OwnerInfo;
   recommendations: string;
+  notedBy: string;
+  regionalDirector: string;
+  isApproved: boolean;
 }

@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./service-center/service-center-report.module').then((m) => m.ServiceCenterReportModule),
   },
   {
+    path: 'radio-dealer',
+    loadChildren: () => import('./radio-dealer/radio-dealer.module').then((m) => m.RadioDealerModule),
+  },
+  {
     path: 'master-list',
     loadChildren: () => import('./master-list/master-list.module').then((m) => m.MasterListModule),
   },

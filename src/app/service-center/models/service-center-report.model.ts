@@ -1,9 +1,4 @@
-import { ServiceCenterReportSummary } from './service-center-report-summary.model';
-
-interface MPSCInfo {
-  permitNumber: string;
-  expiryDate: string;
-}
+import { Client } from 'src/app/master-list/clients/models/client.model';
 
 interface ServiceOrTestEquipments {
   particular: string;
@@ -13,11 +8,6 @@ interface ServiceOrTestEquipments {
 interface EmployedElectronicsTechnicians {
   name: string;
   qualifications: string;
-}
-
-interface SIM {
-  simNumber: string;
-  mobilePhoneCompany: string;
 }
 
 interface SundryOfInformation {
@@ -31,14 +21,11 @@ interface OwnerInfo {
   position: string;
 }
 
-export interface ServiceCenterReport extends ServiceCenterReportSummary {
-  businessAddress: string;
-  cellphoneNumber: string;
-  faxNumber: string;
-  exactLocationOfService: string;
-  mpscInfo: MPSCInfo;
-  secDtiRegistrationNumber: string;
-  businessMayorPermitNumber: string;
+export interface ServiceCenterReport {
+  id?: number;
+  dateInspected: Date | string;
+  clientId: number | Client;
+  clientName?: string;
   listOfServiceOrTestEquipments: ServiceOrTestEquipments[];
   employedElectronicsTechnicians: EmployedElectronicsTechnicians[];
   sundryOfInformation: SundryOfInformation;
@@ -46,4 +33,7 @@ export interface ServiceCenterReport extends ServiceCenterReportSummary {
   inspectedBy: string;
   ownerInfo: OwnerInfo;
   recommendations: string;
+  notedBy: string;
+  isApproved: boolean;
+  regionalDirector: string;
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
-import { MobilePhoneDealerSummary } from '../../models/mobile-phone-dealer-summary.model';
+import { MobilePhoneDealer } from '../../models/mobile-phone-dealer.model';
 
 @Component({
   selector: 'app-mobile-phone-dealer-collection',
@@ -11,7 +11,7 @@ import { MobilePhoneDealerSummary } from '../../models/mobile-phone-dealer-summa
 })
 export class MobilePhoneDealerCollectionComponent implements OnInit, OnDestroy {
   // entries: Observable<MobilePhoneDealerSummary[]>;
-  entries: MobilePhoneDealerSummary[] = [];
+  entries: MobilePhoneDealer[] = [];
   entriesSubs: Subscription;
 
   constructor(private mobilePhoneDealerService: MobilePhoneDealerService, private cd: ChangeDetectorRef) {}
@@ -24,6 +24,7 @@ export class MobilePhoneDealerCollectionComponent implements OnInit, OnDestroy {
         this.cd.detectChanges();
       },
     });
+    this.mobilePhoneDealerService.getEntriesAPI();
   }
 
   ngOnDestroy() {

@@ -77,18 +77,24 @@ export const initForm = (readState = false): FormGroup => {
   });
 };
 
-export const operatorInput = new FormGroup({
-  id: new FormControl({ value: null, disabled: false }),
-  name: new FormControl({ value: '', disabled: false }),
-  particularOfLicense: new FormControl({ value: '', disabled: false }),
-  expirationDate: new FormControl({ value: '', disabled: false }),
-});
+export const operatorInput = (): FormGroup => {
+  const input = new FormGroup({
+    id: new FormControl({ value: null, disabled: false }),
+    name: new FormControl({ value: '', disabled: false }),
+    particularOfLicense: new FormControl({ value: '', disabled: false }),
+    expirationDate: new FormControl({ value: '', disabled: false }),
+  });
+  return input;
+};
 
-export const radioTransceiverEntryInput = new FormGroup({
-  id: new FormControl({ value: null, disabled: false }),
-  model: new FormControl({ value: '', disabled: false }),
-  serialNumber: new FormControl({ value: '', disabled: false }),
-  freqRange: new FormControl({ value: '', disabled: false }),
-  powerOutput: new FormControl({ value: '', disabled: false }),
-  freqControl: new FormControl({ value: '', disabled: false }),
-});
+export const radioTransceiverEntryInput = (): FormGroup => {
+  const input = new FormGroup({
+    id: new FormControl({ value: null, disabled: false }),
+    model: new FormControl({ value: '', disabled: false }),
+    serialNumber: new FormControl({ value: '', disabled: false }),
+    freqRange: new FormControl({ value: '', disabled: false }),
+    powerOutput: new FormControl({ value: '', disabled: false }),
+    freqControl: new FormControl({ value: '', disabled: false }),
+  });
+  return input;
+};

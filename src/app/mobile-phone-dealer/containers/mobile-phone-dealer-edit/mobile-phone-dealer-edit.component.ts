@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Params, ActivatedRoute } from '@angular/router';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { ADD, EDIT } from 'src/app/shared/constants';
+import { ClientService } from 'src/app/master-list/clients/client.service';
+import { ADD, clientSearch, EDIT } from 'src/app/shared/constants';
+import { ModalComponent } from 'src/app/ui/modal/modal.component';
+import { initForm, stockMobilePhoneInput, stockSIMInput, stockSpareAndAccessoryInput } from '../../mobile-phone-dealer-shared';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 
 @Component({
@@ -17,15 +21,18 @@ export class MobilePhoneDealerEditComponent implements OnInit {
   form: FormGroup;
   formId: string;
   formMode = ADD;
+  clientName = '';
 
   faCalendarAlt = faCalendarAlt;
 
   getDestroyed = new Subject();
 
   constructor(
-    private formBuilder: FormBuilder,
     private mobilePhoneDealerService: MobilePhoneDealerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private clientService: ClientService,
+    private cd: ChangeDetectorRef,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -41,82 +48,79 @@ export class MobilePhoneDealerEditComponent implements OnInit {
           this.formMode = value ? EDIT : ADD;
         },
       });
+
+    this.clientService.selectedEntry.pipe(takeUntil(this.getDestroyed)).subscribe({
+      next: (response) => {
+        this.form.patchValue({ clientId: response.id });
+        this.clientName = response.name;
+        this.cd.detectChanges();
+      },
+    });
+
     if (this.formMode === EDIT) {
       const fetchedValue = this.mobilePhoneDealerService.getSelectedEntry(this.formId);
-      const entryDate = new Date(fetchedValue.dateInspected).toISOString();
-      const formattedDate = DateTime.fromISO(entryDate).toFormat('yyyy-M-d');
-      this.form.patchValue({ ...fetchedValue, dateInspected: formattedDate });
+      fetchedValue.listOfStocksOfSparesAndAccessories.forEach(() => {
+        this.addStockSpareAndAccessory();
+      });
+      fetchedValue.listOfStocksOfMobilePhone.forEach(() => {
+        this.addStockMobilePhone();
+      });
+      fetchedValue.listOfStocksOfSubscriberIdentificationModule.forEach(() => {
+        this.addStockSIM();
+      });
+      this.clientName = fetchedValue.clientName;
+      this.form.patchValue({ ...fetchedValue });
     }
   }
 
   initForm(): void {
-    this.form = this.formBuilder.group({
-      dateInspected: [''],
-      nameOfDealer: [''],
-      businessAddress: [''],
-      cellphoneNumber: [''],
-      faxNumber: [''],
-      addressOfMobilePhoneWarehouse: [''],
-      mobilePhoneDealerInfo: this.formBuilder.group({
-        permitNumber: [''],
-        expiryDate: [''],
-      }),
-      secDtiRegistrationNumber: [''],
-      businessMayorPermitNumber: [''],
-      listOfStocksOfSparesAndAccessories: this.formBuilder.array([]),
-      listOfStocksOfMobilePhone: this.formBuilder.array([]),
-      listOfStocksOfSubscriberIdentificationModule: this.formBuilder.array([]),
-      sundryOfInformation: this.formBuilder.group({
-        one: [''],
-        two: [''],
-      }),
-      remarksDeficienciesDiscrepanciesNoted: [''],
-      inspectedBy: [''],
-      ownerInfo: this.formBuilder.group({
-        name: [''],
-        position: [''],
-      }),
-      recommendations: [''],
-      notedBy: [''],
-      isApproved: [false],
-      approver: [''],
-    });
+    this.form = initForm();
   }
 
   submit(): void {
+    console.log(this.form.value);
     if (this.formMode === ADD) {
-      this.mobilePhoneDealerService.addOne(this.form.value);
+      this.mobilePhoneDealerService
+        .addOne(this.form.value)
+        .pipe(takeUntil(this.getDestroyed))
+        .subscribe({
+          next: (res) => {
+            console.log('OK');
+          },
+          error: (err) => {
+            console.error(err);
+          },
+        });
     } else {
-      this.mobilePhoneDealerService.updateOne(this.formId, this.form.value);
+      this.mobilePhoneDealerService
+        .updateOne(this.formId, this.form.value)
+        .pipe(takeUntil(this.getDestroyed))
+        .subscribe({
+          next: (res) => {
+            console.log('OK');
+          },
+          error: (err) => {
+            console.error(err);
+          },
+        });
     }
   }
 
   addStockSpareAndAccessory(): void {
-    this.listOfStocksOfSparesAndAccessories.push(
-      this.formBuilder.group({
-        particular: [''],
-        numberOfUnits: [0],
-      })
-    );
+    this.listOfStocksOfSparesAndAccessories.push(stockSpareAndAccessoryInput());
   }
 
   addStockMobilePhone() {
-    this.listOfStocksOfMobilePhone.push(
-      this.formBuilder.group({
-        model: [''],
-        imeiNumber: [''],
-        source: [''],
-      })
-    );
+    this.listOfStocksOfMobilePhone.push(stockMobilePhoneInput());
   }
 
   addStockSIM() {
-    this.listOfStocksOfSubscriberIdentificationModule.push(
-      this.formBuilder.group({
-        simNumber: [''],
-        mobilePhoneCompany: [''],
-      })
-    );
+    this.listOfStocksOfSubscriberIdentificationModule.push(stockSIMInput());
+  }
+
+  open() {
+    const modalRef = this.modalService.open(ModalComponent, { centered: true, size: 'lg' });
+    modalRef.componentInstance.componentName = clientSearch;
   }
 
   get listOfStocksOfSparesAndAccessories(): FormArray {

@@ -1,0 +1,330 @@
+<nav ngbNav #nav="ngbNav" class="nav-tabs">
+  <ng-container ngbNavItem>
+    <a ngbNavLink>One</a>
+    <ng-template ngbNavContent>
+      <div class="border p-2" [formGroup]="form">
+        <div class="form-group row">
+          <label for="staticEmail" class="col-2 col-form-label">Date Inspected</label>
+          <div class="col-10">
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="mmm-dd-yyyy"
+                name="dp"
+                formControlName="dateInspected"
+                ngbDatepicker
+                readonly
+                #d="ngbDatepicker"
+              />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                  <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="form-group row">
+          <label for="name-of-station" class="col-sm-2 col-form-label">Client</label>
+          <div class="input-group col-sm-10">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Client name"
+              aria-label="Client name"
+              [value]="clientName"
+              aria-describedby="button-addon2"
+              readonly
+            />
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2" (click)="open()">Select</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-container ngbNavItem>
+    <a ngbNavLink>Two</a>
+    <ng-template ngbNavContent>
+      <div class="border p-2" [formGroup]="form">
+        <div class="mb-3">
+          <div class="d-flex justify-content-between mb-2">
+            <div class="h5">Supervising ECE</div>
+            <div>
+              <button class="btn btn-sm btn-primary" (click)="addSupervisingECE()">Add</button>
+            </div>
+          </div>
+
+          <div *ngFor="let item of supervisingECE.controls; let i = index" class="border p-2 mb-2">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'name' + i">Name</label>
+                  <input type="text" [formControl]="item.get('name')" class="form-control" [id]="'name' + i" placeholder="Name" />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'license-number' + i">License No.</label>
+                  <input
+                    type="text"
+                    [formControl]="item.get('licenseNumber')"
+                    class="form-control"
+                    [id]="'license-number' + i"
+                    placeholder="License No."
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group row">
+                  <label for="tp-exp-date" class="col-2 col-form-label">Exp. Date</label>
+                  <div class="col-10">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        placeholder="mmm-dd-yyyy"
+                        [name]="'tp-exp-date' + i"
+                        [formControl]="item.get('expiryDate')"
+                        ngbDatepicker
+                        readonly
+                        [id]="'tp-exp-date' + i"
+                        #ddddd="ngbDatepicker"
+                      />
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="ddddd.toggle()" type="button">
+                          <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'ptr-number' + i">PTR no.</label>
+                  <input
+                    type="text"
+                    [formControl]="item.get('ptrNumber')"
+                    class="form-control"
+                    [id]="'ptr-number' + i"
+                    placeholder="PTR No."
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group row">
+                  <label for="tp-exp-date" class="col-2 col-form-label">Date Issued</label>
+                  <div class="col-10">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        placeholder="mmm-dd-yyyy"
+                        [name]="'tp-date-issued' + i"
+                        [formControl]="item.get('dateIssued')"
+                        ngbDatepicker
+                        readonly
+                        [id]="'tp-date-issued' + i"
+                        #dddd="ngbDatepicker"
+                      />
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="dddd.toggle()" type="button">
+                          <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!supervisingECE.controls.length" class="border p-3 text-center">No Supervising ECE.</div>
+        </div>
+
+        <div class="mb-3">
+          <div class="d-flex justify-content-between mb-2">
+            <div class="h5">Technicians</div>
+            <div>
+              <button class="btn btn-sm btn-primary" (click)="addTechnicians()">Add</button>
+            </div>
+          </div>
+
+          <div *ngFor="let item of radioTechnicians.controls; let i = index" class="border p-2 mb-2">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'name' + i">Name</label>
+                  <input type="text" [formControl]="item.get('name')" class="form-control" [id]="'name' + i" placeholder="Name" />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'particulars' + i">Particulars of License</label>
+                  <input
+                    type="text"
+                    [formControl]="item.get('particularsOfLicense')"
+                    class="form-control"
+                    [id]="'particulars' + i"
+                    placeholder="Particulars of License"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group row">
+                  <label for="tp-exp-date" class="col-2 col-form-label">Exp. Date</label>
+                  <div class="col-10">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        placeholder="mmm-dd-yyyy"
+                        [name]="'tp-exp-date' + i"
+                        [formControl]="item.get('expiryDate')"
+                        ngbDatepicker
+                        readonly
+                        [id]="'tp-exp-date' + i"
+                        #ddddd="ngbDatepicker"
+                      />
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="ddddd.toggle()" type="button">
+                          <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!radioTechnicians.controls.length" class="border p-3 text-center">No Technicians</div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-container ngbNavItem>
+    <a ngbNavLink>Three</a>
+    <ng-template ngbNavContent>
+      <div class="border p-2" [formGroup]="form">
+        <div class="form-group row" formGroupName="diagnosticTestEquipmentAndMeasuringInstrumentInfo">
+          <label for="illegal-construction" class="col-sm-2 col-form-label"
+            >List of Diagnostic/Test Equipment and Measuring Instrument</label
+          >
+          <div class="col-sm-10 mt-2">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="reflectometer" formControlName="reflectometer" />
+              <label class="custom-control-label" for="reflectometer">Reflectometer w/ ranges covering HF & UHF Bands</label>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="frequencyCounter" formControlName="frequencyCounter" />
+              <label class="custom-control-label" for="frequencyCounter">Frequency Counter HF & UHF Bands</label>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="powerMeter" formControlName="powerMeter" />
+              <label class="custom-control-label" for="powerMeter">RF Power Meter</label>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="vtvmDigitalMultimeter" formControlName="vtvmDigitalMultimeter" />
+              <label class="custom-control-label" for="vtvmDigitalMultimeter">VTVM or Digital Multimeter</label>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="signalGenerator" formControlName="signalGenerator" />
+              <label class="custom-control-label" for="signalGenerator"
+                >RF & AF Signal Generator capable of emiting 0.1 uv to 5 v across all frequency range</label
+              >
+            </div>
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="oscilloscope" formControlName="oscilloscope" />
+              <label class="custom-control-label" for="oscilloscope">Oscilloscope with RF Probes</label>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="vomDigitalMultimeter" formControlName="vomDigitalMultimeter" />
+              <label class="custom-control-label" for="vomDigitalMultimeter">VOM or Digital Multimeter</label>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="dummyLoadAntenna" formControlName="dummyLoadAntenna" />
+              <label class="custom-control-label" for="dummyLoadAntenna">Dummy Load Antenna</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Is the laboratory room shielded?</label>
+          <div class="col-sm-10 mt-2">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="isLaboratoryRoomShieldedYes"
+                name="isLaboratoryRoomShielded"
+                value="yes"
+                class="custom-control-input"
+              />
+              <label class="custom-control-label" for="isLaboratoryRoomShieldedYes">Yes</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="isLaboratoryRoomShieldedNo" name="isLaboratoryRoomShielded" value="no" class="custom-control-input" />
+              <label class="custom-control-label" for="isLaboratoryRoomShieldedNo">No</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="remarks">Remarks</label>
+          <textarea autosize class="form-control" id="remarks" formControlName="remarks" rows="3"></textarea>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-container ngbNavItem>
+    <a ngbNavLink>Four</a>
+    <ng-template ngbNavContent>
+      <div class="border p-2" [formGroup]="form">
+        <div class="form-group row">
+          <label for="inspector" class="col-sm-2 col-form-label">Radio Regulation Inspector</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="inspector" formControlName="radioRegulationInspector" />
+          </div>
+        </div>
+
+        <br />
+
+        <div class="form-group row">
+          <label for="owner-name" class="col-sm-2 col-form-label">Owner/Manager/ Representative</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="owner-name" formControlName="ownerName" />
+          </div>
+        </div>
+
+        <br />
+
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label" for="recommendation">Recommendation/s</label>
+          <div class="col-sm-8">
+            <textarea autosize class="form-control" id="recommendation" formControlName="recommendations" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="approver" class="col-sm-2 col-form-label">Regional Director</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="approver" formControlName="regionalDirector" />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+</nav>
+
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

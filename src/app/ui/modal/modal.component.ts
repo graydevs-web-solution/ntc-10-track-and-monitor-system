@@ -109,7 +109,8 @@ export class ModalComponent implements OnInit {
     try {
       switch (this.componentName) {
         case mobilePhoneDealer:
-          this.mobilePhoneDealerService.deleteOne(this.formId);
+          await this.mobilePhoneDealerService.deleteOne(this.formId).toPromise();
+          this.mobilePhoneDealerService.getEntriesAPI();
           break;
         case radioTransceiver:
           await this.radioTransceiverService.deleteOne(this.formId).toPromise();
