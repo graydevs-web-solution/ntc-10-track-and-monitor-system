@@ -1,11 +1,15 @@
-<div>
-  <span class="h5">Radio Dealer Page</span>
+<div class="row">
+  <div class="col-10 offset-1 mt-3">
+    <div>
+      <span class="h5">Radio Dealer Page</span>
+    </div>
+
+    <div class="mb-3">
+      <button class="btn btn-sm btn-primary mr-1" (click)="getURL()">Back</button>
+
+      <button class="btn btn-sm btn-primary" [routerLink]="['new']">New</button>
+    </div>
+
+    <router-outlet></router-outlet>
+  </div>
 </div>
-
-<div class="mb-3">
-  <button class="btn btn-sm btn-primary mr-1" [routerLink]="['/radio-dealer']">Back</button>
-
-  <button class="btn btn-sm btn-primary" [routerLink]="['new']">New</button>
-</div>
-
-<router-outlet></router-outlet>

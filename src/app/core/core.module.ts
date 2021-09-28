@@ -5,9 +5,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { MainComponent } from './container/main/main.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, LayoutComponent],
+  declarations: [AppComponent, NavbarComponent, LayoutComponent, MainComponent],
   imports: [CommonModule, RouterModule, NgbDropdownModule],
 })
 export class CoreModule {}

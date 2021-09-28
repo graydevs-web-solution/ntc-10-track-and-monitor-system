@@ -2,6 +2,7 @@ import { ServiceCenterReportService } from './../../service-center-report.servic
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ServiceCenterReport } from '../../models/service-center-report.model';
 import { Subscription } from 'rxjs';
+import { LIST } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-service-center-report-collection',
@@ -22,5 +23,6 @@ export class ServiceCenterReportCollectionComponent implements OnInit {
       },
     });
     this.serviceCenterReportService.getEntriesAPI();
+    this.serviceCenterReportService.resourceType.next(LIST);
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PageOptions } from '../shared/models/page-options';
@@ -18,6 +18,7 @@ export class RadioDealerService {
     size: 10,
     search: '',
   };
+  resourceType = new ReplaySubject<string>();
 
   private entries: RadioDealer[] = [];
   private entriesListener = new Subject<RadioDealer[]>();

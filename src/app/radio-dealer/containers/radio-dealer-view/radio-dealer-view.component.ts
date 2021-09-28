@@ -5,6 +5,7 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { VIEW } from 'src/app/shared/constants';
 import { initForm, supervisingECEInput, techniciansInput } from '../../radio-dealer-shared';
 import { RadioDealerService } from '../../radio-dealer.service';
 
@@ -45,6 +46,7 @@ export class RadioDealerViewComponent implements OnInit {
     });
     this.clientName = fetchedValue.clientName;
     this.form.patchValue({ ...fetchedValue });
+    this.radioDealerService.resourceType.next(VIEW);
   }
 
   initForm(): void {

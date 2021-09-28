@@ -23,3 +23,5 @@ export const ADD = 'ADD';
 export const VIEW = 'VIEW';
 export const EDIT = 'EDIT';
 export const DELETE = 'DELETE';
+// Resource type Exception
+export const LIST = 'LIST';

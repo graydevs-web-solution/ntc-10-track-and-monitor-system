@@ -70,6 +70,9 @@ export class MobilePhoneDealerEditComponent implements OnInit {
       });
       this.clientName = fetchedValue.clientName;
       this.form.patchValue({ ...fetchedValue });
+      this.mobilePhoneDealerService.resourceType.next(EDIT);
+    } else {
+      this.mobilePhoneDealerService.resourceType.next(ADD);
     }
   }
 

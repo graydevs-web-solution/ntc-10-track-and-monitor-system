@@ -7,6 +7,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DateTime } from 'luxon';
 import { employedETInput, initForm, serviceOrTestEquipmentInput } from '../../service-center-shared';
+import { VIEW } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-service-center-report-view',
@@ -45,6 +46,7 @@ export class ServiceCenterReportViewComponent implements OnInit {
     });
     this.clientName = fetchedValue.clientName;
     this.form.patchValue({ ...fetchedValue });
+    this.serviceCenterReportService.resourceType.next(VIEW);
   }
 
   initForm(): void {

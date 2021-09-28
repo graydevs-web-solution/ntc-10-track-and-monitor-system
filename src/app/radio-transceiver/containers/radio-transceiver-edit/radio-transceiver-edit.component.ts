@@ -10,7 +10,8 @@ import { ADD, clientSearch, EDIT } from 'src/app/shared/constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClientService } from 'src/app/master-list/clients/client.service';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
-import { operatorInput, radioTransceiverEntryInput, initForm } from '../../radio-transceiver-shared';
+import { operatorInput, radioTransceiverEntryInput, receiverOrOtherEquipmentInput, initForm } from '../../radio-transceiver-shared';
+import { isArrayValue } from 'src/app/shared/utility';
 
 @Component({
   selector: 'app-radio-transceiver-edit',
@@ -59,15 +60,24 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
     });
 
     if (this.formMode === EDIT) {
+      this.radioTransceiverService.resourceType.next(EDIT);
       const fetchedValue = this.radioTransceiverService.getSelectedEntry(this.formId);
-      fetchedValue.operators.forEach(() => {
+      for (const _ of isArrayValue(fetchedValue.operators)) {
         this.addOperatorInput();
-      });
-      fetchedValue.radioTransceivers.forEach(() => {
+      }
+      for (const _ of isArrayValue(fetchedValue.radioTransceivers)) {
         this.addRadioTransceiverInput();
-      });
+      }
+      for (const _ of isArrayValue(fetchedValue.receivers)) {
+        this.addReceiver();
+      }
+      for (const _ of isArrayValue(fetchedValue.otherEquipments)) {
+        this.addOtherEquipment();
+      }
       this.clientName = fetchedValue.clientName;
       this.form.patchValue({ ...fetchedValue });
+    } else {
+      this.radioTransceiverService.resourceType.next(ADD);
     }
   }
 
@@ -86,6 +96,14 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
 
   addRadioTransceiverInput(): void {
     this.radioTransceivers.push(radioTransceiverEntryInput());
+  }
+
+  addReceiver() {
+    this.receivers.push(receiverOrOtherEquipmentInput());
+  }
+
+  addOtherEquipment() {
+    this.otherEquipments.push(receiverOrOtherEquipmentInput());
   }
 
   submit() {
@@ -121,5 +139,13 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
 
   get radioTransceivers() {
     return this.form.get('radioTransceivers') as FormArray;
+  }
+
+  get receivers() {
+    return this.form.get('receivers') as FormArray;
+  }
+
+  get otherEquipments() {
+    return this.form.get('otherEquipments') as FormArray;
   }
 }

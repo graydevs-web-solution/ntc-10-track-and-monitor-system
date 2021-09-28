@@ -67,6 +67,9 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
       });
       this.clientName = fetchedValue.clientName;
       this.form.patchValue({ ...fetchedValue });
+      this.serviceCenterReportService.resourceType.next(EDIT);
+    } else {
+      this.serviceCenterReportService.resourceType.next(ADD);
     }
   }
 

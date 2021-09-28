@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MainComponent } from './core/container/main/main.component';
 
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   redirectTo: 'radio-transceiver',
+  //   pathMatch: 'full',
+  // },
   {
     path: '',
-    redirectTo: 'radio-transceiver',
-    pathMatch: 'full',
+    component: MainComponent,
   },
   {
     path: 'radio-transceiver',

@@ -1,14 +1,16 @@
+import { Client } from 'src/app/master-list/clients/models/client.model';
 import { Injectable } from '@angular/core';
 import { RadioTransceiver } from './models/radio-transceiver.model';
 import { DateTime } from 'luxon';
-import { dateWithPadding } from '../shared/utility';
-import { Observable, Subject } from 'rxjs';
+import { dateWithPadding, formatDate } from '../shared/utility';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PageOptions } from '../shared/models/page-options';
 import { environment } from 'src/environments/environment';
 import { RadioTransceiverAPI } from './models/radio-transceiver-api.model';
 import { map } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
+import { LIST } from '../shared/constants';
 @Injectable({
   providedIn: 'root',
 })
@@ -18,6 +20,7 @@ export class RadioTransceiverService {
     size: 10,
     search: '',
   };
+  resourceType = new ReplaySubject<string>();
 
   private entries: RadioTransceiver[] = [];
   private entriesListener = new Subject<RadioTransceiver[]>();
@@ -56,6 +59,7 @@ export class RadioTransceiverService {
   }
 
   getSelectedEntry(id: string): RadioTransceiver {
+    console.log(this.entries.find((entry) => entry.id === +id));
     return this.entries.find((entry) => entry.id === +id);
   }
 
@@ -103,26 +107,26 @@ export class RadioTransceiverService {
   formatData = (data: RadioTransceiver): RadioTransceiver => {
     const formattedData: RadioTransceiver = {
       ...data,
-      dateIssued: new Date(DateTime.fromISO(dateWithPadding(data.dateIssued as string)).toISO()),
+      dateIssued: formatDate(data.dateIssued as string),
       ppInfo: {
         ...data.ppInfo,
-        dateIssued: data.ppInfo?.dateIssued ? new Date(DateTime.fromISO(dateWithPadding(data.ppInfo?.dateIssued as string)).toISO()) : null,
+        dateIssued: formatDate(data.ppInfo?.dateIssued as string),
       },
       cpInfo: {
         ...data.cpInfo,
-        expirationDate: data.cpInfo?.expirationDate
-          ? new Date(DateTime.fromISO(dateWithPadding(data.cpInfo?.expirationDate as string)).toISO())
-          : null,
+        expirationDate: formatDate(data.cpInfo?.expirationDate as string),
+      },
+      tpInfo: {
+        ...data.tpInfo,
+        expirationDate: formatDate(data.tpInfo?.expirationDate as string),
       },
       licInfo: {
         ...data.licInfo,
-        expirationDate: data.licInfo?.expirationDate
-          ? new Date(DateTime.fromISO(dateWithPadding(data.licInfo?.expirationDate as string)).toISO())
-          : null,
+        expirationDate: formatDate(data.licInfo?.expirationDate as string),
       },
       operators: data.operators.map((val) => ({
         ...val,
-        expirationDate: val?.expirationDate ? new Date(DateTime.fromISO(dateWithPadding(val.expirationDate as string)).toISO()) : null,
+        expirationDate: formatDate(val.expirationDate as string),
       })),
     };
     return formattedData;
@@ -131,9 +135,9 @@ export class RadioTransceiverService {
   formatList = (data: RadioTransceiverAPI): RadioTransceiver => {
     const value: RadioTransceiver = {
       id: data.id,
-      dateIssued: data.date_issued ? DateTime.fromISO(data.date_issued.toLocaleString()).toISO() : null,
-      clientId: data.client_id,
-      clientName: data.clients.name,
+      dateIssued: formatDate(data.date_issued as Date, false),
+      clientId: +data.client_id,
+      clientName: (data.clients as Client).name,
       classType: data.class_type,
       natureOfService: data.nature_of_service,
       workingHours: data.working_hours,
@@ -144,19 +148,19 @@ export class RadioTransceiverService {
       grossTonnage: data.gross_tonnage,
       ppInfo: {
         ppNumber: data.pp_number,
-        dateIssued: data.pp_date_issued ? DateTime.fromISO(data.pp_date_issued.toLocaleString()).toISO() : null,
+        dateIssued: formatDate(data.pp_date_issued as Date, false),
       },
       tpInfo: {
         tpNumber: data.tp_number,
-        expirationDate: data.tp_expiration_date ? DateTime.fromISO(data.tp_expiration_date.toLocaleString()).toISO() : null,
+        expirationDate: formatDate(data.tp_expiration_date as Date, false),
       },
       cpInfo: {
         cpNumber: data.cp_number,
-        expirationDate: data.cp_expiration_date ? DateTime.fromISO(data.cp_expiration_date.toLocaleString()).toISO() : null,
+        expirationDate: formatDate(data.cp_expiration_date as Date, false),
       },
       licInfo: {
         licNumber: data.license_number,
-        expirationDate: data.license_expiration_date ? data.license_expiration_date.toLocaleString() : null,
+        expirationDate: formatDate(data.license_expiration_date as Date, false),
       },
       pointsOfCommunication: data.points_of_communication,
       radioTransceivers: data.radio_transceiver_items
@@ -174,7 +178,27 @@ export class RadioTransceiverService {
             id: val.id,
             name: val.name,
             particularOfLicense: val.particular_of_license,
-            expirationDate: val.expiration_date ? DateTime.fromISO(val.expiration_date.toLocaleString()).toISO() : null,
+            expirationDate: formatDate(val.expiration_date as Date, false),
+          }))
+        : null,
+      receivers: data.radio_transceiver_receivers
+        ? data.radio_transceiver_receivers.map((val) => ({
+            id: val.id,
+            name: val.name,
+            serialNumber: val.serial_number,
+            freqRange: val.freq_range,
+            powerOutput: val.power_output,
+            freqControl: val.freq_control,
+          }))
+        : null,
+      otherEquipments: data.radio_transceiver_others
+        ? data.radio_transceiver_others.map((val) => ({
+            id: val.id,
+            name: val.name,
+            serialNumber: val.serial_number,
+            freqRange: val.freq_range,
+            powerOutput: val.power_output,
+            freqControl: val.freq_control,
           }))
         : null,
       frequenciesInfo: {
@@ -183,16 +207,18 @@ export class RadioTransceiverService {
         measuredFreq: data.freq_measured_freq,
         ifReceiver: data.freq_if_receiver,
         typeOfEmission: data.freq_type_of_emission,
-        antennaSystemType: data.freq_antenna_system_type,
-        elevationFromGmd: data.freq_elevation_from_gmd,
-        lengthOfRadiator: data.freq_length_of_radiator,
-        gain: data.freq_gain,
-        directivity: data.freq_directivity,
-        powerSupply: data.freq_power_supply,
-        battery: data.freq_battery,
-        voltageAndType: data.freq_voltage_and_type,
-        capacity: data.freq_capacity,
-        ah: data.freq_ah,
+      },
+      antennaSystemInfo: {
+        type: data.as_type,
+        elevationFromGmd: data.as_elevation_from_gmd,
+        lengthOfRadiator: data.as_length_of_radiator,
+        gain: data.as_gain,
+        directivity: data.as_directivity,
+        powerSupply: data.as_power_supply,
+        battery: data.as_battery,
+        voltageAndType: data.as_voltage_and_type,
+        capacity: data.as_capacity,
+        ah: data.as_ah,
       },
       illegalConstructionInfo: {
         constructionsOfRadioStationsWithoutConstructionPermit: data.illegal_construction_without_permit,

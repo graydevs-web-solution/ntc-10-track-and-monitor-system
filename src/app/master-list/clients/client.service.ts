@@ -1,12 +1,10 @@
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { DateTime } from 'luxon';
 import { Observable, of, Subject } from 'rxjs';
-import { dateWithPadding } from 'src/app/shared/utility';
 import { Client } from './models/client.model';
 import { PageOptions } from 'src/app/shared/models/page-options';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',

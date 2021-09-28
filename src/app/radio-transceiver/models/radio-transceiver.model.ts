@@ -1,5 +1,3 @@
-import { Client } from 'src/app/master-list/clients/models/client.model';
-
 interface PPInfo {
   ppNumber: string;
   dateIssued: Date | string;
@@ -36,13 +34,25 @@ interface RadioTransceiverItem {
   freqControl: string;
 }
 
+interface ReceiverAndOtherEquipmentsItem {
+  id?: number;
+  name: string;
+  serialNumber: string;
+  freqRange: string;
+  powerOutput: string;
+  freqControl: string;
+}
+
 interface FrequenciesInfo {
   assignedFreq: string;
   crystalFreq: string;
   measuredFreq: string;
   ifReceiver: string;
   typeOfEmission: string;
-  antennaSystemType: string;
+}
+
+interface AntennaSystemInfo {
+  type: string;
   elevationFromGmd: string;
   lengthOfRadiator: string;
   gain: string;
@@ -79,7 +89,7 @@ interface SundrayInformationAboutRS {
 export interface RadioTransceiver {
   id?: number;
   dateIssued: Date | string;
-  clientId: number | Client;
+  clientId: number;
   clientName?: string;
   classType: string;
   natureOfService: string;
@@ -96,7 +106,10 @@ export interface RadioTransceiver {
   pointsOfCommunication: string;
   operators: Operator[];
   radioTransceivers: RadioTransceiverItem[];
+  receivers: ReceiverAndOtherEquipmentsItem[];
+  otherEquipments: ReceiverAndOtherEquipmentsItem[];
   frequenciesInfo: FrequenciesInfo;
+  antennaSystemInfo: AntennaSystemInfo;
   illegalConstructionInfo: IllegalConstructionInfo;
   illegalOperationInfo: IllegalOperationInfo;
   illegalPossession: boolean;

@@ -5,7 +5,9 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { RadioTransceiverService } from './../../radio-transceiver.service';
-import { operatorInput, radioTransceiverEntryInput, initForm } from '../../radio-transceiver-shared';
+import { operatorInput, radioTransceiverEntryInput, initForm, receiverOrOtherEquipmentInput } from '../../radio-transceiver-shared';
+import { VIEW } from 'src/app/shared/constants';
+import { isArrayValue } from 'src/app/shared/utility';
 
 @Component({
   selector: 'app-radio-transceiver-view',
@@ -36,14 +38,21 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
         },
       });
     const fetchedValue = this.radioTransceiverService.getSelectedEntry(this.formId);
-    fetchedValue.operators.forEach(() => {
+    for (const _ of isArrayValue(fetchedValue.operators)) {
       this.addOperatorInput();
-    });
-    fetchedValue.radioTransceivers.forEach(() => {
+    }
+    for (const _ of isArrayValue(fetchedValue.radioTransceivers)) {
       this.addRadioTransceiverInput();
-    });
+    }
+    for (const _ of isArrayValue(fetchedValue.receivers)) {
+      this.addReceiver();
+    }
+    for (const _ of isArrayValue(fetchedValue.otherEquipments)) {
+      this.addOtherEquipment();
+    }
     this.clientName = fetchedValue.clientName;
     this.form.patchValue({ ...fetchedValue });
+    this.radioTransceiverService.resourceType.next(VIEW);
   }
 
   ngOnDestroy(): void {
@@ -63,6 +72,14 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
     this.radioTransceivers.push(radioTransceiverEntryInput());
   }
 
+  addReceiver() {
+    this.receivers.push(receiverOrOtherEquipmentInput());
+  }
+
+  addOtherEquipment() {
+    this.otherEquipments.push(receiverOrOtherEquipmentInput());
+  }
+
   generatePdf(): void {
     this.radioTransceiverService.generatePdf(this.formId);
   }
@@ -73,5 +90,13 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
 
   get radioTransceivers() {
     return this.form.get('radioTransceivers') as FormArray;
+  }
+
+  get receivers() {
+    return this.form.get('receivers') as FormArray;
+  }
+
+  get otherEquipments() {
+    return this.form.get('otherEquipments') as FormArray;
   }
 }

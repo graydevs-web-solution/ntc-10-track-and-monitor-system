@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { Params, ActivatedRoute } from '@angular/router';
+import { Params, ActivatedRoute, Router } from '@angular/router';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
@@ -32,14 +32,18 @@ export class RadioDealerEditComponent implements OnInit {
     private route: ActivatedRoute,
     private clientService: ClientService,
     private cd: ChangeDetectorRef,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.initForm();
     this.route.params
       .pipe(
-        map((params: Params) => params.id),
+        map((params: Params) => {
+          console.log(this.router.url);
+          return params.id;
+        }),
         takeUntil(this.getDestroyed)
       )
       .subscribe({
@@ -67,6 +71,9 @@ export class RadioDealerEditComponent implements OnInit {
       });
       this.clientName = fetchedValue.clientName;
       this.form.patchValue({ ...fetchedValue });
+      this.radioDealerService.resourceType.next(EDIT);
+    } else {
+      this.radioDealerService.resourceType.next(ADD);
     }
   }
 

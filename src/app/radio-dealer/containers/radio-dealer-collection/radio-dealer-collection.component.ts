@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { LIST } from 'src/app/shared/constants';
 import { RadioDealer } from '../../models/radio-dealer.model';
 import { RadioDealerService } from '../../radio-dealer.service';
 
@@ -25,6 +26,7 @@ export class RadioDealerCollectionComponent implements OnInit, OnDestroy {
       },
     });
     this.radioDealerService.getEntriesAPI();
+    this.radioDealerService.resourceType.next(LIST);
   }
 
   ngOnDestroy() {
