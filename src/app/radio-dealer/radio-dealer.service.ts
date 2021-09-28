@@ -1,3 +1,4 @@
+import { formatDate } from './../shared/utility';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
@@ -104,7 +105,17 @@ export class RadioDealerService {
   formatData = (data: RadioDealer): RadioDealer => {
     const formattedData: RadioDealer = {
       ...data,
-      dateInspected: new Date(DateTime.fromISO(dateWithPadding(data.dateInspected as string)).toISO()),
+      dateInspected: formatDate(data.dateInspected as string),
+      permitExpiryDate: formatDate(data.permitExpiryDate as string),
+      supervisingECE: data.supervisingECE.map((val) => ({
+        ...val,
+        expiryDate: formatDate(val.expiryDate as string),
+        dateIssued: formatDate(val.dateIssued as string),
+      })),
+      radioTechnicians: data.radioTechnicians.map((val) => ({
+        ...val,
+        expiryDate: formatDate(val.expiryDate as string),
+      })),
     };
     return formattedData;
   };
@@ -112,23 +123,25 @@ export class RadioDealerService {
   formatList = (data: RadioDealerAPI): RadioDealer => {
     const value: RadioDealer = {
       id: data.id,
-      dateInspected: data.date_inspected ? DateTime.fromISO(data.date_inspected.toLocaleString()).toISO() : null,
+      dateInspected: formatDate(data.date_inspected as Date, false),
       clientId: data.client_id,
       clientName: data.clients.name,
+      permitNumber: data.permit_number,
+      permitExpiryDate: formatDate(data.permit_expiry_date as Date, false),
       supervisingECE: data.supervising_ece
         ? data.supervising_ece.map((val) => ({
             name: val.name,
             licenseNumber: val.license_number,
-            expiryDate: val.expiry_date ? DateTime.fromISO(val.expiry_date.toLocaleString()).toISO() : null,
+            expiryDate: formatDate(val.expiry_date as Date, false),
             ptrNumber: val.ptr_number,
-            dateIssued: val.date_issued ? DateTime.fromISO(val.date_issued.toLocaleString()).toISO() : null,
+            dateIssued: formatDate(val.date_issued as Date, false),
           }))
         : [],
       radioTechnicians: data.radio_technicians
         ? data.radio_technicians.map((val) => ({
             name: val.name,
             particularsOfLicense: val.particulars_of_license,
-            expiryDate: val.expiry_date ? DateTime.fromISO(val.expiry_date.toLocaleString()).toISO() : null,
+            expiryDate: formatDate(val.expiry_date as Date, false),
           }))
         : [],
       diagnosticTestEquipmentAndMeasuringInstrumentInfo: {

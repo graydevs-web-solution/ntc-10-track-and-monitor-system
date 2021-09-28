@@ -34,7 +34,9 @@ export class RadioDealerEntryComponent implements OnInit {
   @Input() entry: RadioDealer;
   constructor(private modalService: NgbModal) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('sss', this.entry);
+  }
 
   open() {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
