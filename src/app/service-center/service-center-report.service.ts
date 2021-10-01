@@ -5,7 +5,7 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PageOptions } from '../shared/models/page-options';
-import { dateWithPadding } from '../shared/utility';
+import { dateWithPadding, formatDate, openPDF } from '../shared/utility';
 import { ServiceCenterReportAPI } from './models/service-center-report-api.model';
 import { ServiceCenterReport } from './models/service-center-report.model';
 
@@ -93,7 +93,10 @@ export class ServiceCenterReportService {
       })
       .subscribe({
         next: (response) => {
-          saveAs(response, 'sss.pdf');
+          const pdfWindow = window.open();
+          pdfWindow.document.write(openPDF(response, 'Service Center Report'));
+          pdfWindow.document.close();
+          // saveAs(response, 'sss.pdf');
         },
         error: (err) => {
           console.log('err', err);
@@ -104,7 +107,8 @@ export class ServiceCenterReportService {
   formatData = (data: ServiceCenterReport): ServiceCenterReport => {
     const formattedData: ServiceCenterReport = {
       ...data,
-      dateInspected: new Date(DateTime.fromISO(dateWithPadding(data.dateInspected as string)).toISO()),
+      dateInspected: formatDate(data.dateInspected as string),
+      permitExpiryDate: formatDate(data.permitExpiryDate as string),
     };
     return formattedData;
   };
@@ -115,6 +119,8 @@ export class ServiceCenterReportService {
       dateInspected: data.date_inspected ? DateTime.fromISO(data.date_inspected.toLocaleString()).toISO() : null,
       clientId: data.client_id,
       clientName: data.clients.name,
+      permitNumber: data.permit_number,
+      permitExpiryDate: formatDate(data.permit_expiry_date as Date, false),
       listOfServiceOrTestEquipments: data.list_of_service_or_test_equipments
         ? data.list_of_service_or_test_equipments.map((val) => ({
             particular: val.particular,

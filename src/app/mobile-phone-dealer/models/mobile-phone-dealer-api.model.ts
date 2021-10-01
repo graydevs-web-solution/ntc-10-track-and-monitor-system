@@ -19,9 +19,11 @@ interface SIM {
 
 export interface MobilePhoneDealerAPI {
   id?: number;
+  ['date_inspected']: Date | string;
   ['client_id']: number | Client;
   ['clients']: ClientAPI;
-  ['date_inspected']: Date | string;
+  ['permit_number']: string;
+  ['permit_expiry_date']: Date | string;
   ['spares_and_accessories']: StocksOfSparesAndAccessories[];
   ['mobile_phones']: MobilePhone[];
   ['sim']: SIM[];

@@ -81,7 +81,6 @@ export class MobilePhoneDealerEditComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.form.value);
     if (this.formMode === ADD) {
       this.mobilePhoneDealerService
         .addOne(this.form.value)

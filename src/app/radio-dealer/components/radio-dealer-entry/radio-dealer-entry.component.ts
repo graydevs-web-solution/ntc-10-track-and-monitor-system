@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DELETE, mobilePhoneDealer } from 'src/app/shared/constants';
+import { DELETE, radioDealer } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { RadioDealer } from '../../models/radio-dealer.model';
 
@@ -21,9 +21,9 @@ import { RadioDealer } from '../../models/radio-dealer.model';
           </div>
         </a>
       </div>
-      <div>
-        <button class="btn btn sm btn-primary" [routerLink]="[entry.id, 'edit']">Edit</button>
-        <button class="btn btn sm btn-primary" (click)="open()">Remove</button>
+      <div class="d-flex align-items-center">
+        <button class="btn btn-sm btn-primary mr-1" [routerLink]="[entry.id, 'edit']">Edit</button>
+        <button class="btn btn-sm btn-primary" (click)="open()">Remove</button>
       </div>
     </div>
   `,
@@ -34,14 +34,12 @@ export class RadioDealerEntryComponent implements OnInit {
   @Input() entry: RadioDealer;
   constructor(private modalService: NgbModal) {}
 
-  ngOnInit(): void {
-    console.log('sss', this.entry);
-  }
+  ngOnInit(): void {}
 
   open() {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
     modalRef.componentInstance.formId = this.entry.id;
-    modalRef.componentInstance.componentName = mobilePhoneDealer;
+    modalRef.componentInstance.componentName = radioDealer;
     modalRef.componentInstance.formMode = DELETE;
   }
 }

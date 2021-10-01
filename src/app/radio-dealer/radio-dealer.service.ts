@@ -1,4 +1,4 @@
-import { formatDate } from './../shared/utility';
+import { formatDate, openPDF } from './../shared/utility';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
@@ -94,7 +94,10 @@ export class RadioDealerService {
       })
       .subscribe({
         next: (response) => {
-          saveAs(response, 'sss.pdf');
+          const pdfWindow = window.open();
+          pdfWindow.document.write(openPDF(response, 'Radio Dealer'));
+          pdfWindow.document.close();
+          // saveAs(response, 'sss.pdf');
         },
         error: (err) => {
           console.log('err', err);

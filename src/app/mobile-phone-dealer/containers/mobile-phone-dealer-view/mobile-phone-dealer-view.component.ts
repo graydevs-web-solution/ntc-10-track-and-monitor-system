@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -19,6 +19,7 @@ export class MobilePhoneDealerViewComponent implements OnInit {
   clientName = '';
 
   faCalendarAlt = faCalendarAlt;
+  faFilePdf = faFilePdf;
 
   getDestroyed = new Subject();
 

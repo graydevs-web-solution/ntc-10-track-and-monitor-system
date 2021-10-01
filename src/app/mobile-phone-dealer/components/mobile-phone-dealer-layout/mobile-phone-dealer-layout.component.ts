@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { DateTime } from 'luxon';
+import { CoreService } from 'src/app/core/service/core.service';
 import { ADD, EDIT, LIST, VIEW } from 'src/app/shared/constants';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 @Component({
@@ -12,7 +12,7 @@ import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 export class MobilePhoneDealerLayoutComponent implements OnInit {
   url: string;
   type = LIST;
-  constructor(private router: Router, private mpdService: MobilePhoneDealerService) {}
+  constructor(private router: Router, private mpdService: MobilePhoneDealerService, private coreService: CoreService) {}
 
   ngOnInit(): void {
     this.mpdService.resourceType.subscribe((type) => {

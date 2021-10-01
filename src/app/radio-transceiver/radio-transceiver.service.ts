@@ -2,7 +2,7 @@ import { Client } from 'src/app/master-list/clients/models/client.model';
 import { Injectable } from '@angular/core';
 import { RadioTransceiver } from './models/radio-transceiver.model';
 import { DateTime } from 'luxon';
-import { dateWithPadding, formatDate } from '../shared/utility';
+import { dateWithPadding, formatDate, openPDF } from '../shared/utility';
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PageOptions } from '../shared/models/page-options';
@@ -59,7 +59,6 @@ export class RadioTransceiverService {
   }
 
   getSelectedEntry(id: string): RadioTransceiver {
-    console.log(this.entries.find((entry) => entry.id === +id));
     return this.entries.find((entry) => entry.id === +id);
   }
 
@@ -96,13 +95,43 @@ export class RadioTransceiverService {
       })
       .subscribe({
         next: (response) => {
-          saveAs(response, 'sss.pdf');
+          const pdfWindow = window.open();
+          pdfWindow.document.write(openPDF(response, 'Radio Transceiver'));
+          pdfWindow.document.close();
+          // saveAs(response, 'sss.pdf');
+          // const blob = this.base64toBlob(response);
+          // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+          //   window.navigator.msSaveOrOpenBlob(blob, 'pdfBase64.pdf');
+          // } else {
+          // const blobUrl = URL.createObjectURL(blob);
+          // window.open(blobUrl);
+          // }
         },
         error: (err) => {
           console.log('err', err);
         },
       });
   }
+
+  base64toBlob = (base64Data: string) => {
+    const sliceSize = 1024;
+    const byteCharacters = atob(base64Data);
+    const bytesLength = byteCharacters.length;
+    const slicesCount = Math.ceil(bytesLength / sliceSize);
+    const byteArrays = new Array(slicesCount);
+
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      const begin = sliceIndex * sliceSize;
+      const end = Math.min(begin + sliceSize, bytesLength);
+
+      const bytes = new Array(end - begin);
+      for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
+      }
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, { type: 'application/pdf' });
+  };
 
   formatData = (data: RadioTransceiver): RadioTransceiver => {
     const formattedData: RadioTransceiver = {

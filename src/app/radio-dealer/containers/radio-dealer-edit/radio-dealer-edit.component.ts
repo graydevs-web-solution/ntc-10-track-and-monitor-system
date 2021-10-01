@@ -41,7 +41,6 @@ export class RadioDealerEditComponent implements OnInit {
     this.route.params
       .pipe(
         map((params: Params) => {
-          console.log(this.router.url);
           return params.id;
         }),
         takeUntil(this.getDestroyed)
@@ -82,7 +81,6 @@ export class RadioDealerEditComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.form.value);
     if (this.formMode === ADD) {
       this.radioDealerService
         .addOne(this.form.value)

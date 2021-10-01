@@ -13,6 +13,10 @@ const routes: Routes = [
     component: MainComponent,
   },
   {
+    path: 'deficiency-notice',
+    loadChildren: () => import('./deficiency-notice/deficiency-notice.module').then((m) => m.DeficiencyNoticeModule),
+  },
+  {
     path: 'radio-transceiver',
     loadChildren: () => import('./radio-transceiver/radio-transceiver.module').then((m) => m.RadioTransceiverModule),
   },

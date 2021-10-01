@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { RadioTransceiverService } from './../../radio-transceiver.service';
@@ -22,6 +22,7 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
   getDestroyed = new Subject();
 
   faCalendarAlt = faCalendarAlt;
+  faFilePdf = faFilePdf;
 
   constructor(private radioTransceiverService: RadioTransceiverService, private route: ActivatedRoute) {}
 

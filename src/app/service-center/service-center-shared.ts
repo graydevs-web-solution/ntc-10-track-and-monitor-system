@@ -4,6 +4,8 @@ export const initForm = (readState = false) => {
   return new FormGroup({
     dateInspected: new FormControl({ value: '', disabled: false }),
     clientId: new FormControl({ value: '', disabled: false }),
+    permitNumber: new FormControl({ value: '', disabled: false }),
+    permitExpiryDate: new FormControl({ value: '', disabled: false }),
     listOfServiceOrTestEquipments: new FormArray([]),
     employedElectronicsTechnicians: new FormArray([]),
     sundryOfInformation: new FormGroup({

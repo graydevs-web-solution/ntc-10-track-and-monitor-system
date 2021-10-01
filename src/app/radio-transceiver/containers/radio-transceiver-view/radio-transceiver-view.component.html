@@ -1,10 +1,12 @@
-<button class="btn btn-sm btn-success" (click)="generatePdf()">Save as Pdf</button>
+<div class="d-flex justify-content-end mb-3">
+  <button class="btn btn-sm btn-secondary" (click)="generatePdf()"><fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf</button>
+</div>
 
-<nav ngbNav #nav="ngbNav" class="nav-tabs">
+<nav ngbNav #nav="ngbNav" class="nav-tabs bg-tab rounded-top">
   <ng-container ngbNavItem>
     <a ngbNavLink>One</a>
     <ng-template ngbNavContent>
-      <div class="border p-2" [formGroup]="form">
+      <div class="p-3" [formGroup]="form">
         <div class="form-group row">
           <label for="staticEmail" class="col-2 col-form-label">Date</label>
           <div class="col-10">
@@ -256,7 +258,7 @@
   <ng-container ngbNavItem>
     <a ngbNavLink>Two</a>
     <ng-template ngbNavContent>
-      <div class="border p-2" [formGroup]="form">
+      <div class="p-3" [formGroup]="form">
         <div class="mb-3">
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">Operators</div>
@@ -679,7 +681,7 @@
   <ng-container ngbNavItem>
     <a ngbNavLink>Three</a>
     <ng-template ngbNavContent>
-      <div class="border p-2" [formGroup]="form">
+      <div class="p-3" [formGroup]="form">
         <div class="form-group row" formGroupName="illegalConstructionInfo">
           <label for="illegal-construction" class="col-sm-2 col-form-label">Illegal Construction</label>
           <div class="col-sm- mt-2">
@@ -840,7 +842,7 @@
   <ng-container ngbNavItem>
     <a ngbNavLink>Four</a>
     <ng-template ngbNavContent>
-      <div class="border p-2" [formGroup]="form">
+      <div class="p-3" [formGroup]="form">
         <div class="form-group row">
           <label for="authorizedRepresentative" class="col-sm-2 col-form-label">Authorized Representative</label>
           <div class="col-sm-10">
@@ -886,4 +888,4 @@
   </ng-container>
 </nav>
 
-<div [ngbNavOutlet]="nav" class="mt-2"></div>
+<div [ngbNavOutlet]="nav" class="bg-white border rounded-bottom border-top-0 pt-3"></div>

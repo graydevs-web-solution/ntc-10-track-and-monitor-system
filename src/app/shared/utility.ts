@@ -21,3 +21,17 @@ export const isArrayValue = (arrayVal: Array<any>): Array<any> => {
   }
   return arrayVal;
 };
+
+export const openPDF = (pdf: string, fileName: string) => {
+  return (
+    '<html><head>' +
+    '<title>' +
+    fileName +
+    '</title>' +
+    "<style>body { margin: 0px!important; }</style></head><iframe width='100%' height='100%' src='" +
+    pdf +
+    "' title='" +
+    fileName +
+    "' style='border:none;'></iframe></html>"
+  );
+};
