@@ -1,0 +1,140 @@
+<div class="d-flex justify-content-end mb-3">
+  <button class="btn btn-sm btn-secondary" (click)="generatePdf()"><fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf</button>
+</div>
+
+<app-card>
+  <div class="p-3" [formGroup]="form">
+    <div class="form-group row">
+      <label for="staticEmail" class="col-2 col-form-label">Date</label>
+      <div class="col-10">
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="mmm-dd-yyyy"
+            name="dp"
+            formControlName="date"
+            ngbDatepicker
+            readonly
+            #d="ngbDatepicker"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+              <fa-icon [icon]="faCalendarAlt"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="form-group row">
+      <label for="name-of-station" class="col-sm-2 col-form-label">Client</label>
+      <div class="input-group col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Client name"
+          aria-label="Client name"
+          [value]="clientName"
+          aria-describedby="button-addon2"
+          readonly
+        />
+      </div>
+    </div>
+
+    <div class="form-group row" formGroupName="violationInfo">
+      <label for="staticEmail" class="col-2 col-form-label">Violations</label>
+
+      <div class="col-10">
+        <div class="custom-control custom-checkbox" *ngFor="let violation of violations; let i = index">
+          <input type="checkbox" class="custom-control-input" [id]="'violation' + i" [formControlName]="violation.formControlName" />
+          <label class="custom-control-label" [for]="'violation' + i">{{ violation.name }}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <div class="d-flex justify-content-between mb-2">
+        <div class="h5">Transmitter(s)/Transceiver(s) Used</div>
+        <div>
+          <button class="btn btn-sm btn-primary" (click)="addTransmitterInput()">Add</button>
+        </div>
+      </div>
+
+      <div *ngFor="let item of transmitters.controls; let i = index" class="border p-2 mb-2">
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label [for]="'transmitter' + i">Transmitter</label>
+              <input
+                type="text"
+                [formControl]="item.get('transmitter')"
+                class="form-control"
+                [id]="'transmitter' + i"
+                placeholder="Transmitter"
+              />
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label [for]="'serial-number-' + i">Serial Number</label>
+              <input
+                type="text"
+                [formControl]="item.get('serialNumber')"
+                class="form-control"
+                [id]="'serial-number-' + i"
+                placeholder="Serial Number"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!transmitters.controls.length" class="border p-3 text-center">No Transmitters</div>
+    </div>
+
+    <div class="form-group row">
+      <label for="staticEmail" class="col-2 col-form-label">Date of Deficieny Hearing</label>
+      <div class="col-10">
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="mmm-dd-yyyy"
+            name="dp"
+            formControlName="dateOfDeficiencyHearing"
+            ngbDatepicker
+            readonly
+            #dd="ngbDatepicker"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
+              <fa-icon [icon]="faCalendarAlt"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="working-hours" class="col-sm-2 col-form-label">Is Done?</label>
+      <div class="col-sm-8">
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="approve-yes" name="isDone" class="custom-control-input" formControlName="isDone" [value]="true" />
+          <label class="custom-control-label" for="approve-yes">Yes</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="approve-no" name="isDone" formControlName="isDone" class="custom-control-input" [value]="false" />
+          <label class="custom-control-label" for="approve-no">No</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="approver" class="col-sm-2 col-form-label">Regional Director</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" id="approver" formControlName="regionalDirector" />
+      </div>
+    </div>
+  </div>
+</app-card>

@@ -5,6 +5,7 @@ import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { VIEW } from 'src/app/shared/constants';
 import { initForm, stockMobilePhoneInput, stockSIMInput, stockSpareAndAccessoryInput } from '../../mobile-phone-dealer-shared';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 
@@ -49,6 +50,7 @@ export class MobilePhoneDealerViewComponent implements OnInit {
     });
     this.clientName = fetchedValue.clientName;
     this.form.patchValue({ ...fetchedValue });
+    this.mobilePhoneDealerService.resourceType.next(VIEW);
   }
 
   initForm(): void {

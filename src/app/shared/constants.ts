@@ -3,8 +3,16 @@ export const mobilePhoneDealer = 'mobilePhoneDealer';
 export const radioTransceiver = 'radioTransceiver';
 export const serviceCenterReport = 'serviceCenterReport';
 export const radioDealer = 'radioDealer';
+export const deficiencyNotice = 'deficiencyNotice';
+export const complaint = 'complaint';
 
 // Master List Modules
+export const clientEdit = 'clientEdit';
+export const clientView = 'clientView';
+export const clientDelete = 'clientDelete';
+export const clientSearch = 'clientSearch';
+
+// TO BE REMOVED
 export const stationEdit = 'stationEdit';
 export const stationView = 'stationView';
 export const stationDelete = 'stationDelete';
@@ -14,10 +22,6 @@ export const serviceCenterDelete = 'serviceCenterDelete';
 export const dealerEdit = 'dealerEdit';
 export const dealerView = 'dealerView';
 export const dealerDelete = 'dealerDelete';
-export const clientEdit = 'clientEdit';
-export const clientView = 'clientView';
-export const clientDelete = 'clientDelete';
-export const clientSearch = 'clientSearch';
 export const radioDealerEdit = 'radioDealerEdit';
 export const radioDealerView = 'radioDealerView';
 export const radioDealerDelete = 'radioDealerDelete';

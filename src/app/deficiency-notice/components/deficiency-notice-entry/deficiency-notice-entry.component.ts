@@ -1,33 +1,33 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DELETE, serviceCenterReport } from 'src/app/shared/constants';
+import { deficiencyNotice, DELETE } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
-import { ServiceCenterReport } from '../../models/service-center-report.model';
+import { DeficiencyNotice } from '../../models/deficiency-notice.model';
 
 @Component({
-  selector: 'app-service-center-report-entry',
+  selector: 'app-deficiency-notice-entry',
   template: `
     <div class="d-flex">
       <div class="flex-grow-1">
         <a [routerLink]="[entry.id]" class="text-decoration-none">
-          <div>{{ entry.clientName }}</div>
+          <div>{{ entry.docketNumber }}</div>
           <div>
-            Approved?:
+            Done?:
             <span
               class="font-weight-bold"
               [ngClass]="{
-                'text-success': entry.isApproved,
-                'text-danger': !entry.isApproved
+                'text-success': entry.isDone,
+                'text-danger': !entry.isDone
               }"
             >
-              {{ entry.isApproved ? 'Yes' : 'No' }}</span
+              {{ entry.isDone ? 'Yes' : 'No' }}</span
             >
           </div>
           <div>
             <small>
               Date Inspected:
               <span class="font-weight-bold">
-                {{ entry.dateInspected | date: 'mediumDate' }}
+                {{ entry.date | date: 'mediumDate' }}
               </span>
             </small>
           </div>
@@ -39,11 +39,10 @@ import { ServiceCenterReport } from '../../models/service-center-report.model';
       </div>
     </div>
   `,
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./deficiency-notice-entry.component.css'],
 })
-export class ServiceCenterReportEntryComponent implements OnInit {
-  @Input() entry: ServiceCenterReport;
+export class DeficiencyNoticeEntryComponent implements OnInit {
+  @Input() entry: DeficiencyNotice;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {}
@@ -51,7 +50,7 @@ export class ServiceCenterReportEntryComponent implements OnInit {
   open() {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
     modalRef.componentInstance.formId = this.entry.id;
-    modalRef.componentInstance.componentName = serviceCenterReport;
+    modalRef.componentInstance.componentName = deficiencyNotice;
     modalRef.componentInstance.formMode = DELETE;
   }
 }

@@ -9,6 +9,7 @@ import {
   dealerDelete,
   dealerEdit,
   dealerView,
+  deficiencyNotice,
   DELETE,
   EDIT,
   mobilePhoneDealer,
@@ -31,6 +32,7 @@ import { StationService } from './../../master-list/station/station.service';
 import { ServiceCenterService } from 'src/app/master-list/service-center/service-center.service';
 import { DealerService } from 'src/app/master-list/dealer/dealer.service';
 import { RadioDealerService } from 'src/app/radio-dealer/radio-dealer.service';
+import { DeficiencyNoticeService } from 'src/app/deficiency-notice/deficiency-notice.service';
 
 @Component({
   selector: 'app-modal',
@@ -51,7 +53,8 @@ export class ModalComponent implements OnInit {
     private radioTransceiverService: RadioTransceiverService,
     private serviceCenterReportService: ServiceCenterReportService,
     private clientService: ClientService,
-    private radioDealerService: RadioDealerService // private stationService: StationService, // private serviceCenterService: ServiceCenterService, // private dealerService: DealerService,
+    private radioDealerService: RadioDealerService,
+    private dnService: DeficiencyNoticeService // private stationService: StationService, // private serviceCenterService: ServiceCenterService, // private dealerService: DealerService,
   ) {}
 
   ngOnInit(): void {}
@@ -62,6 +65,7 @@ export class ModalComponent implements OnInit {
       radioTransceiver,
       serviceCenterReport,
       radioDealer,
+      deficiencyNotice,
       clientDelete,
       // stationDelete,
       // serviceCenterDelete,
@@ -124,6 +128,10 @@ export class ModalComponent implements OnInit {
         case serviceCenterReport:
           await this.serviceCenterReportService.deleteOne(this.formId).toPromise();
           this.serviceCenterReportService.getEntriesAPI();
+          break;
+        case deficiencyNotice:
+          await this.dnService.deleteOne(this.formId).toPromise();
+          this.dnService.getEntriesAPI();
           break;
         // case stationDelete:
         //   this.stationService.deleteOne(this.formId);

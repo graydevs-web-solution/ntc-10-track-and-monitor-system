@@ -9,7 +9,7 @@ import { RadioDealer } from '../../models/radio-dealer.model';
   template: `
     <div class="d-flex">
       <div class="flex-grow-1">
-        <a [routerLink]="[entry.id]">
+        <a [routerLink]="[entry.id]" class="text-decoration-none">
           <div>{{ entry.clientName }}</div>
           <div>
             <small>

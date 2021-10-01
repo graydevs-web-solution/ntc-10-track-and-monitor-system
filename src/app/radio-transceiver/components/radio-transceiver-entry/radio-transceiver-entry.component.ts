@@ -10,15 +10,15 @@ import { Client } from 'src/app/master-list/clients/models/client.model';
   template: `
     <div class="d-flex">
       <div class="flex-grow-1">
-        <a [routerLink]="[entry.id]">
+        <a [routerLink]="[entry.id]" class="text-decoration-none">
           <div>{{ entry.clientName }}</div>
           <div>
             <small> {{ entry.dateIssued | date: 'mediumDate' }} </small>
           </div>
         </a>
       </div>
-      <div>
-        <button class="btn btn sm btn-primary" [routerLink]="[entry.id, 'edit']">Edit</button>
+      <div class="d-flex align-items-center">
+        <button class="btn btn sm btn-primary mr-1" [routerLink]="[entry.id, 'edit']">Edit</button>
         <button class="btn btn sm btn-primary" (click)="open()">Remove</button>
       </div>
     </div>
