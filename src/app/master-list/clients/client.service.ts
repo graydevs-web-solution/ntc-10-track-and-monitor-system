@@ -4,7 +4,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, Subject } from 'rxjs';
 import { Client } from './models/client.model';
 import { PageOptions } from 'src/app/shared/models/page-options';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { ClientAPI } from './models/client-api.model';
 
 @Injectable({
   providedIn: 'root',
@@ -39,9 +40,10 @@ export class ClientService {
       },
     });
     this.http
-      .get<{ data: Client[] }>(`${this.domainURL}/${this.resource1}`, {
+      .get<{ data: ClientAPI[] }>(`${this.domainURL}/${this.resource1}`, {
         params: PARAMS,
       })
+      .pipe(map(({ data }) => ({ data: data.map(this.formatList) })))
       .subscribe({
         next: (response) => {
           this.entries = response.data;
@@ -49,6 +51,19 @@ export class ClientService {
         },
       });
   }
+
+  formatList = (data: ClientAPI): Client => {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { owner_name, owner_position, business_name, business_address, ...rest } = data;
+    const value: Client = {
+      ownerName: owner_name,
+      ownerPosition: owner_position,
+      businessName: business_name,
+      businessAddress: business_address,
+      ...rest,
+    };
+    return value;
+  };
 
   getEntriesListener(): Observable<Client[]> {
     return this.entriesListener.asObservable();
@@ -88,7 +103,7 @@ export class ClientService {
     }
 
     return this.http
-      .get<{ data: Client[] }>(`${this.domainURL}/${this.resource1}/search`, { params: PARAMS.set('search', term) })
-      .pipe(map((response) => response.data));
+      .get<{ data: ClientAPI[] }>(`${this.domainURL}/${this.resource1}/search`, { params: PARAMS.set('search', term) })
+      .pipe(map(({ data }) => data.map(this.formatList)));
   }
 }

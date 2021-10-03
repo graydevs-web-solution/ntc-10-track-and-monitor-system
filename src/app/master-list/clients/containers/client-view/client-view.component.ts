@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestro
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { initForm } from '../../client-shared';
 import { ClientService } from '../../client.service';
 
 @Component({
@@ -37,15 +38,7 @@ export class ClientViewComponent implements OnInit, OnDestroy {
   }
 
   initForm(): void {
-    this.form = this.fb.group({
-      clientName: [''],
-      businessAddress: [''],
-      cellphoneNumber: [''],
-      faxNumber: [''],
-      exactLocation: [''],
-      secDtiRegistrationNumber: [''],
-      businessMayorPermitNumber: [''],
-    });
+    this.form = initForm();
   }
 
   submit(): void {

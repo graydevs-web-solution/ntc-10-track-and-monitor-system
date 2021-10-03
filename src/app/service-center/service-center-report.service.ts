@@ -118,7 +118,7 @@ export class ServiceCenterReportService {
       id: data.id,
       dateInspected: data.date_inspected ? DateTime.fromISO(data.date_inspected.toLocaleString()).toISO() : null,
       clientId: data.client_id,
-      clientName: data.clients.name,
+      clientName: data.clients.business_name,
       permitNumber: data.permit_number,
       permitExpiryDate: formatDate(data.permit_expiry_date as Date, false),
       listOfServiceOrTestEquipments: data.list_of_service_or_test_equipments

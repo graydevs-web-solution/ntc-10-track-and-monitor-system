@@ -8,14 +8,10 @@ import { map, takeUntil } from 'rxjs/operators';
 import { ClientService } from 'src/app/master-list/clients/client.service';
 import { VIEW } from 'src/app/shared/constants';
 import { formatDate } from 'src/app/shared/utility';
-import { initForm, transmitterInput } from '../../deficiency-notice-shared';
+import { initForm, transmitterInput, violations } from '../../deficiency-notice-shared';
 import { DeficiencyNoticeService } from '../../deficiency-notice.service';
 import { DeficiencyNotice } from '../../models/deficiency-notice.model';
-
-interface ViolationsType {
-  name: string;
-  formControlName: string;
-}
+import { ViolationsType } from '../../models/violations.model';
 
 @Component({
   selector: 'app-deficiency-notice-view',
@@ -33,19 +29,7 @@ export class DeficiencyNoticeViewComponent implements OnInit {
 
   getDestroyed = new Subject();
 
-  violations: ViolationsType[] = [
-    { name: 'Operation without Radio Station license/temporary permit.', formControlName: 'operationWithoutRSL' },
-    { name: 'Operation without licensed radio operator.', formControlName: 'operationWithoutLRO' },
-    { name: 'Operating on unauthorized frequency.', formControlName: 'operationUnauthorizedFrequency' },
-    {
-      name: 'Possession of transmitter/transceiver without permit to purchased/possess.',
-      formControlName: 'possessionTransmitterWithoutPP',
-    },
-    {
-      name: 'No NTC pertinent papers presented at the time of inspection of the units/s mentioned.',
-      formControlName: 'noNTCPertinentPapers',
-    },
-  ];
+  violations: ViolationsType[] = [...violations];
 
   constructor(
     private dnService: DeficiencyNoticeService,

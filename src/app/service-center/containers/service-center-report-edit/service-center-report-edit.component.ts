@@ -52,7 +52,7 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
     this.clientService.selectedEntry.pipe(takeUntil(this.getDestroyed)).subscribe({
       next: (response) => {
         this.form.patchValue({ clientId: response.id });
-        this.clientName = response.name;
+        this.clientName = response.businessName;
         this.cd.detectChanges();
       },
     });

@@ -18,6 +18,8 @@ export interface DeficiencyNoticeAPI {
   ['date']: Date | string;
   ['client_id']: number | Client;
   ['clients']: ClientAPI;
+  ['respondent_name']: string;
+  ['date_of_inspection']: Date | string;
   ['docket_number']: string;
   ['vi_operation_without_rsl']: boolean;
   ['vi_operation_without_lro']: boolean;

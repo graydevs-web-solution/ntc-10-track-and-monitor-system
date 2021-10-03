@@ -132,6 +132,7 @@ export class DeficiencyNoticeService {
     const formattedData: DeficiencyNotice = {
       ...data,
       date: formatDate(data.date as string),
+      dateOfInspection: formatDate(data.dateOfInspection as string),
       dateOfDeficiencyHearing: formatDate(data.dateOfDeficiencyHearing as string),
     };
     return formattedData;
@@ -140,9 +141,11 @@ export class DeficiencyNoticeService {
   formatList = (data: DeficiencyNoticeAPI): DeficiencyNotice => {
     const value: DeficiencyNotice = {
       id: data.id,
+      dateOfInspection: formatDate(data.date_of_inspection as Date, false),
+      respondentName: data.respondent_name,
       date: formatDate(data.date, false),
       clientId: data.client_id,
-      clientName: data.clients.name,
+      clientName: data.clients.business_name,
       docketNumber: data.docket_number,
       transmitters: data.deficiency_notice_transmitter
         ? data.deficiency_notice_transmitter.map((val) => ({

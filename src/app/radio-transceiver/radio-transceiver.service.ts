@@ -11,6 +11,7 @@ import { RadioTransceiverAPI } from './models/radio-transceiver-api.model';
 import { map } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
 import { LIST } from '../shared/constants';
+import { ClientAPI } from '../master-list/clients/models/client-api.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -166,7 +167,7 @@ export class RadioTransceiverService {
       id: data.id,
       dateIssued: formatDate(data.date_issued as Date, false),
       clientId: +data.client_id,
-      clientName: (data.clients as Client).name,
+      clientName: (data.clients as ClientAPI).business_name,
       classType: data.class_type,
       natureOfService: data.nature_of_service,
       workingHours: data.working_hours,

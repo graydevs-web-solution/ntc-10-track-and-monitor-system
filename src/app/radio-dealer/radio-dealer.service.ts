@@ -128,7 +128,7 @@ export class RadioDealerService {
       id: data.id,
       dateInspected: formatDate(data.date_inspected as Date, false),
       clientId: data.client_id,
-      clientName: data.clients.name,
+      clientName: data.clients.business_name,
       permitNumber: data.permit_number,
       permitExpiryDate: formatDate(data.permit_expiry_date as Date, false),
       supervisingECE: data.supervising_ece

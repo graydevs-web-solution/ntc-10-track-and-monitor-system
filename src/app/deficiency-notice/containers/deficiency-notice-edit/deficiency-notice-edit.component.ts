@@ -8,13 +8,9 @@ import { map, takeUntil } from 'rxjs/operators';
 import { ClientService } from 'src/app/master-list/clients/client.service';
 import { ADD, clientSearch, EDIT } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
-import { initForm, transmitterInput } from '../../deficiency-notice-shared';
+import { initForm, transmitterInput, violations } from '../../deficiency-notice-shared';
 import { DeficiencyNoticeService } from '../../deficiency-notice.service';
-
-interface ViolationsType {
-  name: string;
-  formControlName: string;
-}
+import { ViolationsType } from '../../models/violations.model';
 
 @Component({
   selector: 'app-deficiency-notice-edit',
@@ -31,19 +27,7 @@ export class DeficiencyNoticeEditComponent implements OnInit {
 
   getDestroyed = new Subject();
 
-  violations: ViolationsType[] = [
-    { name: 'Operation without Radio Station license/temporary permit.', formControlName: 'operationWithoutRSL' },
-    { name: 'Operation without licensed radio operator.', formControlName: 'operationWithoutLRO' },
-    { name: 'Operating on unauthorized frequency.', formControlName: 'operationUnauthorizedFrequency' },
-    {
-      name: 'Possession of transmitter/transceiver without permit to purchased/possess.',
-      formControlName: 'possessionTransmitterWithoutPP',
-    },
-    {
-      name: 'No NTC pertinent papers presented at the time of inspection of the units/s mentioned.',
-      formControlName: 'noNTCPertinentPapers',
-    },
-  ];
+  violations: ViolationsType[] = [...violations];
 
   constructor(
     private dnService: DeficiencyNoticeService,
@@ -68,8 +52,8 @@ export class DeficiencyNoticeEditComponent implements OnInit {
 
     this.clientService.selectedEntry.pipe(takeUntil(this.getDestroyed)).subscribe({
       next: (response) => {
-        this.form.patchValue({ clientId: response.id });
-        this.clientName = response.name;
+        this.form.patchValue({ clientId: response.id, respondentName: response.ownerName });
+        this.clientName = response.businessName;
       },
     });
 

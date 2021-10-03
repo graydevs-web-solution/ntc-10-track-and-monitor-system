@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { ADD, EDIT } from 'src/app/shared/constants';
+import { initForm } from '../../client-shared';
 import { ClientService } from '../../client.service';
 
 @Component({
@@ -50,15 +51,7 @@ export class ClientEditComponent implements OnInit, OnDestroy {
   }
 
   initForm(): void {
-    this.form = this.fb.group({
-      name: [''],
-      businessAddress: [''],
-      cellphoneNumber: [''],
-      faxNumber: [''],
-      exactLocation: [''],
-      secDtiRegistrationNumber: [''],
-      businessMayorPermitNumber: [''],
-    });
+    this.form = initForm();
   }
 
   submit(): void {
