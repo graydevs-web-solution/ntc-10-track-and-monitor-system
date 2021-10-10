@@ -14,7 +14,14 @@ import { DeficiencyNoticeEditComponent } from './containers/deficiency-notice-ed
 import { DeficiencyNoticeViewComponent } from './containers/deficiency-notice-view/deficiency-notice-view.component';
 
 @NgModule({
-  declarations: [DeficiencyNoticeLayoutComponent, DeficiencyNoticeListComponent, DeficiencyNoticeEntryComponent, DeficiencyNoticeCollectionComponent, DeficiencyNoticeEditComponent, DeficiencyNoticeViewComponent],
+  declarations: [
+    DeficiencyNoticeLayoutComponent,
+    DeficiencyNoticeListComponent,
+    DeficiencyNoticeEntryComponent,
+    DeficiencyNoticeCollectionComponent,
+    DeficiencyNoticeEditComponent,
+    DeficiencyNoticeViewComponent,
+  ],
   imports: [
     CommonModule,
     // NgbNavModule,

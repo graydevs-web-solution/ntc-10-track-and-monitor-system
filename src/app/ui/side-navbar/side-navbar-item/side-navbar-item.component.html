@@ -1,0 +1,13 @@
+<div
+  class="d-flex align-items-center hover p-2 cursor-pointer mb-1"
+  [ngClass]="{
+    'bg-light border rounded shadow-sm font-weight-bold': currentlySelected
+  }"
+  (click)="clickedFn()"
+>
+  <span class="text-primary rounded-circle shadow-sm">
+    <fa-icon [icon]="icon" size="2x" transform="shrink-8" [mask]="mask"></fa-icon>
+  </span>
+
+  <span class="h5 ml-3">{{ label }}</span>
+</div>

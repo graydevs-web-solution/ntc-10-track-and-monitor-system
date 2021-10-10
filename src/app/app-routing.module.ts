@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { StartComponent } from './core/components/start/start.component';
 import { MainComponent } from './core/container/main/main.component';
 
 const routes: Routes = [
@@ -10,7 +11,11 @@ const routes: Routes = [
   // },
   {
     path: '',
-    component: MainComponent,
+    component: StartComponent,
+  },
+  {
+    path: 'complaint',
+    loadChildren: () => import('./complaint/complaint.module').then((m) => m.ComplaintModule),
   },
   {
     path: 'deficiency-notice',

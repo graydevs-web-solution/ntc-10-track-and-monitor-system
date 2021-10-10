@@ -1,17 +1,17 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PageOptions } from '../shared/models/page-options';
-import { formatDate, openPDF } from '../shared/utility';
-import { DeficiencyNoticeAPI } from './models/deficiency-notice-api.model';
-import { DeficiencyNotice } from './models/deficiency-notice.model';
+import { formatDate, formatTime, openPDF } from '../shared/utility';
+import { ComplaintAPI } from './models/complaint-api.model';
+import { Complaint } from './models/complaint.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DeficiencyNoticeService {
+export class ComplaintService {
   page: PageOptions = {
     current: 1,
     size: 10,
@@ -19,15 +19,15 @@ export class DeficiencyNoticeService {
   };
   resourceType = new ReplaySubject<string>();
 
-  private entries: DeficiencyNotice[] = [];
-  private entriesListener = new Subject<DeficiencyNotice[]>();
+  private entries: Complaint[] = [];
+  private entriesListener = new Subject<Complaint[]>();
 
   private domainURL = environment.apiUrl;
-  private resource1 = 'api/main/deficiency-notice';
+  private resource1 = 'api/main/complaint';
 
   constructor(private http: HttpClient) {}
 
-  getEntries(): DeficiencyNotice[] {
+  getEntries(): Complaint[] {
     return this.entries;
   }
 
@@ -64,7 +64,7 @@ export class DeficiencyNoticeService {
       },
     });
     this.http
-      .get<{ data: DeficiencyNoticeAPI[] }>(`${this.domainURL}/${this.resource1}`, {
+      .get<{ data: ComplaintAPI[] }>(`${this.domainURL}/${this.resource1}`, {
         params: PARAMS,
       })
       .pipe(map(({ data }) => ({ data: data.map(this.formatList) })))
@@ -76,19 +76,19 @@ export class DeficiencyNoticeService {
       });
   }
 
-  getEntriesListener(): Observable<DeficiencyNotice[]> {
+  getEntriesListener(): Observable<Complaint[]> {
     return this.entriesListener.asObservable();
   }
 
-  getSelectedEntry(id: string): DeficiencyNotice {
+  getSelectedEntry(id: string): Complaint {
     return this.entries.find((entry) => entry.id === +id);
   }
 
-  addOne(data: DeficiencyNotice): Observable<{ data: DeficiencyNotice }> {
-    return this.http.post<{ data: DeficiencyNotice }>(`${this.domainURL}/${this.resource1}/`, this.formatData(data));
+  addOne(data: Complaint): Observable<{ data: Complaint }> {
+    return this.http.post<{ data: Complaint }>(`${this.domainURL}/${this.resource1}/`, this.formatData(data));
   }
 
-  updateOne(formId: string, data: DeficiencyNotice): Observable<{ message: string }> {
+  updateOne(formId: string, data: Complaint): Observable<{ message: string }> {
     data.id = +formId;
     return this.http.patch<{ message: string }>(`${this.domainURL}/${this.resource1}/`, this.formatData(data));
   }
@@ -118,7 +118,7 @@ export class DeficiencyNoticeService {
       .subscribe({
         next: (response) => {
           const pdfWindow = window.open();
-          pdfWindow.document.write(openPDF(response, 'Deficiency Notice'));
+          pdfWindow.document.write(openPDF(response, 'Complaint'));
           pdfWindow.document.close();
           // saveAs(response, 'sss.pdf');
         },
@@ -128,27 +128,30 @@ export class DeficiencyNoticeService {
       });
   }
 
-  formatData = (data: DeficiencyNotice): DeficiencyNotice => {
-    const formattedData: DeficiencyNotice = {
+  formatData = (data: Complaint): Complaint => {
+    const formattedData: Complaint = {
       ...data,
       date: formatDate(data.date as string),
       dateOfInspection: formatDate(data.dateOfInspection as string),
-      dateOfDeficiencyHearing: formatDate(data.dateOfDeficiencyHearing as string),
+      dateOfHearing: formatDate(data.dateOfHearing as string),
     };
     return formattedData;
   };
 
-  formatList = (data: DeficiencyNoticeAPI): DeficiencyNotice => {
-    const value: DeficiencyNotice = {
+  formatList = (data: ComplaintAPI): Complaint => {
+    const value: Complaint = {
       id: data.id,
-      dateOfInspection: formatDate(data.date_of_inspection as Date, false),
-      respondentName: data.respondent_name,
       date: formatDate(data.date, false),
+      complainantName: data.complainant_name,
       clientId: data.client_id,
       clientName: data.clients.business_name,
+      respondentName: data.respondent_name,
       docketNumber: data.docket_number,
-      transmitters: data.deficiency_notice_transmitter
-        ? data.deficiency_notice_transmitter.map((val) => ({
+      dateOfInspection: formatDate(data.date_of_inspection as Date, false),
+      location: data.location,
+      reason: data.reason,
+      transmitters: data.complaint_transmitter
+        ? data.complaint_transmitter.map((val) => ({
             transmitter: val.transmitter,
             serialNumber: val.serial_number,
           }))
@@ -160,9 +163,10 @@ export class DeficiencyNoticeService {
         possessionTransmitterWithoutPP: data.vi_possession_transmitter_without_pp,
         noNTCPertinentPapers: data.vi_no_ntc_pertinent_papers,
       },
-      dateOfDeficiencyHearing: formatDate(data.date_of_deficiency_hearing as Date, false),
-      regionalDirector: data.regional_director,
+      dateOfHearing: formatDate(data.date_time_of_hearing as Date, false),
+      timeOfHearing: formatTime(data.date_time_of_hearing as Date),
       isDone: data.is_done,
+      regionalDirector: data.regional_director,
     };
     return value;
   };

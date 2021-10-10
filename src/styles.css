@@ -5,3 +5,7 @@
 .bg-tab {
   background-color: #f5f6f8;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}

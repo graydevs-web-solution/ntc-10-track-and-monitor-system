@@ -6,6 +6,7 @@ export const environment = {
   appVersion: require('../../package.json').version + '-dev',
   apiUrl: 'http://localhost:3000',
   production: false,
+  appLogo: '/assets/images/logo.png',
 };
 
 /*

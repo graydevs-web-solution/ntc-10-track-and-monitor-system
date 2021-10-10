@@ -7,7 +7,7 @@ import { CoreService } from '../service/core.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'monitoring-system';
+  isAuthenticate = true;
 
   constructor(public coreService: CoreService) {}
 }

@@ -15,6 +15,16 @@ export const formatDate = (date: string | Date, withPadding = true): Date | stri
   return DateTime.fromISO(date.toLocaleString()).toISO();
 };
 
+export const formatTime = (date: Date) => {
+  if (!date) {
+    return null;
+  }
+  const dateVal = DateTime.fromISO(date.toLocaleString());
+  const hour = dateVal.hour;
+  const minute = dateVal.minute;
+  return { hour, minute };
+};
+
 export const isArrayValue = (arrayVal: Array<any>): Array<any> => {
   if (!arrayVal) {
     return [];
