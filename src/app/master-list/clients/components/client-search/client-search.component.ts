@@ -19,7 +19,7 @@ export class ClientSearchComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  formatter = (state: Client) => state.name;
+  formatter = (state: Client) => state.businessName;
 
   search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
     text$.pipe(

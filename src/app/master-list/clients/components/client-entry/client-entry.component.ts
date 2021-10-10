@@ -11,10 +11,10 @@ import { ModalComponent } from 'src/app/ui/modal/modal.component';
   template: `
     <div class="d-flex">
       <div class="flex-grow-1 cursor" (click)="open()">
-        <div>{{ entry.name }}</div>
+        <div>{{ entry.businessName }}</div>
       </div>
-      <div>
-        <button class="btn btn sm btn-primary" (click)="open(clientEdit, EDIT)">Edit</button>
+      <div class="d-flex align-items-center">
+        <button class="btn btn sm btn-primary mr-1" (click)="open(clientEdit, EDIT)">Edit</button>
         <button class="btn btn sm btn-primary" (click)="open(clientDelete, DELETE, entry.id)">Remove</button>
       </div>
     </div>

@@ -26,5 +26,6 @@ import { ServiceCenterReportModule } from './service-center/service-center-repor
   ],
   providers: [],
   bootstrap: [AppComponent],
+  declarations: [],
 })
 export class AppModule {}

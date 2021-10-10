@@ -9,9 +9,11 @@ import {
   dealerDelete,
   dealerEdit,
   dealerView,
+  deficiencyNotice,
   DELETE,
   EDIT,
   mobilePhoneDealer,
+  radioDealer,
   radioTransceiver,
   serviceCenterDelete,
   serviceCenterEdit,
@@ -29,6 +31,8 @@ import { ClientService } from './../../master-list/clients/client.service';
 import { StationService } from './../../master-list/station/station.service';
 import { ServiceCenterService } from 'src/app/master-list/service-center/service-center.service';
 import { DealerService } from 'src/app/master-list/dealer/dealer.service';
+import { RadioDealerService } from 'src/app/radio-dealer/radio-dealer.service';
+import { DeficiencyNoticeService } from 'src/app/deficiency-notice/deficiency-notice.service';
 
 @Component({
   selector: 'app-modal',
@@ -48,10 +52,9 @@ export class ModalComponent implements OnInit {
     private mobilePhoneDealerService: MobilePhoneDealerService,
     private radioTransceiverService: RadioTransceiverService,
     private serviceCenterReportService: ServiceCenterReportService,
-    private stationService: StationService,
-    private serviceCenterService: ServiceCenterService,
-    private dealerService: DealerService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private radioDealerService: RadioDealerService,
+    private dnService: DeficiencyNoticeService // private stationService: StationService, // private serviceCenterService: ServiceCenterService, // private dealerService: DealerService,
   ) {}
 
   ngOnInit(): void {}
@@ -61,37 +64,39 @@ export class ModalComponent implements OnInit {
       mobilePhoneDealer,
       radioTransceiver,
       serviceCenterReport,
-      stationDelete,
-      serviceCenterDelete,
-      dealerDelete,
+      radioDealer,
+      deficiencyNotice,
       clientDelete,
+      // stationDelete,
+      // serviceCenterDelete,
+      // dealerDelete,
     ];
     return allowedComponents.includes(this.componentName) && this.formMode === DELETE;
   };
 
-  isStationEdit(): boolean {
-    return this.componentName === stationEdit && (this.formMode === EDIT || this.formMode === ADD);
-  }
+  // isStationEdit(): boolean {
+  //   return this.componentName === stationEdit && (this.formMode === EDIT || this.formMode === ADD);
+  // }
 
-  isStationView(): boolean {
-    return this.componentName === stationView && this.formMode === VIEW;
-  }
+  // isStationView(): boolean {
+  //   return this.componentName === stationView && this.formMode === VIEW;
+  // }
 
-  isServiceCenterEdit(): boolean {
-    return this.componentName === serviceCenterEdit && (this.formMode === EDIT || this.formMode === ADD);
-  }
+  // isServiceCenterEdit(): boolean {
+  //   return this.componentName === serviceCenterEdit && (this.formMode === EDIT || this.formMode === ADD);
+  // }
 
-  isServiceCenterView(): boolean {
-    return this.componentName === serviceCenterView && this.formMode === VIEW;
-  }
+  // isServiceCenterView(): boolean {
+  //   return this.componentName === serviceCenterView && this.formMode === VIEW;
+  // }
 
-  isDealerEdit(): boolean {
-    return this.componentName === dealerEdit && (this.formMode === EDIT || this.formMode === ADD);
-  }
+  // isDealerEdit(): boolean {
+  //   return this.componentName === dealerEdit && (this.formMode === EDIT || this.formMode === ADD);
+  // }
 
-  isDealerView(): boolean {
-    return this.componentName === dealerView && this.formMode === VIEW;
-  }
+  // isDealerView(): boolean {
+  //   return this.componentName === dealerView && this.formMode === VIEW;
+  // }
 
   isClientEdit(): boolean {
     return this.componentName === clientEdit && (this.formMode === EDIT || this.formMode === ADD);
@@ -108,6 +113,10 @@ export class ModalComponent implements OnInit {
   async removeEntry(): Promise<void> {
     try {
       switch (this.componentName) {
+        case radioDealer:
+          await this.radioDealerService.deleteOne(this.formId).toPromise();
+          this.radioDealerService.getEntriesAPI();
+          break;
         case mobilePhoneDealer:
           await this.mobilePhoneDealerService.deleteOne(this.formId).toPromise();
           this.mobilePhoneDealerService.getEntriesAPI();
@@ -117,17 +126,22 @@ export class ModalComponent implements OnInit {
           this.radioTransceiverService.getEntriesAPI();
           break;
         case serviceCenterReport:
-          this.serviceCenterReportService.deleteOne(this.formId);
+          await this.serviceCenterReportService.deleteOne(this.formId).toPromise();
+          this.serviceCenterReportService.getEntriesAPI();
           break;
-        case stationDelete:
-          this.stationService.deleteOne(this.formId);
+        case deficiencyNotice:
+          await this.dnService.deleteOne(this.formId).toPromise();
+          this.dnService.getEntriesAPI();
           break;
-        case serviceCenterDelete:
-          this.serviceCenterService.deleteOne(this.formId);
-          break;
-        case dealerDelete:
-          this.dealerService.deleteOne(this.formId);
-          break;
+        // case stationDelete:
+        //   this.stationService.deleteOne(this.formId);
+        //   break;
+        // case serviceCenterDelete:
+        //   this.serviceCenterService.deleteOne(this.formId);
+        //   break;
+        // case dealerDelete:
+        //   this.dealerService.deleteOne(this.formId);
+        //   break;
         default:
           break;
       }
@@ -137,17 +151,17 @@ export class ModalComponent implements OnInit {
     }
   }
 
-  saveStation() {
-    this.stationService.saveStationListener.next();
-  }
+  // saveStation() {
+  //   this.stationService.saveStationListener.next();
+  // }
 
-  saveServiceCenter() {
-    this.serviceCenterService.saveServiceCenterListener.next();
-  }
+  // saveServiceCenter() {
+  //   this.serviceCenterService.saveServiceCenterListener.next();
+  // }
 
-  saveDealer() {
-    this.dealerService.saveDealerListener.next();
-  }
+  // saveDealer() {
+  //   this.dealerService.saveDealerListener.next();
+  // }
 
   saveClient() {
     this.clientService.saveClientListener.next();

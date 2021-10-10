@@ -52,7 +52,7 @@ export class MobilePhoneDealerEditComponent implements OnInit {
     this.clientService.selectedEntry.pipe(takeUntil(this.getDestroyed)).subscribe({
       next: (response) => {
         this.form.patchValue({ clientId: response.id });
-        this.clientName = response.name;
+        this.clientName = response.businessName;
         this.cd.detectChanges();
       },
     });
@@ -70,6 +70,9 @@ export class MobilePhoneDealerEditComponent implements OnInit {
       });
       this.clientName = fetchedValue.clientName;
       this.form.patchValue({ ...fetchedValue });
+      this.mobilePhoneDealerService.resourceType.next(EDIT);
+    } else {
+      this.mobilePhoneDealerService.resourceType.next(ADD);
     }
   }
 
@@ -78,7 +81,6 @@ export class MobilePhoneDealerEditComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.form.value);
     if (this.formMode === ADD) {
       this.mobilePhoneDealerService
         .addOne(this.form.value)

@@ -1,25 +1,31 @@
 <app-navbar></app-navbar>
+<div class="container-fluid">
+  <div class="pt-custom">
+    <div class="row">
+      <div class="h5 text-muted col-12 offset-0 offset-md-0 offset-lg-0 offset-xl-2">
+        TRACKING AND MONITORING SYSTEM OF ADMINISTRATIVE CASES
+      </div>
+    </div>
+    <div class="row">
+      <div class="font-weight-bold col-10 d-flex justify-content-end">
+        <span
+          >Add new <a class="text-muted cursor" [routerLink]="['master-list', 'clients']"><u>client</u></a></span
+        >
+      </div>
+    </div>
 
-<app-layout>
-  <div class="mb-2">
-    <button class="btn btn-sm btn-primary mr-1" [routerLink]="['radio-transceiver']">Radio Transceiver</button>
-
-    <button class="btn btn-sm btn-primary mr-1" [routerLink]="['mobile-phone-dealer']">Mobile Phone Dealer</button>
-
-    <button class="btn btn-sm btn-primary" [routerLink]="['service-center']">Service Center</button>
-
-    <button class="btn btn-sm btn-primary" [routerLink]="['radio-dealer']">Radio Dealer</button>
+    <div class="mt-1 mt-sm-1 mt-md-1 mt-lg-2 mt-lg-2" [ngClass]="{ 'row ': isAuthenticate }">
+      <div class="col-2 offset-0 offset-md-0 offset-lg-0 offset-xl-2 mt-5">
+        <app-side-navbar></app-side-navbar>
+      </div>
+      <div
+        class="mt-5"
+        [ngClass]="{
+          'col-12 col-sm-12 col-md-12 col-lg-9 col-xl-6 offset-md-0 offset-lg-1 offset-xl-0': isAuthenticate
+        }"
+      >
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
-
-  <div class="mb-2">
-    <!-- <button class="btn btn-sm btn-primary mr-1" [routerLink]="['master-list', 'stations']">Stations</button>
-
-    <button class="btn btn-sm btn-primary mr-1" [routerLink]="['master-list', 'dealers']">Dealers</button>
-
-    <button class="btn btn-sm btn-primary mr-1" [routerLink]="['master-list', 'service-centers']">Service Centers</button> -->
-
-    <button class="btn btn-sm btn-primary mr-1" [routerLink]="['master-list', 'clients']">Clients</button>
-  </div>
-
-  <router-outlet></router-outlet>
-</app-layout>
+</div>

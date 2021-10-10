@@ -1,0 +1,53 @@
+<div class="ml-3 mr-2 d-none d-xl-block d-lg-block d-xl-none position-fixed">
+  <app-side-navbar-item
+    [label]="'Radio Transceiver'"
+    [routerLink]="['/radio-transceiver']"
+    routerLinkActive
+    #rla1="routerLinkActive"
+    [currentlySelected]="rla1.isActive"
+  ></app-side-navbar-item>
+
+  <app-side-navbar-item
+    [label]="'Mobile Phone Dealer'"
+    [routerLink]="['/mobile-phone-dealer']"
+    routerLinkActive
+    #rla2="routerLinkActive"
+    [currentlySelected]="rla2.isActive"
+  ></app-side-navbar-item>
+
+  <app-side-navbar-item
+    [label]="'Service Center'"
+    [routerLink]="['/service-center']"
+    routerLinkActive
+    #rla3="routerLinkActive"
+    [currentlySelected]="rla3.isActive"
+  ></app-side-navbar-item>
+
+  <app-side-navbar-item
+    [label]="'Radio Dealer'"
+    [routerLink]="['/radio-dealer']"
+    routerLinkActive
+    #rla4="routerLinkActive"
+    [currentlySelected]="rla4.isActive"
+  ></app-side-navbar-item>
+
+  <app-side-navbar-item
+    [label]="'Deficiency Notice'"
+    [routerLink]="['/deficiency-notice']"
+    routerLinkActive
+    #rla5="routerLinkActive"
+    [currentlySelected]="rla5.isActive"
+  ></app-side-navbar-item>
+
+  <app-side-navbar-item
+    [label]="'Complaint'"
+    [routerLink]="['/complaint']"
+    routerLinkActive
+    #rla6="routerLinkActive"
+    [currentlySelected]="rla6.isActive"
+  ></app-side-navbar-item>
+
+  <app-side-navbar-item [label]="'Log Out'" (clicked)="logout()"></app-side-navbar-item>
+
+  <div class="text-muted mt-2 ml-2">{{ appVersion() }}</div>
+</div>

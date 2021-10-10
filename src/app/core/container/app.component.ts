@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CoreService } from '../service/core.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'monitoring-system';
+  isAuthenticate = true;
+
+  constructor(public coreService: CoreService) {}
 }

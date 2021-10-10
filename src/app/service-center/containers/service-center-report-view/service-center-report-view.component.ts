@@ -1,12 +1,13 @@
 import { ServiceCenterReportService } from './../../service-center-report.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Params } from '@angular/router';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DateTime } from 'luxon';
 import { employedETInput, initForm, serviceOrTestEquipmentInput } from '../../service-center-shared';
+import { VIEW } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-service-center-report-view',
@@ -19,6 +20,7 @@ export class ServiceCenterReportViewComponent implements OnInit {
   clientName = '';
 
   faCalendarAlt = faCalendarAlt;
+  faFilePdf = faFilePdf;
 
   getDestroyed = new Subject();
 
@@ -45,6 +47,7 @@ export class ServiceCenterReportViewComponent implements OnInit {
     });
     this.clientName = fetchedValue.clientName;
     this.form.patchValue({ ...fetchedValue });
+    this.serviceCenterReportService.resourceType.next(VIEW);
   }
 
   initForm(): void {
@@ -61,6 +64,10 @@ export class ServiceCenterReportViewComponent implements OnInit {
 
   addEmployedElectronicTechnician() {
     this.employedElectronicsTechnicians.push(employedETInput());
+  }
+
+  generatePdf(): void {
+    this.serviceCenterReportService.generatePdf(this.formId);
   }
 
   get listOfServiceOrTestEquipments(): FormArray {

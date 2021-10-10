@@ -1,11 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { StartComponent } from './core/components/start/start.component';
+import { MainComponent } from './core/container/main/main.component';
 
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   redirectTo: 'radio-transceiver',
+  //   pathMatch: 'full',
+  // },
   {
     path: '',
-    redirectTo: 'radio-transceiver',
-    pathMatch: 'full',
+    component: StartComponent,
+  },
+  {
+    path: 'complaint',
+    loadChildren: () => import('./complaint/complaint.module').then((m) => m.ComplaintModule),
+  },
+  {
+    path: 'deficiency-notice',
+    loadChildren: () => import('./deficiency-notice/deficiency-notice.module').then((m) => m.DeficiencyNoticeModule),
   },
   {
     path: 'radio-transceiver',

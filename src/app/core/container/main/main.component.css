@@ -1,0 +1,11 @@
+.card-min-width {
+  min-width: 500px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.max-width {
+  max-width: 175px;
+}

@@ -1,11 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PageOptions } from '../shared/models/page-options';
-import { dateWithPadding } from '../shared/utility';
+import { dateWithPadding, formatDate, openPDF } from '../shared/utility';
 import { MobilePhoneDealerAPI } from './models/mobile-phone-dealer-api.model';
 import { MobilePhoneDealer } from './models/mobile-phone-dealer.model';
 
@@ -18,6 +18,7 @@ export class MobilePhoneDealerService {
     size: 10,
     search: '',
   };
+  resourceType = new ReplaySubject<string>();
 
   private entries: MobilePhoneDealer[] = [];
   private entriesListener = new Subject<MobilePhoneDealer[]>();
@@ -92,7 +93,10 @@ export class MobilePhoneDealerService {
       })
       .subscribe({
         next: (response) => {
-          saveAs(response, 'sss.pdf');
+          const pdfWindow = window.open();
+          pdfWindow.document.write(openPDF(response, 'Mobile Phone Dealer'));
+          pdfWindow.document.close();
+          // saveAs(response, 'sss.pdf');
         },
         error: (err) => {
           console.log('err', err);
@@ -103,7 +107,8 @@ export class MobilePhoneDealerService {
   formatData = (data: MobilePhoneDealer): MobilePhoneDealer => {
     const formattedData: MobilePhoneDealer = {
       ...data,
-      dateInspected: new Date(DateTime.fromISO(dateWithPadding(data.dateInspected as string)).toISO()),
+      dateInspected: formatDate(data.dateInspected as string),
+      permitExpiryDate: formatDate(data.permitExpiryDate as string),
     };
     return formattedData;
   };
@@ -111,9 +116,11 @@ export class MobilePhoneDealerService {
   formatList = (data: MobilePhoneDealerAPI): MobilePhoneDealer => {
     const value: MobilePhoneDealer = {
       id: data.id,
-      dateInspected: data.date_inspected ? DateTime.fromISO(data.date_inspected.toLocaleString()).toISO() : null,
+      dateInspected: formatDate(data.date_inspected, false),
       clientId: data.client_id,
-      clientName: data.clients.name,
+      clientName: data.clients.business_name,
+      permitNumber: data.permit_number,
+      permitExpiryDate: formatDate(data.permit_expiry_date as Date, false),
       listOfStocksOfSparesAndAccessories: data.spares_and_accessories
         ? data.spares_and_accessories.map((val) => ({
             particular: val.particular,

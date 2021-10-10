@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { LIST } from 'src/app/shared/constants';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 import { MobilePhoneDealer } from '../../models/mobile-phone-dealer.model';
 
@@ -25,6 +26,7 @@ export class MobilePhoneDealerCollectionComponent implements OnInit, OnDestroy {
       },
     });
     this.mobilePhoneDealerService.getEntriesAPI();
+    this.mobilePhoneDealerService.resourceType.next(LIST);
   }
 
   ngOnDestroy() {

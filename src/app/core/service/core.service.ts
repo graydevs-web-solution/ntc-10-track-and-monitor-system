@@ -12,4 +12,9 @@ export class CoreService {
   getAppVersion(): string {
     return this.appVersion;
   }
+
+  logout() {
+    // eslint-disable-next-line no-console
+    console.debug('Log out');
+  }
 }

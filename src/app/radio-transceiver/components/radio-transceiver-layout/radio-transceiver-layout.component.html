@@ -1,16 +1,13 @@
 <div>
-  <span class="h5">Radio Transceiver Page</span>
+  <div class="mb-3">
+    <span class="h5">Radio Transceiver</span>
+  </div>
+
+  <div class="mb-3">
+    <button class="btn btn-sm btn-primary mr-1" (click)="getURL()">Back</button>
+
+    <button class="btn btn-sm btn-primary" [routerLink]="['new']">New</button>
+  </div>
+
+  <router-outlet></router-outlet>
 </div>
-
-<div class="mb-3">
-  <button
-    class="btn btn-sm btn-primary mr-1"
-    [routerLink]="['/radio-transceiver']"
-  >
-    Back
-  </button>
-
-  <button class="btn btn-sm btn-primary" [routerLink]="['new']">New</button>
-</div>
-
-<router-outlet></router-outlet>

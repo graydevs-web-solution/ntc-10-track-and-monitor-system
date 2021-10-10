@@ -33,10 +33,4 @@ export class ClientCollectionComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.entriesSubs.unsubscribe();
   }
-
-  open() {
-    const modalRef = this.modalService.open(ModalComponent, { centered: true, size: 'lg' });
-    modalRef.componentInstance.componentName = clientEdit;
-    modalRef.componentInstance.formMode = EDIT;
-  }
 }

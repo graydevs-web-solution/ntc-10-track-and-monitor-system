@@ -52,7 +52,7 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
     this.clientService.selectedEntry.pipe(takeUntil(this.getDestroyed)).subscribe({
       next: (response) => {
         this.form.patchValue({ clientId: response.id });
-        this.clientName = response.name;
+        this.clientName = response.businessName;
         this.cd.detectChanges();
       },
     });
@@ -67,6 +67,9 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
       });
       this.clientName = fetchedValue.clientName;
       this.form.patchValue({ ...fetchedValue });
+      this.serviceCenterReportService.resourceType.next(EDIT);
+    } else {
+      this.serviceCenterReportService.resourceType.next(ADD);
     }
   }
 

@@ -5,7 +5,7 @@ import { RadioDealer } from '../../models/radio-dealer.model';
   selector: 'app-radio-dealer-list',
   template: `
     <app-card *ngFor="let entry of entries">
-      <app-mobile-phone-dealer-entry [entry]="entry"></app-mobile-phone-dealer-entry>
+      <app-radio-dealer-entry [entry]="entry"></app-radio-dealer-entry>
     </app-card>
   `,
   styles: [],

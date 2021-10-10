@@ -31,13 +31,17 @@ export const initForm = (readState = false): FormGroup => {
     pointsOfCommunication: new FormControl({ value: '', disabled: false }),
     operators: new FormArray([]),
     radioTransceivers: new FormArray([]),
+    receivers: new FormArray([]),
+    otherEquipments: new FormArray([]),
     frequenciesInfo: new FormGroup({
       assignedFreq: new FormControl({ value: '', disabled: false }),
       crystalFreq: new FormControl({ value: '', disabled: false }),
       measuredFreq: new FormControl({ value: '', disabled: false }),
       ifReceiver: new FormControl({ value: '', disabled: false }),
       typeOfEmission: new FormControl({ value: '', disabled: false }),
-      antennaSystemType: new FormControl({ value: '', disabled: false }),
+    }),
+    antennaSystemInfo: new FormGroup({
+      type: new FormControl({ value: '', disabled: false }),
       elevationFromGmd: new FormControl({ value: '', disabled: false }),
       lengthOfRadiator: new FormControl({ value: '', disabled: false }),
       gain: new FormControl({ value: '', disabled: false }),
@@ -78,17 +82,16 @@ export const initForm = (readState = false): FormGroup => {
 };
 
 export const operatorInput = (): FormGroup => {
-  const input = new FormGroup({
+  return new FormGroup({
     id: new FormControl({ value: null, disabled: false }),
     name: new FormControl({ value: '', disabled: false }),
     particularOfLicense: new FormControl({ value: '', disabled: false }),
     expirationDate: new FormControl({ value: '', disabled: false }),
   });
-  return input;
 };
 
 export const radioTransceiverEntryInput = (): FormGroup => {
-  const input = new FormGroup({
+  return new FormGroup({
     id: new FormControl({ value: null, disabled: false }),
     model: new FormControl({ value: '', disabled: false }),
     serialNumber: new FormControl({ value: '', disabled: false }),
@@ -96,5 +99,15 @@ export const radioTransceiverEntryInput = (): FormGroup => {
     powerOutput: new FormControl({ value: '', disabled: false }),
     freqControl: new FormControl({ value: '', disabled: false }),
   });
-  return input;
+};
+
+export const receiverOrOtherEquipmentInput = (): FormGroup => {
+  return new FormGroup({
+    id: new FormControl({ value: null, disabled: false }),
+    name: new FormControl({ value: '', disabled: false }),
+    serialNumber: new FormControl({ value: '', disabled: false }),
+    freqRange: new FormControl({ value: '', disabled: false }),
+    powerOutput: new FormControl({ value: '', disabled: false }),
+    freqControl: new FormControl({ value: '', disabled: false }),
+  });
 };

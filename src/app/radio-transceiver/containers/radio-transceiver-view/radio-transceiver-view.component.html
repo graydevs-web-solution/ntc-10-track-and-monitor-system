@@ -1,10 +1,12 @@
-<button class="btn btn-sm btn-success" (click)="generatePdf()">Save as Pdf</button>
+<div class="d-flex justify-content-end mb-3">
+  <button class="btn btn-sm btn-secondary" (click)="generatePdf()"><fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf</button>
+</div>
 
-<nav ngbNav #nav="ngbNav" class="nav-tabs">
+<nav ngbNav #nav="ngbNav" class="nav-tabs bg-tab rounded-top">
   <ng-container ngbNavItem>
     <a ngbNavLink>One</a>
     <ng-template ngbNavContent>
-      <div class="border p-2" [formGroup]="form">
+      <div class="p-3" [formGroup]="form">
         <div class="form-group row">
           <label for="staticEmail" class="col-2 col-form-label">Date</label>
           <div class="col-10">
@@ -107,6 +109,17 @@
                 value="renewal"
               />
               <label class="custom-control-label" for="type-renewal">Renewal</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="type-modification"
+                name="formType"
+                formControlName="formType"
+                class="custom-control-input"
+                value="modification"
+              />
+              <label class="custom-control-label" for="type-modification">Modification</label>
             </div>
           </div>
         </div>
@@ -245,7 +258,7 @@
   <ng-container ngbNavItem>
     <a ngbNavLink>Two</a>
     <ng-template ngbNavContent>
-      <div class="border p-2" [formGroup]="form">
+      <div class="p-3" [formGroup]="form">
         <div class="mb-3">
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">Operators</div>
@@ -387,13 +400,288 @@
 
           <div *ngIf="!radioTransceivers.controls.length" class="border p-3 text-center">No Transmitter(s)/Transreceiver(s)</div>
         </div>
+
+        <div class="mb-3">
+          <div class="d-flex justify-content-between mb-2">
+            <div class="h5">Receiver(s)</div>
+            <div>
+              <!-- Insert HTML Element Here -->
+            </div>
+          </div>
+
+          <div *ngFor="let receiver of receivers.controls; let i = index" class="border p-2 mb-2">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'nameReceiver' + i">Name</label>
+                  <input
+                    type="text"
+                    [formControl]="receiver.get('name')"
+                    class="form-control"
+                    [id]="'nameReceiver' + i"
+                    placeholder="Name"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'serialNumberReceiver' + i">Serial No.</label>
+                  <input
+                    type="text"
+                    [formControl]="receiver.get('serialNumber')"
+                    class="form-control"
+                    [id]="'serialNumberReceiver' + i"
+                    placeholder="Serial Number"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'freqRangeReceiver' + i">Freq. Range</label>
+                  <input
+                    type="text"
+                    [formControl]="receiver.get('freqRange')"
+                    class="form-control"
+                    [id]="'freqRangeReceiver' + i"
+                    placeholder="Frequency Range"
+                    readonly
+                  />
+                </div>
+              </div>
+              <!-- <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'powerOutputReceiver' + i">Power Output</label>
+                  <input
+                    type="text"
+                    [formControl]="receiver.get('powerOutput')"
+                    class="form-control"
+                    [id]="'powerOutputReceiver' + i"
+                    placeholder="Power Output"
+                    readonly
+                  />
+                </div>
+              </div> -->
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'freqControlReceiver' + i">Freq. Control</label>
+                  <input
+                    type="text"
+                    [formControl]="receiver.get('freqControl')"
+                    class="form-control"
+                    [id]="'freqControlReceiver' + i"
+                    placeholder="Freq Control"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!receivers.controls.length" class="border p-3 text-center">No Receivers</div>
+        </div>
+
+        <div class="mb-3">
+          <div class="d-flex justify-content-between mb-2">
+            <div class="h5">Other Equipment(s)</div>
+            <div>
+              <!-- Insert HTML Element Here -->
+            </div>
+          </div>
+
+          <div *ngFor="let equipment of otherEquipments.controls; let i = index" class="border p-2 mb-2">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'nameReceiver' + i">Name</label>
+                  <input
+                    type="text"
+                    [formControl]="equipment.get('name')"
+                    class="form-control"
+                    [id]="'nameReceiver' + i"
+                    placeholder="Name"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'serialNumberReceiver' + i">Serial No.</label>
+                  <input
+                    type="text"
+                    [formControl]="equipment.get('serialNumber')"
+                    class="form-control"
+                    [id]="'serialNumberReceiver' + i"
+                    placeholder="Serial Number"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'freqRangeReceiver' + i">Freq. Range</label>
+                  <input
+                    type="text"
+                    [formControl]="equipment.get('freqRange')"
+                    class="form-control"
+                    [id]="'freqRangeReceiver' + i"
+                    placeholder="Frequency Range"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'powerOutputReceiver' + i">Power Output</label>
+                  <input
+                    type="text"
+                    [formControl]="equipment.get('powerOutput')"
+                    class="form-control"
+                    [id]="'powerOutputReceiver' + i"
+                    placeholder="Power Output"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label [for]="'freqControlReceiver' + i">Freq. Control</label>
+                  <input
+                    type="text"
+                    [formControl]="equipment.get('freqControl')"
+                    class="form-control"
+                    [id]="'freqControlReceiver' + i"
+                    placeholder="Freq Control"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!otherEquipments.controls.length" class="border p-3 text-center">No Other Equipments</div>
+        </div>
+
+        <div formGroupName="frequenciesInfo">
+          <div class="h4">Frequencies/Type of Emission/Bandwidth</div>
+
+          <div class="form-group row">
+            <label for="assinged-freq" class="col-sm-2 col-form-label">Assigned Freq.</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="assinged-freq" formControlName="assignedFreq" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="crystal-freq" class="col-sm-2 col-form-label">Crystal Freq.</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="crystal-freq" formControlName="crystalFreq" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="measured-freq" class="col-sm-2 col-form-label">Measured Freq.</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="measured-freq" formControlName="measuredFreq" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="if-receiver" class="col-sm-2 col-form-label">IF Receiver</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="if-receiver" formControlName="ifReceiver" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="typeOfEmission" class="col-sm-2 col-form-label">Type of Emission</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="typeOfEmission" formControlName="typeOfEmission" />
+            </div>
+          </div>
+        </div>
+
+        <div formGroupName="antennaSystemInfo">
+          <div class="h4">Antenna System</div>
+
+          <div class="form-group row">
+            <label for="antenna-type" class="col-sm-2 col-form-label">Type</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="antenna-type" formControlName="type" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="elevation-from-gmd" class="col-sm-2 col-form-label">Elevation From Gmd</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="elevation-from-gmd" formControlName="elevationFromGmd" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="lengthOfRadiator" class="col-sm-2 col-form-label">Length of Radiator</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="lengthOfRadiator" formControlName="lengthOfRadiator" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="gain" class="col-sm-2 col-form-label">Gain (dB)</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="gain" formControlName="gain" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="directivity" class="col-sm-2 col-form-label">Directivity</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="directivity" formControlName="directivity" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="powerSupply" class="col-sm-2 col-form-label">Power Supply</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="powerSupply" formControlName="powerSupply" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="battery" class="col-sm-2 col-form-label">Battery</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="battery" formControlName="battery" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="voltageAndType" class="col-sm-2 col-form-label">Voltage and Type</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="voltageAndType" formControlName="voltageAndType" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="capacity" class="col-sm-2 col-form-label">Capacity</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="capacity" formControlName="capacity" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="ah" class="col-sm-2 col-form-label">Ah</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="ah" formControlName="ah" />
+            </div>
+          </div>
+        </div>
       </div>
     </ng-template>
   </ng-container>
   <ng-container ngbNavItem>
     <a ngbNavLink>Three</a>
     <ng-template ngbNavContent>
-      <div class="border p-2" [formGroup]="form">
+      <div class="p-3" [formGroup]="form">
         <div class="form-group row" formGroupName="illegalConstructionInfo">
           <label for="illegal-construction" class="col-sm-2 col-form-label">Illegal Construction</label>
           <div class="col-sm- mt-2">
@@ -554,7 +842,7 @@
   <ng-container ngbNavItem>
     <a ngbNavLink>Four</a>
     <ng-template ngbNavContent>
-      <div class="border p-2" [formGroup]="form">
+      <div class="p-3" [formGroup]="form">
         <div class="form-group row">
           <label for="authorizedRepresentative" class="col-sm-2 col-form-label">Authorized Representative</label>
           <div class="col-sm-10">
@@ -600,4 +888,4 @@
   </ng-container>
 </nav>
 
-<div [ngbNavOutlet]="nav" class="mt-2"></div>
+<div [ngbNavOutlet]="nav" class="bg-white border rounded-bottom border-top-0 pt-3"></div>
