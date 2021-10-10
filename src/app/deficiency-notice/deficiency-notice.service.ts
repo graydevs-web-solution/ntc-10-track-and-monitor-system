@@ -145,7 +145,7 @@ export class DeficiencyNoticeService {
       respondentName: data.respondent_name,
       date: formatDate(data.date, false),
       clientId: data.client_id,
-      clientName: data.clients.business_name,
+      clientName: data.clients.owner_name,
       docketNumber: data.docket_number,
       transmitters: data.deficiency_notice_transmitter
         ? data.deficiency_notice_transmitter.map((val) => ({

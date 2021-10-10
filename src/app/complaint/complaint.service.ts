@@ -144,7 +144,7 @@ export class ComplaintService {
       date: formatDate(data.date, false),
       complainantName: data.complainant_name,
       clientId: data.client_id,
-      clientName: data.clients.business_name,
+      clientName: data.clients.owner_name,
       respondentName: data.respondent_name,
       docketNumber: data.docket_number,
       dateOfInspection: formatDate(data.date_of_inspection as Date, false),
