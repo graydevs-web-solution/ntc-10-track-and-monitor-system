@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../auth/auth.guard';
 import { ComplaintLayoutComponent } from './components/complaint-layout/complaint-layout.component';
 import { ComplaintCollectionComponent } from './containers/complaint-collection/complaint-collection.component';
 import { ComplaintEditComponent } from './containers/complaint-edit/complaint-edit.component';
@@ -9,6 +10,7 @@ const routes: Routes = [
   {
     path: '',
     component: ComplaintLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',

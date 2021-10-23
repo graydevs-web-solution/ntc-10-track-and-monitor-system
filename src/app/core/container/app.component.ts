@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
 import { CoreService } from '../service/core.service';
 
 @Component({
@@ -6,8 +7,18 @@ import { CoreService } from '../service/core.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   isAuthenticate = true;
 
-  constructor(public coreService: CoreService) {}
+  constructor(public coreService: CoreService, private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authService.autoAuthUser();
+    this.authService.getAuthListener().subscribe({
+      next: (res) => {
+        this.isAuthenticate = res;
+      },
+    });
+    this.isAuthenticate = this.authService.getIsAuth();
+  }
 }

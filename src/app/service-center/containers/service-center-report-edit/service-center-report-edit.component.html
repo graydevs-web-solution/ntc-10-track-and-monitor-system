@@ -1,15 +1,11 @@
-<div class="d-flex justify-content-end mb-3">
-  <button class="btn btm-sm btn-primary" (click)="submit()">Submit</button>
-</div>
-
 <nav ngbNav #nav="ngbNav" class="nav-tabs bg-tab rounded-top">
   <ng-container ngbNavItem>
     <a ngbNavLink>One</a>
     <ng-template ngbNavContent>
       <div class="p-3" [formGroup]="form">
         <div class="form-group row">
-          <label for="staticEmail" class="col-2 col-form-label">Date Inspected</label>
-          <div class="col-10">
+          <label for="staticEmail" class="col-3 col-form-label">Date Inspected</label>
+          <div class="col-9">
             <div class="input-group">
               <input
                 class="form-control"
@@ -32,8 +28,8 @@
         <br />
 
         <div class="form-group row">
-          <label for="name-of-station" class="col-sm-2 col-form-label">Client</label>
-          <div class="input-group col-sm-10">
+          <label for="name-of-station" class="col-sm-3 col-form-label">Client</label>
+          <div class="input-group col-sm-9">
             <input
               type="text"
               class="form-control"
@@ -52,15 +48,15 @@
         <br />
 
         <div class="form-group row">
-          <label for="permit-number" class="col-sm-2 col-form-label">Permit Number</label>
-          <div class="col-sm-8">
+          <label for="permit-number" class="col-sm-3 col-form-label">Permit Number</label>
+          <div class="col-sm-9">
             <input type="text" class="form-control" id="permit-number" formControlName="permitNumber" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="permit-expiry-date" class="col-2 col-form-label">Permit Expiry Date</label>
-          <div class="col-10">
+          <label for="permit-expiry-date" class="col-3 col-form-label">Permit Expiry Date</label>
+          <div class="col-9">
             <div class="input-group">
               <input
                 class="form-control"
@@ -209,8 +205,8 @@
     <ng-template ngbNavContent>
       <div class="p-3" [formGroup]="form">
         <div class="form-group row">
-          <label for="inspector" class="col-sm-2 col-form-label">Inspector</label>
-          <div class="col-sm-8">
+          <label for="inspector" class="col-sm-3 col-form-label">Inspector</label>
+          <div class="col-sm-9">
             <input type="text" class="form-control" id="inspector" formControlName="inspectedBy" />
           </div>
         </div>
@@ -219,15 +215,15 @@
 
         <div formGroupName="ownerInfo">
           <div class="form-group row">
-            <label for="owner-name" class="col-sm-2 col-form-label">Owner/Representative Name</label>
-            <div class="col-sm-8">
+            <label for="owner-name" class="col-sm-3 col-form-label">Owner/Representative Name</label>
+            <div class="col-sm-9">
               <input type="text" class="form-control" id="owner-name" formControlName="name" />
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="position" class="col-sm-2 col-form-label">Position/Designation</label>
-            <div class="col-sm-8">
+            <label for="position" class="col-sm-3 col-form-label">Position/Designation</label>
+            <div class="col-sm-9">
               <input type="text" class="form-control" id="position" formControlName="position" />
             </div>
           </div>
@@ -236,22 +232,22 @@
         <br />
 
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="recommendation">Recommendation/s</label>
-          <div class="col-sm-8">
+          <label class="col-sm-3 col-form-label" for="recommendation">Recommendation/s</label>
+          <div class="col-sm-9">
             <textarea autosize class="form-control" id="recommendation" formControlName="recommendations" rows="3"></textarea>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="noted-by" class="col-sm-2 col-form-label">Noted By</label>
-          <div class="col-sm-8">
+          <label for="noted-by" class="col-sm-3 col-form-label">Noted By</label>
+          <div class="col-sm-9">
             <input type="text" class="form-control" id="noted-by" formControlName="notedBy" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="working-hours" class="col-sm-2 col-form-label">Approved?</label>
-          <div class="col-sm-8">
+          <label for="working-hours" class="col-sm-3 col-form-label">Approved?</label>
+          <div class="col-sm-9">
             <div class="custom-control custom-radio custom-control-inline">
               <input
                 type="radio"
@@ -278,8 +274,8 @@
         </div>
 
         <div class="form-group row">
-          <label for="regionalDirector" class="col-sm-2 col-form-label">Regional Director</label>
-          <div class="col-sm-8">
+          <label for="regionalDirector" class="col-sm-3 col-form-label">Regional Director</label>
+          <div class="col-sm-9">
             <input type="text" class="form-control" id="regionalDirector" formControlName="regionalDirector" />
           </div>
         </div>
@@ -289,3 +285,7 @@
 </nav>
 
 <div [ngbNavOutlet]="nav" class="bg-white border rounded-bottom border-top-0 pt-3"></div>
+
+<div class="mb-3">
+  <button class="btn btm-sm btn-primary btn-block" (click)="submit()">Submit</button>
+</div>

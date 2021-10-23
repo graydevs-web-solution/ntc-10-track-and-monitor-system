@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
 import { CoreService } from 'src/app/core/service/core.service';
 
 @Component({
@@ -7,12 +8,12 @@ import { CoreService } from 'src/app/core/service/core.service';
   styleUrls: ['./side-navbar.component.css'],
 })
 export class SideNavbarComponent implements OnInit {
-  constructor(private coreService: CoreService) {}
+  constructor(private coreService: CoreService, private authService: AuthService) {}
 
   ngOnInit(): void {}
 
   logout() {
-    this.coreService.logout();
+    this.authService.logoutUser();
   }
 
   appVersion(): string {

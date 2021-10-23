@@ -4,11 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { ServiceCenterReportEditComponent } from './containers/service-center-report-edit/service-center-report-edit.component';
 import { ServiceCenterReportCollectionComponent } from './containers/service-center-report-collection/service-center-report-collection.component';
 import { ServiceCenterReportViewComponent } from './containers/service-center-report-view/service-center-report-view.component';
+import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: ServiceCenterLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',

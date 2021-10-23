@@ -1,0 +1,53 @@
+<div class="p-3" [formGroup]="form">
+  <div class="form-group row">
+    <label for="name-first" class="col-sm-2 col-form-label">First Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="name-first" formControlName="name_first" />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="name-middle" class="col-sm-2 col-form-label">Middle Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="name-middle" formControlName="name_middle" />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="name-last" class="col-sm-2 col-form-label">Last Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="name-last" formControlName="name_last" />
+    </div>
+  </div>
+
+  <br />
+
+  <div class="form-group row">
+    <label for="name-last" class="col-sm-2 col-form-label">Position</label>
+    <div class="col-sm-10">
+      <select class="custom-select" formControlName="position">
+        <option value="engr">Engineer</option>
+        <option value="chf-engr">Chief Engineer</option>
+        <option value="legal">Legal</option>
+        <option value="director">Director</option>
+        <option value="it-admin">IT Admin</option>
+      </select>
+    </div>
+  </div>
+
+  <br />
+
+  <div class="form-group row">
+    <label for="name-last" class="col-sm-2 col-form-label">Login User Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="name-last" formControlName="user_name" />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="default-password" class="col-sm-2 col-form-label">Password</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control form-control-plaintext pl-2" readonly id="default-password" value="ntc11223344" />
+    </div>
+  </div>
+</div>
