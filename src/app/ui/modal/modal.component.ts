@@ -22,6 +22,8 @@ import {
   stationDelete,
   stationEdit,
   stationView,
+  userEdit,
+  userSearch,
   VIEW,
 } from 'src/app/shared/constants';
 import { MobilePhoneDealerService } from './../../mobile-phone-dealer/mobile-phone-dealer.service';
@@ -33,6 +35,8 @@ import { ServiceCenterService } from 'src/app/master-list/service-center/service
 import { DealerService } from 'src/app/master-list/dealer/dealer.service';
 import { RadioDealerService } from 'src/app/radio-dealer/radio-dealer.service';
 import { DeficiencyNoticeService } from 'src/app/deficiency-notice/deficiency-notice.service';
+import { User } from 'src/app/auth/model/user';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-modal',
@@ -54,7 +58,8 @@ export class ModalComponent implements OnInit {
     private serviceCenterReportService: ServiceCenterReportService,
     private clientService: ClientService,
     private radioDealerService: RadioDealerService,
-    private dnService: DeficiencyNoticeService // private stationService: StationService, // private serviceCenterService: ServiceCenterService, // private dealerService: DealerService,
+    private dnService: DeficiencyNoticeService,
+    private authService: AuthService // private stationService: StationService, // private serviceCenterService: ServiceCenterService, // private dealerService: DealerService,
   ) {}
 
   ngOnInit(): void {}
@@ -97,6 +102,14 @@ export class ModalComponent implements OnInit {
   // isDealerView(): boolean {
   //   return this.componentName === dealerView && this.formMode === VIEW;
   // }
+
+  isUserSearch(): boolean {
+    return this.componentName === userSearch;
+  }
+
+  isUserEdit(): boolean {
+    return this.componentName === userEdit && (this.formMode === EDIT || this.formMode === ADD);
+  }
 
   isClientEdit(): boolean {
     return this.componentName === clientEdit && (this.formMode === EDIT || this.formMode === ADD);
@@ -165,5 +178,9 @@ export class ModalComponent implements OnInit {
 
   saveClient() {
     this.clientService.saveClientListener.next();
+  }
+
+  saveUser() {
+    this.authService.saveUserListener.next();
   }
 }

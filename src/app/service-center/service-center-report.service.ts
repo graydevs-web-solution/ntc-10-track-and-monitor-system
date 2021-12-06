@@ -148,6 +148,8 @@ export class ServiceCenterReportService {
       notedBy: data.noted_by,
       regionalDirector: data.regional_director,
       isApproved: data.is_approved,
+      regionalDirectorInfo: data.regional_director_info,
+      notedByInfo: data.noted_by_info,
     };
     return value;
   };

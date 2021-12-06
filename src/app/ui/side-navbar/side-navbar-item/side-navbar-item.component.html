@@ -1,5 +1,5 @@
 <div
-  class="d-flex align-items-center hover p-2 cursor-pointer mb-1"
+  class="d-flex align-items-center hover px-2 py-1 cursor-pointer"
   [ngClass]="{
     'bg-light border rounded shadow-sm font-weight-bold': currentlySelected
   }"
@@ -9,5 +9,5 @@
     <fa-icon [icon]="icon" size="2x" transform="shrink-8" [mask]="mask"></fa-icon>
   </span>
 
-  <span class="h5 ml-3">{{ label }}</span>
+  <span class="h6 ml-3">{{ label }}</span>
 </div>

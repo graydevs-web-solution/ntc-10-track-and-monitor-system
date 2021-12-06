@@ -1,15 +1,11 @@
-<div class="d-flex justify-content-end mb-3">
-  <button class="btn btm-sm btn-primary" (click)="submit()">Submit</button>
-</div>
-
 <nav ngbNav #nav="ngbNav" class="nav-tabs bg-tab rounded-top">
   <ng-container ngbNavItem>
     <a ngbNavLink>One</a>
     <ng-template ngbNavContent>
       <div class="p-3" [formGroup]="form">
         <div class="form-group row">
-          <label for="date-inspected" class="col-2 col-form-label">Date Inspected</label>
-          <div class="col-10">
+          <label for="date-inspected" class="col-3 col-form-label">Date Inspected</label>
+          <div class="col-9">
             <div class="input-group">
               <input
                 class="form-control"
@@ -33,8 +29,8 @@
         <br />
 
         <div class="form-group row">
-          <label for="name-of-station" class="col-sm-2 col-form-label">Client</label>
-          <div class="input-group col-sm-10">
+          <label for="name-of-station" class="col-sm-3 col-form-label">Client</label>
+          <div class="input-group col-sm-9">
             <input
               type="text"
               class="form-control"
@@ -53,15 +49,15 @@
         <br />
 
         <div class="form-group row">
-          <label for="permit-number" class="col-sm-2 col-form-label">Permit Number</label>
-          <div class="col-sm-8">
+          <label for="permit-number" class="col-sm-3 col-form-label">Permit Number</label>
+          <div class="col-sm-9">
             <input type="text" class="form-control" id="permit-number" formControlName="permitNumber" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="permit-expiry-date" class="col-2 col-form-label">Permit Expiry Date</label>
-          <div class="col-10">
+          <label for="permit-expiry-date" class="col-3 col-form-label">Permit Expiry Date</label>
+          <div class="col-9">
             <div class="input-group">
               <input
                 class="form-control"
@@ -249,10 +245,10 @@
     <ng-template ngbNavContent>
       <div class="p-3" [formGroup]="form">
         <div class="form-group row" formGroupName="diagnosticTestEquipmentAndMeasuringInstrumentInfo">
-          <label for="illegal-construction" class="col-sm-2 col-form-label"
+          <label for="illegal-construction" class="col-sm-3 col-form-label"
             >List of Diagnostic/Test Equipment and Measuring Instrument</label
           >
-          <div class="col-sm-10 mt-2">
+          <div class="col-sm-9 mt-2">
             <div class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" id="reflectometer" formControlName="reflectometer" />
               <label class="custom-control-label" for="reflectometer">Reflectometer w/ ranges covering HF & UHF Bands</label>
@@ -298,8 +294,8 @@
         </div>
 
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Is the laboratory room shielded?</label>
-          <div class="col-sm-10 mt-2">
+          <label class="col-sm-3 col-form-label">Is the laboratory room shielded?</label>
+          <div class="col-sm-9 mt-2">
             <div class="custom-control custom-radio custom-control-inline">
               <input
                 type="radio"
@@ -329,8 +325,8 @@
     <ng-template ngbNavContent>
       <div class="p-3" [formGroup]="form">
         <div class="form-group row">
-          <label for="inspector" class="col-sm-2 col-form-label">Radio Regulation Inspector</label>
-          <div class="col-sm-8">
+          <label for="inspector" class="col-sm-3 col-form-label">Radio Regulation Inspector</label>
+          <div class="col-sm-9">
             <input type="text" class="form-control" id="inspector" formControlName="radioRegulationInspector" />
           </div>
         </div>
@@ -338,8 +334,8 @@
         <br />
 
         <div class="form-group row">
-          <label for="owner-name" class="col-sm-2 col-form-label">Owner/Manager/ Representative</label>
-          <div class="col-sm-8">
+          <label for="owner-name" class="col-sm-3 col-form-label">Owner/Manager/ Representative</label>
+          <div class="col-sm-9">
             <input type="text" class="form-control" id="owner-name" formControlName="ownerName" />
           </div>
         </div>
@@ -347,16 +343,16 @@
         <br />
 
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="recommendation">Recommendation/s</label>
-          <div class="col-sm-8">
+          <label class="col-sm-3 col-form-label" for="recommendation">Recommendation/s</label>
+          <div class="col-sm-9">
             <textarea autosize class="form-control" id="recommendation" formControlName="recommendations" rows="3"></textarea>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="approver" class="col-sm-2 col-form-label">Regional Director</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" id="approver" formControlName="regionalDirector" />
+          <label for="regionalDirector" class="col-sm-3 col-form-label">Regional Director</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="regionalDirector" [value]="regDirectorInfo.name" readonly />
           </div>
         </div>
       </div>
@@ -365,3 +361,7 @@
 </nav>
 
 <div [ngbNavOutlet]="nav" class="bg-white border rounded-bottom border-top-0 pt-3"></div>
+
+<div class="mt-3 mb-3">
+  <button class="btn btm-sm btn-primary btn-block" (click)="submit()">Submit</button>
+</div>

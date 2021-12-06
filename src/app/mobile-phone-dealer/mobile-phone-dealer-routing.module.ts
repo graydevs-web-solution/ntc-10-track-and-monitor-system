@@ -4,11 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { MobilePhoneDealerEditComponent } from './containers/mobile-phone-dealer-edit/mobile-phone-dealer-edit.component';
 import { MobilePhoneDealerCollectionComponent } from './containers/mobile-phone-dealer-collection/mobile-phone-dealer-collection.component';
 import { MobilePhoneDealerViewComponent } from './containers/mobile-phone-dealer-view/mobile-phone-dealer-view.component';
+import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: MobilePhoneDealerLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',

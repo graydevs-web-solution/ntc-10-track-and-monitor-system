@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { User } from '../auth/model/user';
 
 export const dateWithPadding = (data: string): string => {
   const [year, month, day] = data.split('-');
@@ -44,4 +45,8 @@ export const openPDF = (pdf: string, fileName: string) => {
     fileName +
     "' style='border:none;'></iframe></html>"
   );
+};
+
+export const formatName = (data: User): string => {
+  return `${data.name_first} ${data.name_last}`;
 };

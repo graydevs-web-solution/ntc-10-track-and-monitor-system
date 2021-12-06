@@ -4,10 +4,14 @@ import { Params, ActivatedRoute } from '@angular/router';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
 import { ClientService } from 'src/app/master-list/clients/client.service';
-import { ADD, clientSearch, EDIT } from 'src/app/shared/constants';
+import { ADD, clientSearch, EDIT, userSearch } from 'src/app/shared/constants';
+import { formatName } from 'src/app/shared/utility';
+import { UserAssignedData } from 'src/app/system-setting/model/user-assigned-data';
+import { SystemSettingService } from 'src/app/system-setting/system-setting.service';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { initForm, stockMobilePhoneInput, stockSIMInput, stockSpareAndAccessoryInput } from '../../mobile-phone-dealer-shared';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
@@ -22,7 +26,17 @@ export class MobilePhoneDealerEditComponent implements OnInit {
   formId: string;
   formMode = ADD;
   clientName = '';
+  regDirectorInfo = {
+    ['user_id']: '',
+    name: '',
+  };
+  notedByInfo = {
+    ['user_id']: '',
+    name: '',
+  };
+  userSelectSub: Subscription;
 
+  formatName = formatName;
   faCalendarAlt = faCalendarAlt;
 
   getDestroyed = new Subject();
@@ -32,7 +46,9 @@ export class MobilePhoneDealerEditComponent implements OnInit {
     private route: ActivatedRoute,
     private clientService: ClientService,
     private cd: ChangeDetectorRef,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private authService: AuthService,
+    private systemService: SystemSettingService
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +73,15 @@ export class MobilePhoneDealerEditComponent implements OnInit {
       },
     });
 
+    this.userSelectSub = this.authService.selectedEntryUser.subscribe({
+      next: (res) => {
+        const data: UserAssignedData = { ['user_id']: res.user_id, name: this.formatName(res), position: res.position };
+        this.notedByInfo = { ['user_id']: data.user_id, name: data.name };
+        this.form.patchValue({ notedBy: data.user_id });
+        console.log(this.notedByInfo);
+      },
+    });
+
     if (this.formMode === EDIT) {
       const fetchedValue = this.mobilePhoneDealerService.getSelectedEntry(this.formId);
       fetchedValue.listOfStocksOfSparesAndAccessories.forEach(() => {
@@ -68,10 +93,25 @@ export class MobilePhoneDealerEditComponent implements OnInit {
       fetchedValue.listOfStocksOfSubscriberIdentificationModule.forEach(() => {
         this.addStockSIM();
       });
+      console.log(fetchedValue);
       this.clientName = fetchedValue.clientName;
-      this.form.patchValue({ ...fetchedValue });
+      this.form.patchValue({
+        ...fetchedValue,
+        notedBy: fetchedValue.notedByInfo.user_id,
+        regionalDirector: fetchedValue.regionalDirectorInfo.user_id,
+      });
+      this.regDirectorInfo = {
+        name: fetchedValue.regionalDirectorInfo.name,
+        ['user_id']: fetchedValue.regionalDirectorInfo.user_id,
+      };
+      this.notedByInfo = {
+        name: fetchedValue.notedByInfo.name,
+        ['user_id']: fetchedValue.notedByInfo.user_id,
+      };
       this.mobilePhoneDealerService.resourceType.next(EDIT);
     } else {
+      this.regDirectorInfo = this.systemService.getRegionalDirectorInfo();
+      this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id });
       this.mobilePhoneDealerService.resourceType.next(ADD);
     }
   }
@@ -120,9 +160,13 @@ export class MobilePhoneDealerEditComponent implements OnInit {
     this.listOfStocksOfSubscriberIdentificationModule.push(stockSIMInput());
   }
 
-  open() {
+  open(userType: 'client' | 'user'): void {
     const modalRef = this.modalService.open(ModalComponent, { centered: true, size: 'lg' });
-    modalRef.componentInstance.componentName = clientSearch;
+    if (userType === 'client') {
+      modalRef.componentInstance.componentName = clientSearch;
+      return;
+    }
+    modalRef.componentInstance.componentName = userSearch;
   }
 
   get listOfStocksOfSparesAndAccessories(): FormArray {

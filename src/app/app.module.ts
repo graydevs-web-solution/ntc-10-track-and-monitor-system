@@ -11,6 +11,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CardModule } from './ui/card/card.module';
 import { MasterListModule } from './master-list/master-list.module';
 import { ServiceCenterReportModule } from './service-center/service-center-report.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth-interceptor';
+import { AuthGuard } from './auth/auth.guard';
 @NgModule({
   imports: [
     BrowserModule,
@@ -24,7 +27,7 @@ import { ServiceCenterReportModule } from './service-center/service-center-repor
     ModalModule,
     MasterListModule,
   ],
-  providers: [],
+  providers: [AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
   declarations: [],
 })

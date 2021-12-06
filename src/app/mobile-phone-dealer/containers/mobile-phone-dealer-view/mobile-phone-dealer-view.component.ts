@@ -49,7 +49,11 @@ export class MobilePhoneDealerViewComponent implements OnInit {
       this.addStockSIM();
     });
     this.clientName = fetchedValue.clientName;
-    this.form.patchValue({ ...fetchedValue });
+    this.form.patchValue({
+      ...fetchedValue,
+      notedBy: fetchedValue.notedByInfo.name,
+      regionalDirector: fetchedValue.regionalDirectorInfo.name,
+    });
     this.mobilePhoneDealerService.resourceType.next(VIEW);
   }
 

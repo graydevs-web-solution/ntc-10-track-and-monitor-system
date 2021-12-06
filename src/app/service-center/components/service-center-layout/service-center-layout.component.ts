@@ -7,7 +7,6 @@ import { ServiceCenterReportService } from '../../service-center-report.service'
   selector: 'app-service-center-layout',
   templateUrl: './service-center-layout.component.html',
   styleUrls: ['./service-center-layout.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServiceCenterLayoutComponent implements OnInit {
   url: string;

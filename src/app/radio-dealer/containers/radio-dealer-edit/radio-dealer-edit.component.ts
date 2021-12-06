@@ -4,10 +4,14 @@ import { Params, ActivatedRoute, Router } from '@angular/router';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
 import { ClientService } from 'src/app/master-list/clients/client.service';
 import { ADD, clientSearch, EDIT } from 'src/app/shared/constants';
+import { formatName } from 'src/app/shared/utility';
+import { UserAssignedData } from 'src/app/system-setting/model/user-assigned-data';
+import { SystemSettingService } from 'src/app/system-setting/system-setting.service';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { initForm, supervisingECEInput, techniciansInput } from '../../radio-dealer-shared';
 import { RadioDealerService } from '../../radio-dealer.service';
@@ -22,6 +26,16 @@ export class RadioDealerEditComponent implements OnInit {
   formId: string;
   formMode = ADD;
   clientName = '';
+  regDirectorInfo = {
+    ['user_id']: '',
+    name: '',
+  };
+  notedByInfo = {
+    ['user_id']: '',
+    name: '',
+  };
+  userSelectSub: Subscription;
+  formatName = formatName;
 
   faCalendarAlt = faCalendarAlt;
 
@@ -33,7 +47,9 @@ export class RadioDealerEditComponent implements OnInit {
     private clientService: ClientService,
     private cd: ChangeDetectorRef,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private systemService: SystemSettingService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +76,14 @@ export class RadioDealerEditComponent implements OnInit {
       },
     });
 
+    this.userSelectSub = this.authService.selectedEntryUser.subscribe({
+      next: (res) => {
+        const data: UserAssignedData = { ['user_id']: res.user_id, name: this.formatName(res), position: res.position };
+        this.notedByInfo = { ['user_id']: data.user_id, name: data.name };
+        console.log(this.notedByInfo);
+      },
+    });
+
     if (this.formMode === EDIT) {
       const fetchedValue = this.radioDealerService.getSelectedEntry(this.formId);
       fetchedValue.supervisingECE.forEach(() => {
@@ -69,9 +93,18 @@ export class RadioDealerEditComponent implements OnInit {
         this.addTechnicians();
       });
       this.clientName = fetchedValue.clientName;
-      this.form.patchValue({ ...fetchedValue });
+      this.form.patchValue({
+        ...fetchedValue,
+        regionalDirector: fetchedValue.regionalDirectorInfo.user_id,
+      });
+      this.regDirectorInfo = {
+        name: fetchedValue.regionalDirectorInfo.name,
+        ['user_id']: fetchedValue.regionalDirectorInfo.user_id,
+      };
       this.radioDealerService.resourceType.next(EDIT);
     } else {
+      this.regDirectorInfo = this.systemService.getRegionalDirectorInfo();
+      this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id });
       this.radioDealerService.resourceType.next(ADD);
     }
   }

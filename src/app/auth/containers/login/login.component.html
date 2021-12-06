@@ -1,0 +1,14 @@
+<form [formGroup]="form" (ngSubmit)="login()">
+  <div class="mb-2" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" class="form-control" id="username" formControlName="username" aria-describedby="username" />
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" formControlName="password" id="password" />
+  </div>
+  <button type="submit" class="btn btn-primary btn-block mt-5">Sign In</button>
+</form>

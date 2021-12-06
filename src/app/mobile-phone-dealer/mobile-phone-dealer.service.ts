@@ -154,6 +154,8 @@ export class MobilePhoneDealerService {
       notedBy: data.noted_by,
       regionalDirector: data.regional_director,
       isApproved: data.is_approved,
+      notedByInfo: data.noted_by_info,
+      regionalDirectorInfo: data.regional_director_info,
     };
     return value;
   };

@@ -4,11 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { RadioTransceiverEditComponent } from './containers/radio-transceiver-edit/radio-transceiver-edit.component';
 import { RadioTransceiverCollectionComponent } from './containers/radio-transceiver-collection/radio-transceiver-collection.component';
 import { RadioTransceiverViewComponent } from './containers/radio-transceiver-view/radio-transceiver-view.component';
+import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: RadioTransceiverLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',

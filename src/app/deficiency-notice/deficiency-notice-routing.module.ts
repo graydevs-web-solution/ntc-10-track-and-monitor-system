@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../auth/auth.guard';
 import { DeficiencyNoticeLayoutComponent } from './components/deficiency-notice-layout/deficiency-notice-layout.component';
 import { DeficiencyNoticeCollectionComponent } from './containers/deficiency-notice-collection/deficiency-notice-collection.component';
 import { DeficiencyNoticeEditComponent } from './containers/deficiency-notice-edit/deficiency-notice-edit.component';
@@ -9,6 +10,7 @@ const routes: Routes = [
   {
     path: '',
     component: DeficiencyNoticeLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',

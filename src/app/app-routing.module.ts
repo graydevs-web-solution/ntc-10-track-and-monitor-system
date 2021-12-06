@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 import { StartComponent } from './core/components/start/start.component';
 import { MainComponent } from './core/container/main/main.component';
 
@@ -10,8 +11,13 @@ const routes: Routes = [
   //   pathMatch: 'full',
   // },
   {
-    path: '',
+    path: 'home',
     component: StartComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'complaint',
@@ -40,6 +46,10 @@ const routes: Routes = [
   {
     path: 'master-list',
     loadChildren: () => import('./master-list/master-list.module').then((m) => m.MasterListModule),
+  },
+  {
+    path: 'system-setting',
+    loadChildren: () => import('./system-setting/system-setting.module').then((m) => m.SystemSettingModule),
   },
 ];
 

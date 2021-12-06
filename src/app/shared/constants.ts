@@ -5,12 +5,15 @@ export const serviceCenterReport = 'serviceCenterReport';
 export const radioDealer = 'radioDealer';
 export const deficiencyNotice = 'deficiencyNotice';
 export const complaint = 'complaint';
+export const users = 'users';
 
 // Master List Modules
 export const clientEdit = 'clientEdit';
 export const clientView = 'clientView';
 export const clientDelete = 'clientDelete';
 export const clientSearch = 'clientSearch';
+export const userEdit = 'userEdit';
+export const userSearch = 'userSearch';
 
 // TO BE REMOVED
 export const stationEdit = 'stationEdit';

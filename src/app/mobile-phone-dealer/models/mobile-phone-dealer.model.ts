@@ -1,4 +1,5 @@
 import { Client } from 'src/app/master-list/clients/models/client.model';
+import { UserAssignedData } from 'src/app/system-setting/model/user-assigned-data';
 interface StocksOfSparesAndAccessories {
   particular: string;
   numberOfUnits: number;
@@ -43,4 +44,6 @@ export interface MobilePhoneDealer {
   notedBy: string;
   regionalDirector: string;
   isApproved: boolean;
+  notedByInfo?: UserAssignedData;
+  regionalDirectorInfo?: UserAssignedData;
 }
