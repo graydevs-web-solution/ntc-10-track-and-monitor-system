@@ -7,7 +7,6 @@ import { RadioTransceiverService } from '../../radio-transceiver.service';
   selector: 'app-radio-transceiver-layout',
   templateUrl: './radio-transceiver-layout.component.html',
   styleUrls: ['./radio-transceiver-layout.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioTransceiverLayoutComponent implements OnInit {
   url: string;

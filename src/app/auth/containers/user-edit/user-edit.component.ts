@@ -14,6 +14,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   form?: FormGroup;
   formMode = ADD;
   formId = '';
+  userTypes = this.authService.getUserTypes();
 
   getDestroyed = new Subject();
 

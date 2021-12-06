@@ -23,6 +23,7 @@ import {
   stationEdit,
   stationView,
   userEdit,
+  userSearch,
   VIEW,
 } from 'src/app/shared/constants';
 import { MobilePhoneDealerService } from './../../mobile-phone-dealer/mobile-phone-dealer.service';
@@ -101,6 +102,10 @@ export class ModalComponent implements OnInit {
   // isDealerView(): boolean {
   //   return this.componentName === dealerView && this.formMode === VIEW;
   // }
+
+  isUserSearch(): boolean {
+    return this.componentName === userSearch;
+  }
 
   isUserEdit(): boolean {
     return this.componentName === userEdit && (this.formMode === EDIT || this.formMode === ADD);

@@ -4,6 +4,7 @@
       [label]="'Radio Transceiver'"
       [routerLink]="['/radio-transceiver']"
       routerLinkActive
+      *ngIf="isAllowedInspection()"
       #rla1="routerLinkActive"
       [currentlySelected]="rla1.isActive"
     ></app-side-navbar-item>
@@ -12,6 +13,7 @@
       [label]="'Mobile Phone Dealer'"
       [routerLink]="['/mobile-phone-dealer']"
       routerLinkActive
+      *ngIf="isAllowedInspection()"
       #rla2="routerLinkActive"
       [currentlySelected]="rla2.isActive"
     ></app-side-navbar-item>
@@ -20,6 +22,7 @@
       [label]="'Service Center'"
       [routerLink]="['/service-center']"
       routerLinkActive
+      *ngIf="isAllowedInspection()"
       #rla3="routerLinkActive"
       [currentlySelected]="rla3.isActive"
     ></app-side-navbar-item>
@@ -28,6 +31,7 @@
       [label]="'Radio Dealer'"
       [routerLink]="['/radio-dealer']"
       routerLinkActive
+      *ngIf="isAllowedInspection()"
       #rla4="routerLinkActive"
       [currentlySelected]="rla4.isActive"
     ></app-side-navbar-item>
@@ -36,6 +40,7 @@
       [label]="'Deficiency Notice'"
       [routerLink]="['/deficiency-notice']"
       routerLinkActive
+      *ngIf="isAllowedReports()"
       #rla5="routerLinkActive"
       [currentlySelected]="rla5.isActive"
     ></app-side-navbar-item>
@@ -44,14 +49,25 @@
       [label]="'Complaint'"
       [routerLink]="['/complaint']"
       routerLinkActive
+      *ngIf="isAllowedReports()"
       #rla6="routerLinkActive"
       [currentlySelected]="rla6.isActive"
+    ></app-side-navbar-item>
+
+    <app-side-navbar-item
+      [label]="'System Setting'"
+      [routerLink]="['/system-setting']"
+      routerLinkActive
+      *ngIf="isAllowedSystemSettings()"
+      #rla7="routerLinkActive"
+      [currentlySelected]="rla7.isActive"
     ></app-side-navbar-item>
 
     <app-side-navbar-item
       [label]="'Users'"
       [routerLink]="['/system', 'users']"
       routerLinkActive
+      *ngIf="isAllowedSystemSettings()"
       #rla7="routerLinkActive"
       [currentlySelected]="rla7.isActive"
     ></app-side-navbar-item>

@@ -8,6 +8,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { ViolationsType } from 'src/app/deficiency-notice/models/violations.model';
 import { ClientService } from 'src/app/master-list/clients/client.service';
 import { ADD, clientSearch, EDIT } from 'src/app/shared/constants';
+import { SystemSettingService } from 'src/app/system-setting/system-setting.service';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { initForm, transmitterInput, violations } from '../../complaint-shared';
 import { ComplaintService } from '../../complaint.service';
@@ -23,6 +24,10 @@ export class ComplaintEditComponent implements OnInit {
   formMode = ADD;
   clientName = '';
   meridian = true;
+  regDirectorInfo = {
+    ['user_id']: '',
+    name: '',
+  };
 
   faCalendarAlt = faCalendarAlt;
 
@@ -34,7 +39,8 @@ export class ComplaintEditComponent implements OnInit {
     private complaintService: ComplaintService,
     private route: ActivatedRoute,
     private clientService: ClientService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private systemService: SystemSettingService
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +73,8 @@ export class ComplaintEditComponent implements OnInit {
       this.form.patchValue({ ...fetchedValue });
       this.complaintService.resourceType.next(EDIT);
     } else {
+      this.regDirectorInfo = this.systemService.getRegionalDirectorInfo();
+      this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id });
       this.complaintService.resourceType.next(ADD);
     }
   }

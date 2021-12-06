@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PageOptions } from '../shared/models/page-options';
@@ -10,6 +10,8 @@ import { User } from './model/user';
 import jwt_decode from '../../../node_modules/jwt-decode';
 import { UserAuthenticated } from './model/user-authenticated';
 import { Router } from '@angular/router';
+import { UserType } from './model/user-type';
+import { SystemSettingService } from '../system-setting/system-setting.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +24,7 @@ export class AuthService {
   };
   resourceType = new ReplaySubject<string>();
   selectedEntry = new Subject<User>();
+  selectedEntryUser = new Subject<User>();
   saveUserListener = new Subject();
 
   private entries: User[] = [];
@@ -36,7 +39,15 @@ export class AuthService {
   private userLoggedInInfo: Partial<UserAuthenticated>;
   private authStatusListener = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  private userTypes: UserType[] = [
+    { value: 'engr', label: 'Engineer' },
+    { value: 'chf-engr', label: 'Chief Engineer' },
+    { value: 'legal', label: 'Legal' },
+    { value: 'director', label: 'Director' },
+    { value: 'it-admin', label: 'IT Admin' },
+  ];
+
+  constructor(private http: HttpClient, private router: Router, private systemSettingService: SystemSettingService) {}
 
   getEntries(): User[] {
     return this.entries;
@@ -87,6 +98,14 @@ export class AuthService {
       });
   }
 
+  getUserInfo() {
+    return this.userLoggedInInfo;
+  }
+
+  getUserTypes() {
+    return this.userTypes;
+  }
+
   getEntriesListener(): Observable<User[]> {
     return this.entriesListener.asObservable();
   }
@@ -113,15 +132,36 @@ export class AuthService {
   }
 
   loginAPI(data: Partial<User>): void | Error {
-    const value = { ['user_name']: data.user_name, password: data.password };
+    const value = { username: data.username, password: data.password };
     this.http.post<LoginResponse>(`${this.domainURL}/${this.resource1}/`, value).subscribe({
-      next: (res) => {
+      next: async (res) => {
+        // if (!(await this.systemSettingService.getRegionalDirectorAPISuccess())) {
+        //   return;
+        // }
+        const successes = await Promise.all([
+          this.systemSettingService.getRegionalDirectorAPISuccess(),
+          this.systemSettingService.getFormCountersAPISuccess(),
+        ]);
+        if (!this.isRetrieveSuccess(successes)) {
+          this.loginErrorListener.next(
+            new HttpErrorResponse({
+              error: 'error',
+              status: 400,
+              statusText: 'Error sskkrrttt',
+            })
+          );
+          return;
+        }
         this.createUserPass(res.token);
       },
       error: (error: HttpErrorResponse) => {
         this.loginErrorListener.next(error);
       },
     });
+  }
+
+  isRetrieveSuccess(array: boolean[]): boolean {
+    return array.every((val) => val);
   }
 
   getIsAuth() {
@@ -192,6 +232,31 @@ export class AuthService {
       ['user_name']: new FormControl({ value: '', disabled: false }),
       ['position']: new FormControl({ value: '', disabled: false }),
     });
+  };
+
+  search(term: string): Observable<User[]> {
+    const PARAMS = new HttpParams({
+      fromObject: {
+        page: `1`,
+        size: `${this.page.size}`,
+      },
+    });
+    if (term === '') {
+      return of([]);
+    }
+
+    return this.http
+      .get<{ data: User[] }>(`${this.domainURL}/${this.resource1}/search`, { params: PARAMS.set('search', term) })
+      .pipe(map(({ data }) => data.map(this.formatList)));
+  }
+
+  formatList = (data: User): User => {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { ...rest } = data;
+    const value: User = {
+      ...rest,
+    };
+    return value;
   };
 
   private clearAuthData() {

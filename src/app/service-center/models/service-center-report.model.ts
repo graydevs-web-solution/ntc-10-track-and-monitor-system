@@ -1,4 +1,5 @@
 import { Client } from 'src/app/master-list/clients/models/client.model';
+import { UserAssignedData } from 'src/app/system-setting/model/user-assigned-data';
 
 interface ServiceOrTestEquipments {
   particular: string;
@@ -38,4 +39,6 @@ export interface ServiceCenterReport {
   notedBy: string;
   isApproved: boolean;
   regionalDirector: string;
+  notedByInfo?: UserAssignedData;
+  regionalDirectorInfo?: UserAssignedData;
 }

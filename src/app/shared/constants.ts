@@ -13,6 +13,7 @@ export const clientView = 'clientView';
 export const clientDelete = 'clientDelete';
 export const clientSearch = 'clientSearch';
 export const userEdit = 'userEdit';
+export const userSearch = 'userSearch';
 
 // TO BE REMOVED
 export const stationEdit = 'stationEdit';

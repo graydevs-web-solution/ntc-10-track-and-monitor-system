@@ -26,11 +26,7 @@
     <label for="name-last" class="col-sm-2 col-form-label">Position</label>
     <div class="col-sm-10">
       <select class="custom-select" formControlName="position">
-        <option value="engr">Engineer</option>
-        <option value="chf-engr">Chief Engineer</option>
-        <option value="legal">Legal</option>
-        <option value="director">Director</option>
-        <option value="it-admin">IT Admin</option>
+        <option *ngFor="let type of userTypes" [value]="type.value">{{ type.label }}</option>
       </select>
     </div>
   </div>

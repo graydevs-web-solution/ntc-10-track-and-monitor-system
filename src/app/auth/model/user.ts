@@ -3,7 +3,7 @@ export interface User {
   ['name_first']: string;
   ['name_middle']?: string;
   ['name_last']: string;
-  ['user_name']: string;
+  ['username']: string;
   ['password']: string;
   ['position']: string;
   ['token']?: string;

@@ -40,7 +40,7 @@
               readonly
             />
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2" (click)="open()">Select</button>
+              <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2" (click)="open('client')">Select</button>
             </div>
           </div>
         </div>
@@ -878,16 +878,29 @@
         </div>
 
         <div class="form-group row">
-          <label for="notedBy" class="col-sm-3 col-form-label">Noted By</label>
+          <label for="noted-by" class="col-sm-3 col-form-label">Noted By</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="notedBy" formControlName="notedBy" />
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Noted By"
+                aria-label="Noted By"
+                aria-describedby="button-addon2"
+                [value]="notedByInfo.name"
+                readonly
+              />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="open('user')">Change</button>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="form-group row">
           <label for="regionalDirector" class="col-sm-3 col-form-label">Regional Director</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="regionalDirector" formControlName="regionalDirector" />
+            <input type="text" class="form-control" id="regionalDirector" [value]="regDirectorInfo.name" readonly />
           </div>
         </div>
       </div>

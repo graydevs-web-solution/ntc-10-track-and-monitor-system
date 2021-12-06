@@ -1,3 +1,5 @@
+import { UserAssignedData } from 'src/app/system-setting/model/user-assigned-data';
+
 interface PPInfo {
   ppNumber: string;
   dateIssued: Date | string;
@@ -120,4 +122,6 @@ export interface RadioTransceiver {
   recommendations: string;
   notedBy: string;
   regionalDirector: string;
+  notedByInfo?: UserAssignedData;
+  regionalDirectorInfo?: UserAssignedData;
 }

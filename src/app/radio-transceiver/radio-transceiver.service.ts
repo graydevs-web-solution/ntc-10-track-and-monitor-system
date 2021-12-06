@@ -2,7 +2,7 @@ import { Client } from 'src/app/master-list/clients/models/client.model';
 import { Injectable } from '@angular/core';
 import { RadioTransceiver } from './models/radio-transceiver.model';
 import { DateTime } from 'luxon';
-import { dateWithPadding, formatDate, openPDF } from '../shared/utility';
+import { dateWithPadding, formatDate, openPDF, formatName } from '../shared/utility';
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PageOptions } from '../shared/models/page-options';
@@ -276,6 +276,8 @@ export class RadioTransceiverService {
       recommendations: data.recommendations,
       notedBy: data.noted_by,
       regionalDirector: data.regional_director,
+      regionalDirectorInfo: data.regional_director_info,
+      notedByInfo: data.noted_by_info,
     };
     return value;
   };

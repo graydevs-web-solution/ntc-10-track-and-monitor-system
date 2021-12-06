@@ -46,7 +46,10 @@ export class RadioDealerViewComponent implements OnInit {
       this.addTechnicians();
     });
     this.clientName = fetchedValue.clientName;
-    this.form.patchValue({ ...fetchedValue });
+    this.form.patchValue({
+      ...fetchedValue,
+      regionalDirector: fetchedValue.regionalDirectorInfo.name,
+    });
     this.radioDealerService.resourceType.next(VIEW);
   }
 

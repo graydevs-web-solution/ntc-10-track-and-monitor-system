@@ -1,4 +1,5 @@
 import { Client } from 'src/app/master-list/clients/models/client.model';
+import { UserAssignedData } from 'src/app/system-setting/model/user-assigned-data';
 interface SupervisingECE {
   name: string;
   licenseNumber: string;
@@ -40,4 +41,5 @@ export interface RadioDealer {
   ownerName: string;
   recommendations: string;
   regionalDirector: string;
+  regionalDirectorInfo?: UserAssignedData;
 }

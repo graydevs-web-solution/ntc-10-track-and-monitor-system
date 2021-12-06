@@ -350,9 +350,9 @@
         </div>
 
         <div class="form-group row">
-          <label for="approver" class="col-sm-3 col-form-label">Regional Director</label>
+          <label for="regionalDirector" class="col-sm-3 col-form-label">Regional Director</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="approver" formControlName="regionalDirector" />
+            <input type="text" class="form-control" id="regionalDirector" [value]="regDirectorInfo.name" readonly />
           </div>
         </div>
       </div>

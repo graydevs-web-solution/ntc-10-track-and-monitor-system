@@ -1,0 +1,38 @@
+<ng-template #rt let-r="result" let-t="term">
+  <!-- <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="mr-1" style="width: 16px"> -->
+  <ngb-highlight [result]="formatName(r)" [term]="t"></ngb-highlight>
+</ng-template>
+
+<div>
+  <label for="typeahead-prevent-manual-entry">Search a user to assigned as regional director:</label>
+  <input
+    id="typeahead-http"
+    type="text"
+    class="form-control"
+    [class.is-invalid]="searchFailed"
+    [ngbTypeahead]="search"
+    [inputFormatter]="formatter"
+    [resultFormatter]="formatter"
+    [resultTemplate]="rt"
+    (selectItem)="selectedItem($event)"
+    [editable]="false"
+  />
+  <small *ngIf="searching" class="form-text text-muted">searching...</small>
+  <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+</div>
+
+<!-- <div>
+  <label for="typeahead-prevent-manual-entry">Search for client:</label>
+  <input
+    id="typeahead-prevent-manual-entry"
+    type="text"
+    class="form-control"
+    [ngbTypeahead]="search"
+    [inputFormatter]="formatter"
+    [resultFormatter]="formatter"
+    (selectItem)="selectedItem($event)"
+    [editable]="false"
+    [resultTemplate]="rt"
+    [popupClass]="'z-index: 1000'"
+  />
+</div> -->

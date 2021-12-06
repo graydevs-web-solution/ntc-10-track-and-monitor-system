@@ -48,8 +48,8 @@ const routes: Routes = [
     loadChildren: () => import('./master-list/master-list.module').then((m) => m.MasterListModule),
   },
   {
-    path: 'system',
-    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+    path: 'system-setting',
+    loadChildren: () => import('./system-setting/system-setting.module').then((m) => m.SystemSettingModule),
   },
 ];
 

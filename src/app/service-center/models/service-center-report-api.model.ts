@@ -1,5 +1,6 @@
 import { ClientAPI } from 'src/app/master-list/clients/models/client-api.model';
 import { Client } from 'src/app/master-list/clients/models/client.model';
+import { UserAssignedData } from 'src/app/system-setting/model/user-assigned-data';
 
 interface ServiceOrTestEquipments {
   ['particular']: string;
@@ -36,4 +37,6 @@ export interface ServiceCenterReportAPI {
   ['noted_by']: string;
   ['regional_director']: string;
   ['is_approved']: boolean;
+  ['noted_by_info']: UserAssignedData;
+  ['regional_director_info']: UserAssignedData;
 }
