@@ -1,0 +1,7 @@
+<div>
+  <app-accomplishment-report-list [entries]="entries"></app-accomplishment-report-list>
+
+  <app-card *ngIf="!entries.length" [centered]="true">
+    <div class="font-weight-bold">No entries</div>
+  </app-card>
+</div>

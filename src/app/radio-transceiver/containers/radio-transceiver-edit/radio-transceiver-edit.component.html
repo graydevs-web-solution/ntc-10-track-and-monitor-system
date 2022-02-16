@@ -877,7 +877,7 @@
           </div>
         </div>
 
-        <div class="form-group row">
+        <!-- <div class="form-group row">
           <label for="noted-by" class="col-sm-3 col-form-label">Noted By</label>
           <div class="col-sm-9">
             <div class="input-group mb-3">
@@ -894,6 +894,13 @@
                 <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="open('user')">Change</button>
               </div>
             </div>
+          </div>
+        </div> -->
+
+        <div class="form-group row">
+          <label for="regionalDirector" class="col-sm-3 col-form-label">Noted By</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="regionalDirector" [value]="notedByInfo.name" readonly />
           </div>
         </div>
 

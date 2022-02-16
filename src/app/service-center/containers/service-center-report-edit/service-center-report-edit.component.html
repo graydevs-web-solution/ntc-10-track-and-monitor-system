@@ -1,3 +1,7 @@
+<app-card *ngIf="userInfo.position !== 'engr'">
+  Approval Status: <span>{{ approveStatus }}</span></app-card
+>
+
 <nav ngbNav #nav="ngbNav" class="nav-tabs bg-tab rounded-top">
   <ng-container ngbNavItem>
     <a ngbNavLink>One</a>
@@ -238,7 +242,7 @@
           </div>
         </div>
 
-        <div class="form-group row">
+        <!-- <div class="form-group row">
           <label for="noted-by" class="col-sm-3 col-form-label">Noted By</label>
           <div class="col-sm-9">
             <div class="input-group mb-3">
@@ -256,9 +260,16 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="form-group row">
+          <label for="regionalDirector" class="col-sm-3 col-form-label">Noted By</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="regionalDirector" [value]="notedByInfo.name" readonly />
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="userInfo.position === 'director'">
           <label for="working-hours" class="col-sm-3 col-form-label">Approved?</label>
           <div class="col-sm-9">
             <div class="custom-control custom-radio custom-control-inline">

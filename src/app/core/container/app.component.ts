@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.authService.autoAuthUser();
     this.systemService.getRegionalDirectorLocalStorage();
+    this.systemService.getNotedByLocalStorage();
     this.systemService.getFormCountersLocalStorage();
     this.authService.getAuthListener().subscribe({
       next: (res) => {

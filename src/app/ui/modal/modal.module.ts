@@ -8,9 +8,19 @@ import { ServiceCenterModule } from 'src/app/master-list/service-center/service-
 import { DealerModule } from 'src/app/master-list/dealer/dealer.module';
 import { ClientModule } from './../../master-list/clients/client.module';
 import { AuthModule } from 'src/app/auth/auth.module';
+import { AccomplishmentReportModule } from 'src/app/accomplishment-report/accomplishment-report.module';
 
 @NgModule({
   declarations: [ModalComponent, RemoveMessageComponent],
-  imports: [CommonModule, NgbModalModule, StationModule, ServiceCenterModule, DealerModule, ClientModule, AuthModule],
+  imports: [
+    CommonModule,
+    NgbModalModule,
+    StationModule,
+    ServiceCenterModule,
+    DealerModule,
+    ClientModule,
+    AuthModule,
+    AccomplishmentReportModule,
+  ],
 })
 export class ModalModule {}

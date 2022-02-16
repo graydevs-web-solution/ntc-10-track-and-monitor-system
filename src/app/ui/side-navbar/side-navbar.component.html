@@ -55,12 +55,21 @@
     ></app-side-navbar-item>
 
     <app-side-navbar-item
+      [label]="'Accomplishment Report'"
+      [routerLink]="['/accomplishment-report']"
+      routerLinkActive
+      *ngIf="isAllowedAccomplishment()"
+      #rla7="routerLinkActive"
+      [currentlySelected]="rla7.isActive"
+    ></app-side-navbar-item>
+
+    <app-side-navbar-item
       [label]="'System Setting'"
       [routerLink]="['/system-setting']"
       routerLinkActive
       *ngIf="isAllowedSystemSettings()"
-      #rla7="routerLinkActive"
-      [currentlySelected]="rla7.isActive"
+      #rla8="routerLinkActive"
+      [currentlySelected]="rla8.isActive"
     ></app-side-navbar-item>
 
     <app-side-navbar-item
@@ -68,8 +77,8 @@
       [routerLink]="['/system', 'users']"
       routerLinkActive
       *ngIf="isAllowedSystemSettings()"
-      #rla7="routerLinkActive"
-      [currentlySelected]="rla7.isActive"
+      #rla9="routerLinkActive"
+      [currentlySelected]="rla9.isActive"
     ></app-side-navbar-item>
 
     <app-side-navbar-item [label]="'Log Out'" (clicked)="logout()"></app-side-navbar-item>

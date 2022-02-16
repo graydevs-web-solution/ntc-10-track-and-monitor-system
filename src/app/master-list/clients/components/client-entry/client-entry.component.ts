@@ -14,8 +14,8 @@ import { ModalComponent } from 'src/app/ui/modal/modal.component';
         <div>{{ entry.businessName }}</div>
       </div>
       <div class="d-flex align-items-center">
-        <button class="btn btn sm btn-primary mr-1" (click)="open(clientEdit, EDIT)">Edit</button>
-        <button class="btn btn sm btn-primary" (click)="open(clientDelete, DELETE, entry.id)">Remove</button>
+        <!-- <button class="btn btn sm btn-primary mr-1" (click)="open(clientEdit, EDIT)">Edit</button> -->
+        <!-- <button class="btn btn sm btn-primary" (click)="open(clientDelete, DELETE, entry.id)">Remove</button> -->
       </div>
     </div>
   `,
@@ -35,7 +35,7 @@ export class ClientEntryComponent implements OnInit {
   ngOnInit(): void {}
 
   open(componentName = clientView, formMode = VIEW, formId?: string) {
-    const modalRef = this.modalService.open(ModalComponent, { centered: true });
+    const modalRef = this.modalService.open(ModalComponent, { centered: true, size: 'lg' });
     modalRef.componentInstance.componentName = componentName;
     modalRef.componentInstance.formMode = formMode;
     modalRef.componentInstance.formId = formId;

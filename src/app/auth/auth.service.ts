@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -141,6 +142,7 @@ export class AuthService {
         const successes = await Promise.all([
           this.systemSettingService.getRegionalDirectorAPISuccess(),
           this.systemSettingService.getFormCountersAPISuccess(),
+          this.systemSettingService.getNotedByAPISuccess(),
         ]);
         if (!this.isRetrieveSuccess(successes)) {
           this.loginErrorListener.next(
@@ -175,8 +177,9 @@ export class AuthService {
   createUserPass(token) {
     this.token = token;
     if (token) {
-      const { expiresIn, name, position, userName } = jwt_decode<UserAuthenticated>(token);
-      this.userLoggedInInfo = { name, position, userName };
+      const { expiresIn, name, position, userName, user_id } = jwt_decode<UserAuthenticated>(token);
+      this.userLoggedInInfo = { name, position, userName, user_id };
+      console.log(this.userLoggedInInfo);
       const expirationTimer = expiresIn * 1000;
       this.setAuthTimer(expirationTimer);
       this.isAuthenticated = true;
@@ -213,7 +216,8 @@ export class AuthService {
       this.token = authInformation.token;
       this.isAuthenticated = true;
       this.userLoggedInInfo = {
-        id: decodedToken.id,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        user_id: decodedToken.user_id,
         name: decodedToken.name,
         position: decodedToken.position,
         userName: decodedToken.userName,

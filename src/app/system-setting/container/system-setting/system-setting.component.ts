@@ -18,10 +18,15 @@ export class SystemSettingComponent implements OnInit, OnDestroy {
     ['user_id']: '',
     name: '',
   };
+  notedByInfo = {
+    ['user_id']: '',
+    name: '',
+  };
   counter = {
     adm: '',
     rox: '',
   };
+  positionSelected = '';
   userSelectSub: Subscription;
   formatName = formatName;
 
@@ -29,6 +34,7 @@ export class SystemSettingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.regionalDirectorInfo = this.systemSettingService.getRegionalDirectorInfo();
+    this.notedByInfo = this.systemSettingService.getNotedByInfo();
     this.counter = this.systemSettingService.getFormCounterInfo().reduce((prev, val) => {
       console.log(val);
       if (val.setting === 'adm_counter') {
@@ -42,16 +48,31 @@ export class SystemSettingComponent implements OnInit, OnDestroy {
     this.userSelectSub = this.authService.selectedEntryUser.subscribe({
       next: (res) => {
         const data: UserAssignedData = { ['user_id']: res.user_id, name: this.formatName(res), position: res.position };
-        this.saveSelectedRegionalDirector(data);
+
+        if (this.positionSelected === 'regional_director') {
+          this.saveSelectedRegionalDirector(data);
+        } else {
+          this.saveSelectedNotedBy(data);
+        }
       },
     });
   }
 
   async saveSelectedRegionalDirector(data: UserAssignedData) {
     try {
-      const { data: resData } = await this.systemSettingService.saveRegionalDirector(data).toPromise();
+      const { data: resData } = await this.systemSettingService.saveRegionalDirector(data);
       this.regionalDirectorInfo.user_id = resData.user_id;
       this.regionalDirectorInfo.name = resData.name;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async saveSelectedNotedBy(data: UserAssignedData) {
+    try {
+      const { data: resData } = await this.systemSettingService.saveNotedBy(data);
+      this.notedByInfo.user_id = resData.user_id;
+      this.notedByInfo.name = resData.name;
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +82,8 @@ export class SystemSettingComponent implements OnInit, OnDestroy {
     this.userSelectSub.unsubscribe();
   }
 
-  open() {
+  open(inputName: string) {
+    this.positionSelected = inputName;
     const modalRef = this.modalService.open(ModalComponent, { centered: true, size: 'lg' });
     modalRef.componentInstance.componentName = userSearch;
   }

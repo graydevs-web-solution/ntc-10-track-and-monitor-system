@@ -10,7 +10,6 @@ import { ClientService } from '../../client.service';
   selector: 'app-client-edit',
   templateUrl: './client-edit.component.html',
   styleUrls: ['./client-edit.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientEditComponent implements OnInit, OnDestroy {
   form: FormGroup;
@@ -19,6 +18,11 @@ export class ClientEditComponent implements OnInit, OnDestroy {
 
   saveClientSubs: Subscription;
   viewClientSubs: Subscription;
+
+  alert = {
+    type: '',
+    description: '',
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +58,22 @@ export class ClientEditComponent implements OnInit, OnDestroy {
     this.form = initForm();
   }
 
+  close() {
+    this.alert = {
+      description: '',
+      type: '',
+    };
+  }
+
   submit(): void {
+    if (!this.form.valid) {
+      this.alert = {
+        description: "Owner name and position, business name and address, and cellphone number mustn't be empty.",
+        type: 'danger',
+      };
+      return;
+    }
+
     if (this.formMode === ADD) {
       this.clientService.addOne(this.form.value).subscribe({
         next: (res) => {
