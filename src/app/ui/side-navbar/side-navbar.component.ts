@@ -55,6 +55,12 @@ export class SideNavbarComponent implements OnInit {
     return allowedUser.includes(this.userPosition);
   }
 
+  isAllowedAccomplishment() {
+    const allowedUser = ['legal', 'it-admin'];
+
+    return allowedUser.includes(this.userPosition);
+  }
+
   isAllowedSystemSettings() {
     const allowedUser = ['it-admin'];
 

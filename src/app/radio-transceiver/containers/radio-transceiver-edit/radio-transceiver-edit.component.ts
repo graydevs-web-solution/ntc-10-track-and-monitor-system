@@ -115,7 +115,8 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
       };
     } else {
       this.regDirectorInfo = this.systemService.getRegionalDirectorInfo();
-      this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id });
+      this.notedByInfo = this.systemService.getNotedByInfo();
+      this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id, notedBy: this.notedByInfo.user_id });
       this.radioTransceiverService.resourceType.next(ADD);
     }
   }

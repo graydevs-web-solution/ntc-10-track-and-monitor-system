@@ -36,6 +36,7 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
   };
   userSelectSub: Subscription;
   formatName = formatName;
+  userInfo = this.authService.getUserInfo();
 
   faCalendarAlt = faCalendarAlt;
 
@@ -107,7 +108,8 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
       this.serviceCenterReportService.resourceType.next(EDIT);
     } else {
       this.regDirectorInfo = this.systemService.getRegionalDirectorInfo();
-      this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id });
+      this.notedByInfo = this.systemService.getNotedByInfo();
+      this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id, notedBy: this.notedByInfo.user_id });
       this.serviceCenterReportService.resourceType.next(ADD);
     }
   }

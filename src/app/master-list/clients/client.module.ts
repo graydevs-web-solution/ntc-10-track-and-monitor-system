@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModalModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { ClientSearchComponent } from './components/client-search/client-search.component';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,17 @@ import { ClientSearchComponent } from './components/client-search/client-search.
     ClientViewComponent,
     ClientSearchComponent,
   ],
-  imports: [CommonModule, RouterModule, CardModule, FormsModule, ReactiveFormsModule, NgbModalModule, HttpClientModule, NgbTypeaheadModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    CardModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbModalModule,
+    HttpClientModule,
+    NgbTypeaheadModule,
+    NgbAlertModule,
+  ],
   exports: [ClientEditComponent, ClientViewComponent, ClientSearchComponent],
 })
 export class ClientModule {}

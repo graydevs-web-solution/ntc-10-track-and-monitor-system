@@ -12,7 +12,27 @@
         [value]="regionalDirectorInfo.name"
       />
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="open()">Change</button>
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="open('regional_director')">Change</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="form-group row">
+  <label for="regional-director" class="col-sm-3 col-form-label">Noted By</label>
+  <div class="col-sm-9">
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Regional Director"
+        aria-label="Regional Director"
+        aria-describedby="button-addon2"
+        readonly
+        [value]="notedByInfo.name"
+      />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="open('noted_by')">Change</button>
       </div>
     </div>
   </div>

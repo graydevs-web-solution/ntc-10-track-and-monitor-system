@@ -2,6 +2,10 @@
   <button class="btn btn-sm btn-secondary" (click)="generatePdf()"><fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf</button>
 </div>
 
+<app-card>
+  Approval Status: <span>{{ approveStatus }}</span></app-card
+>
+
 <nav ngbNav #nav="ngbNav" class="nav-tabs">
   <ng-container ngbNavItem>
     <a ngbNavLink>One</a>

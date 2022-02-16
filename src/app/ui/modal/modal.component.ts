@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
+  accomplishmentReport,
   ADD,
   clientDelete,
   clientEdit,
@@ -37,6 +38,7 @@ import { RadioDealerService } from 'src/app/radio-dealer/radio-dealer.service';
 import { DeficiencyNoticeService } from 'src/app/deficiency-notice/deficiency-notice.service';
 import { User } from 'src/app/auth/model/user';
 import { AuthService } from 'src/app/auth/auth.service';
+import { AccomplishmentReportService } from 'src/app/accomplishment-report/accomplishment-report.service';
 
 @Component({
   selector: 'app-modal',
@@ -59,6 +61,7 @@ export class ModalComponent implements OnInit {
     private clientService: ClientService,
     private radioDealerService: RadioDealerService,
     private dnService: DeficiencyNoticeService,
+    private accomplishmentReportService: AccomplishmentReportService,
     private authService: AuthService // private stationService: StationService, // private serviceCenterService: ServiceCenterService, // private dealerService: DealerService,
   ) {}
 
@@ -72,6 +75,7 @@ export class ModalComponent implements OnInit {
       radioDealer,
       deficiencyNotice,
       clientDelete,
+      accomplishmentReport,
       // stationDelete,
       // serviceCenterDelete,
       // dealerDelete,
@@ -123,6 +127,10 @@ export class ModalComponent implements OnInit {
     return this.componentName === clientView && this.formMode === VIEW;
   }
 
+  isAccomplishment(): boolean {
+    return this.componentName === accomplishmentReport && (this.formMode === EDIT || this.formMode === ADD);
+  }
+
   async removeEntry(): Promise<void> {
     try {
       switch (this.componentName) {
@@ -145,6 +153,10 @@ export class ModalComponent implements OnInit {
         case deficiencyNotice:
           await this.dnService.deleteOne(this.formId).toPromise();
           this.dnService.getEntriesAPI();
+          break;
+        case accomplishmentReport:
+          await this.accomplishmentReportService.deleteOne(this.formId).toPromise();
+          this.accomplishmentReportService.getEntriesAPI();
           break;
         // case stationDelete:
         //   this.stationService.deleteOne(this.formId);
@@ -178,6 +190,10 @@ export class ModalComponent implements OnInit {
 
   saveClient() {
     this.clientService.saveClientListener.next();
+  }
+
+  saveAccomplishmentReport() {
+    this.accomplishmentReportService.saveAccomplishmentReportListener.next();
   }
 
   saveUser() {

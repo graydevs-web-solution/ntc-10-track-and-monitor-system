@@ -77,6 +77,20 @@ export class MobilePhoneDealerViewComponent implements OnInit {
     this.mobilePhoneDealerService.generatePdf(this.formId);
   }
 
+  get approveStatus(): string {
+    const approved = this.form.get('isApproved').value;
+
+    if (approved === null) {
+      return `Undecided`;
+    }
+
+    if (approved) {
+      return `Approved`;
+    } else {
+      return `Disapproved`;
+    }
+  }
+
   get listOfStocksOfSparesAndAccessories(): FormArray {
     return this.form.get('listOfStocksOfSparesAndAccessories') as FormArray;
   }

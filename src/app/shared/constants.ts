@@ -6,6 +6,7 @@ export const radioDealer = 'radioDealer';
 export const deficiencyNotice = 'deficiencyNotice';
 export const complaint = 'complaint';
 export const users = 'users';
+export const accomplishmentReport = 'accomplishmentReport';
 
 // Master List Modules
 export const clientEdit = 'clientEdit';

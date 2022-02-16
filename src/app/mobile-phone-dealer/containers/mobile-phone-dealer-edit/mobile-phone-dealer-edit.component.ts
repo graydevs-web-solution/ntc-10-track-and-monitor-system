@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl, AbstractControl } from '@angular/forms';
 import { Params, ActivatedRoute } from '@angular/router';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -35,6 +35,7 @@ export class MobilePhoneDealerEditComponent implements OnInit {
     name: '',
   };
   userSelectSub: Subscription;
+  userInfo = this.authService.getUserInfo();
 
   formatName = formatName;
   faCalendarAlt = faCalendarAlt;
@@ -111,7 +112,8 @@ export class MobilePhoneDealerEditComponent implements OnInit {
       this.mobilePhoneDealerService.resourceType.next(EDIT);
     } else {
       this.regDirectorInfo = this.systemService.getRegionalDirectorInfo();
-      this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id });
+      this.notedByInfo = this.systemService.getNotedByInfo();
+      this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id, notedBy: this.notedByInfo.user_id });
       this.mobilePhoneDealerService.resourceType.next(ADD);
     }
   }
@@ -167,6 +169,20 @@ export class MobilePhoneDealerEditComponent implements OnInit {
       return;
     }
     modalRef.componentInstance.componentName = userSearch;
+  }
+
+  get approveStatus(): string {
+    const approved = this.form.get('isApproved').value;
+
+    if (approved === null) {
+      return `Undecided`;
+    }
+
+    if (approved) {
+      return `Approved`;
+    } else {
+      return `Disapproved`;
+    }
   }
 
   get listOfStocksOfSparesAndAccessories(): FormArray {

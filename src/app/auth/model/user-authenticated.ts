@@ -1,5 +1,5 @@
 export interface UserAuthenticated {
-  id: number;
+  ['user_id']: string;
   name: string;
   userName: string;
   position: string;

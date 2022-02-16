@@ -44,6 +44,10 @@ const routes: Routes = [
     loadChildren: () => import('./radio-dealer/radio-dealer.module').then((m) => m.RadioDealerModule),
   },
   {
+    path: 'accomplishment-report',
+    loadChildren: () => import('./accomplishment-report/accomplishment-report.module').then((m) => m.AccomplishmentReportModule),
+  },
+  {
     path: 'master-list',
     loadChildren: () => import('./master-list/master-list.module').then((m) => m.MasterListModule),
   },
