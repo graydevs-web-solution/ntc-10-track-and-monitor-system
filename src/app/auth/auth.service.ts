@@ -2,7 +2,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable, of, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PageOptions } from '../shared/models/page-options';
@@ -27,6 +27,7 @@ export class AuthService {
   selectedEntry = new Subject<User>();
   selectedEntryUser = new Subject<User>();
   saveUserListener = new Subject();
+  disableDuringProcess = new BehaviorSubject(false);
 
   private entries: User[] = [];
   private entriesListener = new Subject<User[]>();

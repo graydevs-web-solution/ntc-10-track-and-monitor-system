@@ -19,7 +19,7 @@ export class UserEntryComponent implements OnInit {
   constructor(private modalService: NgbModal, private authService: AuthService) {}
 
   open() {
-    const modalRef = this.modalService.open(ModalComponent, { centered: true });
+    const modalRef = this.modalService.open(ModalComponent, { centered: true, size: 'lg' });
     modalRef.componentInstance.formId = this.entry.user_id;
     modalRef.componentInstance.componentName = userEdit;
     modalRef.componentInstance.formMode = EDIT;

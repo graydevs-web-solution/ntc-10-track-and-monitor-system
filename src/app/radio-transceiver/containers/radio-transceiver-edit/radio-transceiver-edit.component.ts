@@ -1,4 +1,4 @@
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
@@ -41,6 +41,12 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
 
   getDestroyed = new Subject();
 
+  alert = {
+    type: '',
+    description: '',
+  };
+  disableDuringProcess = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private radioTransceiverService: RadioTransceiverService,
@@ -49,7 +55,8 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
     private clientService: ClientService,
     private cd: ChangeDetectorRef,
     private systemService: SystemSettingService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -147,24 +154,41 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    if (this.formMode === ADD) {
-      this.radioTransceiverService
-        .addOne(this.form.value)
-        .pipe(takeUntil(this.getDestroyed))
-        .subscribe({
-          next: (response) => {
-            //
-          },
-        });
-    } else {
-      this.radioTransceiverService
-        .updateOne(this.formId, this.form.value)
-        .pipe(takeUntil(this.getDestroyed))
-        .subscribe({
-          next: (response) => {
-            //
-          },
-        });
+    try {
+      this.alert.type = 'info';
+      this.alert.description = 'Saving data...';
+      this.disableDuringProcess = true;
+      if (this.formMode === ADD) {
+        this.radioTransceiverService
+          .addOne(this.form.value)
+          .pipe(takeUntil(this.getDestroyed))
+          .subscribe({
+            next: async (response) => {
+              this.radioTransceiverService.getEntriesAPI();
+              await this.router.navigate(['/radio-transceiver']);
+            },
+            error: (error) => {
+              throw error;
+            },
+          });
+      } else {
+        this.radioTransceiverService
+          .updateOne(this.formId, this.form.value)
+          .pipe(takeUntil(this.getDestroyed))
+          .subscribe({
+            next: async (response) => {
+              this.radioTransceiverService.getEntriesAPI();
+              await this.router.navigate(['/radio-transceiver']);
+            },
+            error: (error) => {
+              throw error;
+            },
+          });
+      }
+    } catch (error) {
+      this.alert.type = 'danger';
+      this.alert.description = 'Unknown error';
+      this.disableDuringProcess = true;
     }
   }
 

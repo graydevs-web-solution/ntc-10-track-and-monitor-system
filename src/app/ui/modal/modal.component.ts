@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   accomplishmentReport,
@@ -39,6 +39,8 @@ import { DeficiencyNoticeService } from 'src/app/deficiency-notice/deficiency-no
 import { User } from 'src/app/auth/model/user';
 import { AuthService } from 'src/app/auth/auth.service';
 import { AccomplishmentReportService } from 'src/app/accomplishment-report/accomplishment-report.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-modal',
@@ -46,12 +48,15 @@ import { AccomplishmentReportService } from 'src/app/accomplishment-report/accom
   styleUrls: ['./modal.component.css'],
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, OnDestroy {
   @Input() formMode: string;
   @Input() formId: string;
   @Input() componentName: string;
 
   stationEdit = stationEdit;
+  disableDuringProcess = false;
+
+  getDestroyed = new Subject();
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -65,7 +70,18 @@ export class ModalComponent implements OnInit {
     private authService: AuthService // private stationService: StationService, // private serviceCenterService: ServiceCenterService, // private dealerService: DealerService,
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.disableDuringProcess.pipe(takeUntil(this.getDestroyed)).subscribe({
+      next: (res) => {
+        this.disableDuringProcess = res;
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.getDestroyed.next();
+    this.getDestroyed.complete();
+  }
 
   isRemoveEntry = (): boolean => {
     const allowedComponents = [

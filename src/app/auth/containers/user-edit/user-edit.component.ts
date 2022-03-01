@@ -16,6 +16,12 @@ export class UserEditComponent implements OnInit, OnDestroy {
   formId = '';
   userTypes = this.authService.getUserTypes();
 
+  alert = {
+    type: '',
+    description: '',
+  };
+  disableDuringProcess = false;
+
   getDestroyed = new Subject();
 
   constructor(private authService: AuthService) {}
@@ -45,16 +51,35 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
   async submit() {
     try {
+      this.authService.disableDuringProcess.next(true);
+      this.alert.description = 'Saving user...';
+      this.alert.type = 'info';
+
       if (this.formMode === ADD) {
         this.authService
           .addOne(this.form.value)
           .pipe(takeUntil(this.getDestroyed))
           .subscribe({
             next: () => {
-              console.log('OK');
+              this.form.reset();
+              this.authService.disableDuringProcess.next(false);
+              this.authService.getEntriesAPI();
+              this.alert.type = 'success';
+              this.alert.description = 'User created successfully';
+              setTimeout(() => {
+                this.alert.type = '';
+                this.alert.description = '';
+              });
             },
             error: (error) => {
-              console.log(error);
+              this.authService.disableDuringProcess.next(false);
+              if (error?.message) {
+                this.alert.type = 'danger';
+                this.alert.description = 'Error server.';
+                return;
+              }
+              this.alert.type = 'danger';
+              this.alert.description = 'Unknown server error.';
             },
           });
       } else {
