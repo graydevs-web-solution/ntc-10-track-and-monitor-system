@@ -12,7 +12,7 @@ import { UserCollectionComponent } from './containers/user-collection/user-colle
 import { AuthRoutingModule } from './auth-routing.module';
 import { UserEntryComponent } from './component/user-entry/user-entry.component';
 import { UserSearchComponent } from './containers/user-search/user-search.component';
-import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -33,6 +33,7 @@ import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
     RouterModule,
     AuthRoutingModule,
     NgbTypeaheadModule,
+    NgbAlertModule,
   ],
   exports: [UserEditComponent, UserSearchComponent],
 })

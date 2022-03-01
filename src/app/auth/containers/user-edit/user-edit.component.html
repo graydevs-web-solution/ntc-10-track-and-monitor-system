@@ -1,3 +1,5 @@
+<ngb-alert *ngIf="alert.description" [type]="alert.type" (closed)="close(alert)">{{ alert.description }}</ngb-alert>
+
 <div class="p-3" [formGroup]="form">
   <div class="form-group row">
     <label for="name-first" class="col-sm-2 col-form-label">First Name</label>
