@@ -78,6 +78,22 @@ export class ComplaintEditComponent implements OnInit {
       },
     });
 
+    this.complaintService.createNewComplaintListener.subscribe({
+      next: (val) => {
+        this.initForm();
+        const descriptions = val.docketNumberDescription.trim().replace(' ', '').replace(' ', '').split('to');
+        val.transmitters.forEach(() => {
+          this.addTransmitterInput();
+        });
+        this.form.patchValue({
+          ...val,
+          complainantName: 'National Telecommunication Commission',
+          docketNumberDescription: this.descriptionGenerator(descriptions),
+        });
+        this.clientName = val.clientName;
+      },
+    });
+
     if (this.formMode === EDIT) {
       const fetchedValue = this.complaintService.getSelectedEntry(this.formId);
       fetchedValue.transmitters.forEach(() => {
@@ -93,13 +109,19 @@ export class ComplaintEditComponent implements OnInit {
     }
   }
 
+  descriptionGenerator(descriptions: string[]): string {
+    if (descriptions.length === 1) {
+      return `ADM Case No. ${descriptions[0]}`;
+    }
+    return `ADM Case No. ${descriptions[0]} to ADM Case No. ${descriptions[1]}`;
+  }
+
   setADMCounter() {
     const resCounterInfo = +this.systemService.getFormCounterInfo().find((val) => val.setting === 'rox_counter').value;
     this.admCounterInfo = {
       start: resCounterInfo,
       end: resCounterInfo,
     };
-    console.log(resCounterInfo);
   }
 
   initForm(): void {

@@ -86,14 +86,12 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
         const data: UserAssignedData = { ['user_id']: res.user_id, name: this.formatName(res), position: res.position };
         this.notedByInfo = { ['user_id']: data.user_id, name: data.name };
         this.form.patchValue({ notedBy: data.user_id });
-        console.log(this.notedByInfo);
       },
     });
 
     if (this.formMode === EDIT) {
       this.radioTransceiverService.resourceType.next(EDIT);
       const fetchedValue = this.radioTransceiverService.getSelectedEntry(this.formId);
-      console.log(fetchedValue);
       for (const _ of isArrayValue(fetchedValue.operators)) {
         this.addOperatorInput();
       }

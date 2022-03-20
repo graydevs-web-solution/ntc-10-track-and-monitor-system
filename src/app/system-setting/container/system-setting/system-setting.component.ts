@@ -36,7 +36,6 @@ export class SystemSettingComponent implements OnInit, OnDestroy {
     this.regionalDirectorInfo = this.systemSettingService.getRegionalDirectorInfo();
     this.notedByInfo = this.systemSettingService.getNotedByInfo();
     this.counter = this.systemSettingService.getFormCounterInfo().reduce((prev, val) => {
-      console.log(val);
       if (val.setting === 'adm_counter') {
         return { ...prev, adm: `${+val.value}` };
       }
@@ -44,7 +43,6 @@ export class SystemSettingComponent implements OnInit, OnDestroy {
         return { ...prev, rox: `${+val.value}` };
       }
     }, this.counter);
-    console.log(this.counter);
     this.userSelectSub = this.authService.selectedEntryUser.subscribe({
       next: (res) => {
         const data: UserAssignedData = { ['user_id']: res.user_id, name: this.formatName(res), position: res.position };

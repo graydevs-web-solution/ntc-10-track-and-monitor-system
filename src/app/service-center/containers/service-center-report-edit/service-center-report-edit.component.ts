@@ -79,7 +79,6 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
         const data: UserAssignedData = { ['user_id']: res.user_id, name: this.formatName(res), position: res.position };
         this.notedByInfo = { ['user_id']: data.user_id, name: data.name };
         this.form.patchValue({ notedBy: data.user_id });
-        console.log(this.notedByInfo);
       },
     });
 

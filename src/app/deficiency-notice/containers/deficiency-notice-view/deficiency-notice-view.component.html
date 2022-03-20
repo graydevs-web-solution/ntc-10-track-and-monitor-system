@@ -1,4 +1,7 @@
-<div class="d-flex justify-content-end mb-3">
+<div class="d-flex justify-content-between mb-3">
+  <button class="btn btn-sm btn-secondary" (click)="createNewComplaint()">
+    <fa-icon [icon]="faFilePdf"></fa-icon> Create new Complaint
+  </button>
   <button class="btn btn-sm btn-secondary" (click)="generatePdf()"><fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf</button>
 </div>
 

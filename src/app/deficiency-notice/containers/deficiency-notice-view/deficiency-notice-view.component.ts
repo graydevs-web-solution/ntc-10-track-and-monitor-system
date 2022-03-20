@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { ComplaintService } from 'src/app/complaint/complaint.service';
+import { Complaint } from 'src/app/complaint/models/complaint.model';
 import { ClientService } from 'src/app/master-list/clients/client.service';
 import { VIEW } from 'src/app/shared/constants';
 import { formatDate } from 'src/app/shared/utility';
@@ -36,7 +38,9 @@ export class DeficiencyNoticeViewComponent implements OnInit {
     private dnService: DeficiencyNoticeService,
     private route: ActivatedRoute,
     private clientService: ClientService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router,
+    private complaintService: ComplaintService
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +68,6 @@ export class DeficiencyNoticeViewComponent implements OnInit {
       regionalDirector: fetchedValue.regionalDirectorInfo.name,
     };
     this.form.patchValue(vals);
-    console.log(fetchedValue);
     this.dnService.resourceType.next(VIEW);
   }
 
@@ -86,5 +89,14 @@ export class DeficiencyNoticeViewComponent implements OnInit {
 
   generatePdf(): void {
     this.dnService.generatePdf(this.formId);
+  }
+
+  async createNewComplaint() {
+    await this.router.navigate(['complaint', 'new']);
+    const data: Complaint = {
+      ...this.form.value,
+      clientName: this.clientName,
+    };
+    this.complaintService.createNewComplaintListener.next(data);
   }
 }

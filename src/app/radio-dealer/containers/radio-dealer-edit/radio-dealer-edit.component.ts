@@ -80,7 +80,6 @@ export class RadioDealerEditComponent implements OnInit {
       next: (res) => {
         const data: UserAssignedData = { ['user_id']: res.user_id, name: this.formatName(res), position: res.position };
         this.notedByInfo = { ['user_id']: data.user_id, name: data.name };
-        console.log(this.notedByInfo);
       },
     });
 

@@ -180,7 +180,6 @@ export class AuthService {
     if (token) {
       const { expiresIn, name, position, userName, user_id } = jwt_decode<UserAuthenticated>(token);
       this.userLoggedInInfo = { name, position, userName, user_id };
-      console.log(this.userLoggedInInfo);
       const expirationTimer = expiresIn * 1000;
       this.setAuthTimer(expirationTimer);
       this.isAuthenticated = true;

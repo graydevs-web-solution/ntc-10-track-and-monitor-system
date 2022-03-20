@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { DeficiencyNotice } from '../deficiency-notice/models/deficiency-notice.model';
 import { PageOptions } from '../shared/models/page-options';
 import { formatDate, formatTime, openPDF } from '../shared/utility';
 import { ComplaintAPI, ResponseAddComplaint } from './models/complaint-api.model';
@@ -18,6 +19,7 @@ export class ComplaintService {
     search: '',
   };
   resourceType = new ReplaySubject<string>();
+  createNewComplaintListener = new ReplaySubject<Complaint>();
 
   private entries: Complaint[] = [];
   private entriesListener = new Subject<Complaint[]>();

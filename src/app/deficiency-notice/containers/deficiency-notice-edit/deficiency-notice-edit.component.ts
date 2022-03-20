@@ -101,7 +101,6 @@ export class DeficiencyNoticeEditComponent implements OnInit {
       start: resCounterInfo,
       end: resCounterInfo,
     };
-    console.log(resCounterInfo);
   }
 
   initForm(): void {
