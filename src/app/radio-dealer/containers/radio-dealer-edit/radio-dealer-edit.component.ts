@@ -145,8 +145,16 @@ export class RadioDealerEditComponent implements OnInit {
     this.supervisingECE.push(supervisingECEInput());
   }
 
+  removeSupervisingECE(index: number): void {
+    this.supervisingECE.removeAt(index);
+  }
+
   addTechnicians() {
     this.radioTechnicians.push(techniciansInput());
+  }
+
+  removeTechnicians(index: number) {
+    this.radioTechnicians.removeAt(index);
   }
 
   open() {

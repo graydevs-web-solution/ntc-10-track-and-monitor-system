@@ -5,7 +5,9 @@ export const initForm = (readState = false): FormGroup => {
   return new FormGroup({
     date: new FormControl({ value: '', disabled: false }),
     clientId: new FormControl({ value: '', disabled: false }),
-    docketNumber: new FormControl({ value: '', disabled: false }),
+    docketNumberDescription: new FormControl({ value: '', disabled: false }),
+    docketNumberStart: new FormControl({ value: '', disabled: false }),
+    docketNumberEnd: new FormControl({ value: '', disabled: false }),
     respondentName: new FormControl({ value: '', disabled: false }),
     dateOfInspection: new FormControl({ value: '', disabled: false }),
     violationInfo: new FormGroup({

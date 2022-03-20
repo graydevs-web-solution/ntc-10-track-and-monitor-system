@@ -146,10 +146,11 @@ export class ServiceCenterReportService {
       },
       recommendations: data.recommendations,
       notedBy: data.noted_by,
-      regionalDirector: data.regional_director,
-      isApproved: data.is_approved,
-      regionalDirectorInfo: data.regional_director_info,
+      notedByApproved: data.noted_by_approved,
       notedByInfo: data.noted_by_info,
+      regionalDirector: data.regional_director,
+      regionalDirectorApproved: data.regional_director_approved,
+      regionalDirectorInfo: data.regional_director_info,
     };
     return value;
   };

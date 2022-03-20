@@ -154,12 +154,24 @@ export class MobilePhoneDealerEditComponent implements OnInit {
     this.listOfStocksOfSparesAndAccessories.push(stockSpareAndAccessoryInput());
   }
 
+  removeStockSpareAndAccessory(index: number): void {
+    this.listOfStocksOfSparesAndAccessories.removeAt(index);
+  }
+
   addStockMobilePhone() {
     this.listOfStocksOfMobilePhone.push(stockMobilePhoneInput());
   }
 
+  removeStockMobilePhone(index: number) {
+    this.listOfStocksOfMobilePhone.removeAt(index);
+  }
+
   addStockSIM() {
     this.listOfStocksOfSubscriberIdentificationModule.push(stockSIMInput());
+  }
+
+  removeStockSIM(index: number) {
+    this.listOfStocksOfSubscriberIdentificationModule.removeAt(index);
   }
 
   open(userType: 'client' | 'user'): void {

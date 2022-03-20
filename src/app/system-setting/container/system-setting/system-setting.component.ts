@@ -38,10 +38,10 @@ export class SystemSettingComponent implements OnInit, OnDestroy {
     this.counter = this.systemSettingService.getFormCounterInfo().reduce((prev, val) => {
       console.log(val);
       if (val.setting === 'adm_counter') {
-        return { ...prev, adm: `${+val.value + 2}` };
+        return { ...prev, adm: `${+val.value}` };
       }
       if (val.setting === 'rox_counter') {
-        return { ...prev, rox: `${+val.value + 1}` };
+        return { ...prev, rox: `${+val.value}` };
       }
     }, this.counter);
     console.log(this.counter);

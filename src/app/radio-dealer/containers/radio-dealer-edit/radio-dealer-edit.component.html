@@ -92,88 +92,93 @@
             </div>
           </div>
 
-          <div *ngFor="let item of supervisingECE.controls; let i = index" class="border p-2 mb-2">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'name' + i">Name</label>
-                  <input type="text" [formControl]="item.get('name')" class="form-control" [id]="'name' + i" placeholder="Name" />
+          <div *ngFor="let item of supervisingECE.controls; let i = index" class="d-flex border rounded p-2 mb-2 bg-light">
+            <div class="flex-grow-1 pr-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'name' + i">Name</label>
+                    <input type="text" [formControl]="item.get('name')" class="form-control" [id]="'name' + i" placeholder="Name" />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'license-number' + i">License No.</label>
+                    <input
+                      type="text"
+                      [formControl]="item.get('licenseNumber')"
+                      class="form-control"
+                      [id]="'license-number' + i"
+                      placeholder="License No."
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group row">
+                    <label for="tp-exp-date" class="col-2 col-form-label">Exp. Date</label>
+                    <div class="col-10">
+                      <div class="input-group">
+                        <input
+                          class="form-control"
+                          placeholder="mmm-dd-yyyy"
+                          [name]="'tp-exp-date' + i"
+                          [formControl]="item.get('expiryDate')"
+                          ngbDatepicker
+                          readonly
+                          [id]="'tp-exp-date' + i"
+                          #ddddd="ngbDatepicker"
+                        />
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary calendar" (click)="ddddd.toggle()" type="button">
+                            <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'license-number' + i">License No.</label>
-                  <input
-                    type="text"
-                    [formControl]="item.get('licenseNumber')"
-                    class="form-control"
-                    [id]="'license-number' + i"
-                    placeholder="License No."
-                  />
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'ptr-number' + i">PTR no.</label>
+                    <input
+                      type="text"
+                      [formControl]="item.get('ptrNumber')"
+                      class="form-control"
+                      [id]="'ptr-number' + i"
+                      placeholder="PTR No."
+                    />
+                  </div>
                 </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group row">
-                  <label for="tp-exp-date" class="col-2 col-form-label">Exp. Date</label>
-                  <div class="col-10">
-                    <div class="input-group">
-                      <input
-                        class="form-control"
-                        placeholder="mmm-dd-yyyy"
-                        [name]="'tp-exp-date' + i"
-                        [formControl]="item.get('expiryDate')"
-                        ngbDatepicker
-                        readonly
-                        [id]="'tp-exp-date' + i"
-                        #ddddd="ngbDatepicker"
-                      />
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary calendar" (click)="ddddd.toggle()" type="button">
-                          <fa-icon [icon]="faCalendarAlt"></fa-icon>
-                        </button>
+                <div class="col-4">
+                  <div class="form-group row">
+                    <label for="tp-exp-date" class="col-2 col-form-label">Date Issued</label>
+                    <div class="col-10">
+                      <div class="input-group">
+                        <input
+                          class="form-control"
+                          placeholder="mmm-dd-yyyy"
+                          [name]="'tp-date-issued' + i"
+                          [formControl]="item.get('dateIssued')"
+                          ngbDatepicker
+                          readonly
+                          [id]="'tp-date-issued' + i"
+                          #dddd="ngbDatepicker"
+                        />
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary calendar" (click)="dddd.toggle()" type="button">
+                            <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'ptr-number' + i">PTR no.</label>
-                  <input
-                    type="text"
-                    [formControl]="item.get('ptrNumber')"
-                    class="form-control"
-                    [id]="'ptr-number' + i"
-                    placeholder="PTR No."
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group row">
-                  <label for="tp-exp-date" class="col-2 col-form-label">Date Issued</label>
-                  <div class="col-10">
-                    <div class="input-group">
-                      <input
-                        class="form-control"
-                        placeholder="mmm-dd-yyyy"
-                        [name]="'tp-date-issued' + i"
-                        [formControl]="item.get('dateIssued')"
-                        ngbDatepicker
-                        readonly
-                        [id]="'tp-date-issued' + i"
-                        #dddd="ngbDatepicker"
-                      />
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary calendar" (click)="dddd.toggle()" type="button">
-                          <fa-icon [icon]="faCalendarAlt"></fa-icon>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div>
+              <button class="btn btn-sm btn-danger font-weight-bold" (click)="removeSupervisingECE(i)">x</button>
             </div>
           </div>
 
@@ -188,50 +193,55 @@
             </div>
           </div>
 
-          <div *ngFor="let item of radioTechnicians.controls; let i = index" class="border p-2 mb-2">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'name' + i">Name</label>
-                  <input type="text" [formControl]="item.get('name')" class="form-control" [id]="'name' + i" placeholder="Name" />
+          <div *ngFor="let item of radioTechnicians.controls; let i = index" class="d-flex border rounded p-2 mb-2 bg-light">
+            <div class="flex-grow-1 pr-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'name' + i">Name</label>
+                    <input type="text" [formControl]="item.get('name')" class="form-control" [id]="'name' + i" placeholder="Name" />
+                  </div>
                 </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'particulars' + i">Particulars of License</label>
-                  <input
-                    type="text"
-                    [formControl]="item.get('particularsOfLicense')"
-                    class="form-control"
-                    [id]="'particulars' + i"
-                    placeholder="Particulars of License"
-                  />
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'particulars' + i">Particulars of License</label>
+                    <input
+                      type="text"
+                      [formControl]="item.get('particularsOfLicense')"
+                      class="form-control"
+                      [id]="'particulars' + i"
+                      placeholder="Particulars of License"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group row">
-                  <label for="tp-exp-date" class="col-2 col-form-label">Exp. Date</label>
-                  <div class="col-10">
-                    <div class="input-group">
-                      <input
-                        class="form-control"
-                        placeholder="mmm-dd-yyyy"
-                        [name]="'tp-exp-date' + i"
-                        [formControl]="item.get('expiryDate')"
-                        ngbDatepicker
-                        readonly
-                        [id]="'tp-exp-date' + i"
-                        #ddddd="ngbDatepicker"
-                      />
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary calendar" (click)="ddddd.toggle()" type="button">
-                          <fa-icon [icon]="faCalendarAlt"></fa-icon>
-                        </button>
+                <div class="col-4">
+                  <div class="form-group row">
+                    <label for="tp-exp-date" class="col-2 col-form-label">Exp. Date</label>
+                    <div class="col-10">
+                      <div class="input-group">
+                        <input
+                          class="form-control"
+                          placeholder="mmm-dd-yyyy"
+                          [name]="'tp-exp-date' + i"
+                          [formControl]="item.get('expiryDate')"
+                          ngbDatepicker
+                          readonly
+                          [id]="'tp-exp-date' + i"
+                          #ddddd="ngbDatepicker"
+                        />
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary calendar" (click)="ddddd.toggle()" type="button">
+                            <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-danger font-weight-bold" (click)="removeTechnicians(i)">x</button>
             </div>
           </div>
 

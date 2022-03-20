@@ -155,8 +155,16 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
     this.listOfServiceOrTestEquipments.push(serviceOrTestEquipmentInput());
   }
 
+  removedServiceOrTestEquipment(index: number): void {
+    this.listOfServiceOrTestEquipments.removeAt(index);
+  }
+
   addEmployedElectronicTechnician() {
     this.employedElectronicsTechnicians.push(employedETInput());
+  }
+
+  removeEmployedElectronicTechnician(index: number) {
+    this.employedElectronicsTechnicians.removeAt(index);
   }
 
   open(userType: 'client' | 'user'): void {

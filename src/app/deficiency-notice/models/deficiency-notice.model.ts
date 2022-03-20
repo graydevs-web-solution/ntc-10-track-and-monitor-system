@@ -1,4 +1,5 @@
 import { Client } from 'src/app/master-list/clients/models/client.model';
+import { UserAssignedData } from 'src/app/system-setting/model/user-assigned-data';
 interface TransmittersInfo {
   transmitter: string;
   serialNumber: string;
@@ -17,12 +18,16 @@ export interface DeficiencyNotice {
   date: Date | string;
   clientId: number | Client;
   respondentName: string;
-  docketNumber: string;
-  violationInfo: ViolationInfo;
+  docketNumberDescription: string;
+  docketNumberStart: number;
+  docketNumberEnd: number;
   clientName?: string;
-  transmitters: TransmittersInfo[];
+  violationInfo: ViolationInfo;
   dateOfInspection: Date | string;
+  transmitters: TransmittersInfo[];
   dateOfDeficiencyHearing: Date | string;
   isDone: boolean;
   regionalDirector: string;
+  regionalDirectorInfo?: UserAssignedData;
+  regionalDirectorApproved: boolean;
 }

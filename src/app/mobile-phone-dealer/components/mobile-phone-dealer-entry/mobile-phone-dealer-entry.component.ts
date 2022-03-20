@@ -16,11 +16,11 @@ import { MobilePhoneDealer } from '../../models/mobile-phone-dealer.model';
             <span
               class="font-weight-bold"
               [ngClass]="{
-                'text-success': entry.isApproved,
-                'text-danger': !entry.isApproved
+                'text-success': entry.regionalDirectorApproved,
+                'text-danger': !entry.regionalDirectorApproved
               }"
             >
-              {{ entry.isApproved ? 'Yes' : 'No' }}</span
+              {{ entry.regionalDirectorApproved ? 'Yes' : 'No' }}</span
             >
           </div>
           <div>

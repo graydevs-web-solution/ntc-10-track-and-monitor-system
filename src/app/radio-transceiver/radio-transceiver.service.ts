@@ -275,9 +275,11 @@ export class RadioTransceiverService {
       radioRegulationInspector: data.radio_requlation_inspector,
       recommendations: data.recommendations,
       notedBy: data.noted_by,
+      notedByApproved: data.noted_by_approved,
+      notedByInfo: data.noted_by_info,
+      regionalDirectorApproved: data.regional_director_approved,
       regionalDirector: data.regional_director,
       regionalDirectorInfo: data.regional_director_info,
-      notedByInfo: data.noted_by_info,
     };
     return value;
   };

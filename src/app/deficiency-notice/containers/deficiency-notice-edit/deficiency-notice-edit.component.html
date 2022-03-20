@@ -1,3 +1,5 @@
+<ngb-alert *ngIf="alert.description" [type]="alert.type" (closed)="close(alert)">{{ alert.description }}</ngb-alert>
+
 <app-card>
   <div class="p-3" [formGroup]="form">
     <div class="form-group row">
@@ -11,10 +13,10 @@
             formControlName="date"
             ngbDatepicker
             readonly
-            #d="ngbDatepicker"
+            #d1="ngbDatepicker"
           />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+            <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
               <fa-icon [icon]="faCalendarAlt"></fa-icon>
             </button>
           </div>
@@ -45,7 +47,7 @@
     <div class="form-group row">
       <label for="docketNumber" class="col-sm-3 col-form-label">Docket Number</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="docketNumber" formControlName="docketNumber" readonly />
+        <input type="text" class="form-control" id="docketNumber" formControlName="docketNumberDescription" readonly />
       </div>
     </div>
 
@@ -67,10 +69,10 @@
             formControlName="dateOfInspection"
             ngbDatepicker
             readonly
-            #ddd="ngbDatepicker"
+            #d2="ngbDatepicker"
           />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="ddd.toggle()" type="button">
+            <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
               <fa-icon [icon]="faCalendarAlt"></fa-icon>
             </button>
           </div>
@@ -97,35 +99,37 @@
         </div>
       </div>
 
-      <div *ngFor="let item of transmitters.controls; let i = index" class="border p-2 mb-2">
-        <div class="row">
-          <div class="col-5">
-            <div class="form-group">
-              <label [for]="'transmitter' + i">Transmitter</label>
-              <input
-                type="text"
-                [formControl]="item.get('transmitter')"
-                class="form-control"
-                [id]="'transmitter' + i"
-                placeholder="Transmitter"
-              />
+      <div *ngFor="let item of transmitters.controls; let i = index" class="d-flex border rounded p-2 mb-2 bg-light">
+        <div class="flex-grow-1 pr-3">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label [for]="'transmitter' + i">Transmitter</label>
+                <input
+                  type="text"
+                  [formControl]="item.get('transmitter')"
+                  class="form-control"
+                  [id]="'transmitter' + i"
+                  placeholder="Transmitter"
+                />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label [for]="'serial-number-' + i">Serial Number</label>
+                <input
+                  type="text"
+                  [formControl]="item.get('serialNumber')"
+                  class="form-control"
+                  [id]="'serial-number-' + i"
+                  placeholder="Serial Number"
+                />
+              </div>
             </div>
           </div>
-          <div class="col-5">
-            <div class="form-group">
-              <label [for]="'serial-number-' + i">Serial Number</label>
-              <input
-                type="text"
-                [formControl]="item.get('serialNumber')"
-                class="form-control"
-                [id]="'serial-number-' + i"
-                placeholder="Serial Number"
-              />
-            </div>
-          </div>
-          <div class="col-5">
-            <button class="btn btn-sm btn-primary" type="button" (click)="removeTransmitterInput(i)">X</button>
-          </div>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-danger font-weight-bold" type="button" (click)="removeTransmitterInput(i)">X</button>
         </div>
       </div>
 

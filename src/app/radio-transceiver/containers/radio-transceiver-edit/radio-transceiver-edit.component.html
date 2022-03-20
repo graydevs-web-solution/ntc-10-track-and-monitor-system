@@ -293,53 +293,58 @@
             </div>
           </div>
 
-          <div *ngFor="let operator of operators.controls; let i = index" class="border p-2 mb-2">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'operator' + i">Operator</label>
-                  <input
-                    type="text"
-                    [formControl]="operator.get('name')"
-                    class="form-control"
-                    [id]="'operator' + i"
-                    placeholder="Operator"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'particular' + i">Particular of License</label>
-                  <input
-                    type="text"
-                    [formControl]="operator.get('particularOfLicense')"
-                    class="form-control"
-                    [id]="'particular' + i"
-                    placeholder="Particular of License"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'expirationDate' + i">Expiration Date</label>
-                  <div class="input-group">
+          <div *ngFor="let operator of operators.controls; let i = index" class="d-flex border rounded p-2 mb-2 bg-light">
+            <div class="flex-grow-1 pr-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'operator' + i">Operator</label>
                     <input
+                      type="text"
+                      [formControl]="operator.get('name')"
                       class="form-control"
-                      placeholder="mmm-dd-yyyy"
-                      name="dp"
-                      [formControl]="operator.get('expirationDate')"
-                      ngbDatepicker
-                      readonly
-                      #d="ngbDatepicker"
+                      [id]="'operator' + i"
+                      placeholder="Operator"
                     />
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
-                        <fa-icon [icon]="faCalendarAlt"></fa-icon>
-                      </button>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'particular' + i">Particular of License</label>
+                    <input
+                      type="text"
+                      [formControl]="operator.get('particularOfLicense')"
+                      class="form-control"
+                      [id]="'particular' + i"
+                      placeholder="Particular of License"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'expirationDate' + i">Expiration Date</label>
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        placeholder="mmm-dd-yyyy"
+                        name="dp"
+                        [formControl]="operator.get('expirationDate')"
+                        ngbDatepicker
+                        readonly
+                        #d="ngbDatepicker"
+                      />
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                          <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-danger font-weight-bold" (click)="removeOperatorInput(i)">x</button>
             </div>
           </div>
 
@@ -354,71 +359,76 @@
             </div>
           </div>
 
-          <div *ngFor="let transreceiver of radioTransceivers.controls; let i = index" class="border p-2 mb-2">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'model' + i">Make/Type/Model</label>
-                  <input
-                    type="text"
-                    [formControl]="transreceiver.get('model')"
-                    class="form-control"
-                    [id]="'model' + i"
-                    placeholder="Make/Type/Model"
-                  />
+          <div *ngFor="let transreceiver of radioTransceivers.controls; let i = index" class="border p-2 mb-2 rounded d-flex bg-light">
+            <div class="flex-grow-1 pr-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'model' + i">Make/Type/Model</label>
+                    <input
+                      type="text"
+                      [formControl]="transreceiver.get('model')"
+                      class="form-control"
+                      [id]="'model' + i"
+                      placeholder="Make/Type/Model"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'frequnecyControl' + i">Frequency Control</label>
+                    <input
+                      type="text"
+                      [formControl]="transreceiver.get('freqControl')"
+                      class="form-control"
+                      [id]="'frequecyControl' + i"
+                      placeholder="Frequency Control"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'frequnecyControl' + i">Frequency Control</label>
-                  <input
-                    type="text"
-                    [formControl]="transreceiver.get('freqControl')"
-                    class="form-control"
-                    [id]="'frequecyControl' + i"
-                    placeholder="Frequency Control"
-                  />
+
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'serialNumber' + i">Serial No.</label>
+                    <input
+                      type="text"
+                      [formControl]="transreceiver.get('serialNumber')"
+                      class="form-control"
+                      [id]="'serialNumber' + i"
+                      placeholder="Serial Number"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'freqRange' + i">Frequency Range</label>
+                    <input
+                      type="text"
+                      [formControl]="transreceiver.get('freqRange')"
+                      class="form-control"
+                      [id]="'freqRange' + i"
+                      placeholder="Frequency Range"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'powerOutPut' + i">Power Output</label>
+                    <input
+                      type="text"
+                      [formControl]="transreceiver.get('powerOutput')"
+                      class="form-control"
+                      [id]="'powerOutPut' + i"
+                      placeholder="Power Output"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'serialNumber' + i">Serial No.</label>
-                  <input
-                    type="text"
-                    [formControl]="transreceiver.get('serialNumber')"
-                    class="form-control"
-                    [id]="'serialNumber' + i"
-                    placeholder="Serial Number"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'freqRange' + i">Frequency Range</label>
-                  <input
-                    type="text"
-                    [formControl]="transreceiver.get('freqRange')"
-                    class="form-control"
-                    [id]="'freqRange' + i"
-                    placeholder="Frequency Range"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'powerOutPut' + i">Power Output</label>
-                  <input
-                    type="text"
-                    [formControl]="transreceiver.get('powerOutput')"
-                    class="form-control"
-                    [id]="'powerOutPut' + i"
-                    placeholder="Power Output"
-                  />
-                </div>
-              </div>
+            <div>
+              <button class="btn btn-sm btn-danger font-weight-bold" (click)="removeRadioTransceiverInput(i)">x</button>
             </div>
           </div>
 
@@ -433,68 +443,73 @@
             </div>
           </div>
 
-          <div *ngFor="let receiver of receivers.controls; let i = index" class="border p-2 mb-2">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'nameReceiver' + i">Name</label>
-                  <input
-                    type="text"
-                    [formControl]="receiver.get('name')"
-                    class="form-control"
-                    [id]="'nameReceiver' + i"
-                    placeholder="Name"
-                  />
+          <div *ngFor="let receiver of receivers.controls; let i = index" class="d-flex border rounded p-2 mb-2 bg-light">
+            <div class="flex-grow-1 pr-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'nameReceiver' + i">Name</label>
+                    <input
+                      type="text"
+                      [formControl]="receiver.get('name')"
+                      class="form-control"
+                      [id]="'nameReceiver' + i"
+                      placeholder="Name"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'serialNumberReceiver' + i">Serial No.</label>
+                    <input
+                      type="text"
+                      [formControl]="receiver.get('serialNumber')"
+                      class="form-control"
+                      [id]="'serialNumberReceiver' + i"
+                      placeholder="Serial Number"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'freqRangeReceiver' + i">Freq. Range</label>
+                    <input
+                      type="text"
+                      [formControl]="receiver.get('freqRange')"
+                      class="form-control"
+                      [id]="'freqRangeReceiver' + i"
+                      placeholder="Frequency Range"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'powerOutputReceiver' + i">Power Output</label>
+                    <input
+                      type="text"
+                      [formControl]="receiver.get('powerOutput')"
+                      class="form-control"
+                      [id]="'powerOutputReceiver' + i"
+                      placeholder="Power Output"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'freqControlReceiver' + i">Freq. Control</label>
+                    <input
+                      type="text"
+                      [formControl]="receiver.get('freqControl')"
+                      class="form-control"
+                      [id]="'freqControlReceiver' + i"
+                      placeholder="Freq Control"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'serialNumberReceiver' + i">Serial No.</label>
-                  <input
-                    type="text"
-                    [formControl]="receiver.get('serialNumber')"
-                    class="form-control"
-                    [id]="'serialNumberReceiver' + i"
-                    placeholder="Serial Number"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'freqRangeReceiver' + i">Freq. Range</label>
-                  <input
-                    type="text"
-                    [formControl]="receiver.get('freqRange')"
-                    class="form-control"
-                    [id]="'freqRangeReceiver' + i"
-                    placeholder="Frequency Range"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'powerOutputReceiver' + i">Power Output</label>
-                  <input
-                    type="text"
-                    [formControl]="receiver.get('powerOutput')"
-                    class="form-control"
-                    [id]="'powerOutputReceiver' + i"
-                    placeholder="Power Output"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'freqControlReceiver' + i">Freq. Control</label>
-                  <input
-                    type="text"
-                    [formControl]="receiver.get('freqControl')"
-                    class="form-control"
-                    [id]="'freqControlReceiver' + i"
-                    placeholder="Freq Control"
-                  />
-                </div>
-              </div>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-danger font-weight-bold" (click)="removeReceiver(i)">x</button>
             </div>
           </div>
 
@@ -509,68 +524,73 @@
             </div>
           </div>
 
-          <div *ngFor="let equipment of otherEquipments.controls; let i = index" class="border p-2 mb-2">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'nameReceiver' + i">Name</label>
-                  <input
-                    type="text"
-                    [formControl]="equipment.get('name')"
-                    class="form-control"
-                    [id]="'nameReceiver' + i"
-                    placeholder="Name"
-                  />
+          <div *ngFor="let equipment of otherEquipments.controls; let i = index" class="d-flex border rounded p-2 mb-2 bg-light">
+            <div class="flex-grow-1 pr-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'nameReceiver' + i">Name</label>
+                    <input
+                      type="text"
+                      [formControl]="equipment.get('name')"
+                      class="form-control"
+                      [id]="'nameReceiver' + i"
+                      placeholder="Name"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'serialNumberReceiver' + i">Serial No.</label>
+                    <input
+                      type="text"
+                      [formControl]="equipment.get('serialNumber')"
+                      class="form-control"
+                      [id]="'serialNumberReceiver' + i"
+                      placeholder="Serial Number"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'freqRangeReceiver' + i">Freq. Range</label>
+                    <input
+                      type="text"
+                      [formControl]="equipment.get('freqRange')"
+                      class="form-control"
+                      [id]="'freqRangeReceiver' + i"
+                      placeholder="Frequency Range"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'powerOutputReceiver' + i">Power Output</label>
+                    <input
+                      type="text"
+                      [formControl]="equipment.get('powerOutput')"
+                      class="form-control"
+                      [id]="'powerOutputReceiver' + i"
+                      placeholder="Power Output"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'freqControlReceiver' + i">Freq. Control</label>
+                    <input
+                      type="text"
+                      [formControl]="equipment.get('freqControl')"
+                      class="form-control"
+                      [id]="'freqControlReceiver' + i"
+                      placeholder="Freq Control"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'serialNumberReceiver' + i">Serial No.</label>
-                  <input
-                    type="text"
-                    [formControl]="equipment.get('serialNumber')"
-                    class="form-control"
-                    [id]="'serialNumberReceiver' + i"
-                    placeholder="Serial Number"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'freqRangeReceiver' + i">Freq. Range</label>
-                  <input
-                    type="text"
-                    [formControl]="equipment.get('freqRange')"
-                    class="form-control"
-                    [id]="'freqRangeReceiver' + i"
-                    placeholder="Frequency Range"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'powerOutputReceiver' + i">Power Output</label>
-                  <input
-                    type="text"
-                    [formControl]="equipment.get('powerOutput')"
-                    class="form-control"
-                    [id]="'powerOutputReceiver' + i"
-                    placeholder="Power Output"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'freqControlReceiver' + i">Freq. Control</label>
-                  <input
-                    type="text"
-                    [formControl]="equipment.get('freqControl')"
-                    class="form-control"
-                    [id]="'freqControlReceiver' + i"
-                    placeholder="Freq Control"
-                  />
-                </div>
-              </div>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-danger font-weight-bold" (click)="removeOtherEquipment(i)">x</button>
             </div>
           </div>
 

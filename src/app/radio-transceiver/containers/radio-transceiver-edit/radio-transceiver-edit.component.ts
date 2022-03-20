@@ -141,16 +141,32 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
     this.operators.push(operatorInput());
   }
 
+  removeOperatorInput(index: number): void {
+    this.operators.removeAt(index);
+  }
+
   addRadioTransceiverInput(): void {
     this.radioTransceivers.push(radioTransceiverEntryInput());
+  }
+
+  removeRadioTransceiverInput(index: number): void {
+    this.radioTransceivers.removeAt(index);
   }
 
   addReceiver() {
     this.receivers.push(receiverOrOtherEquipmentInput());
   }
 
+  removeReceiver(index: number) {
+    this.receivers.removeAt(index);
+  }
+
   addOtherEquipment() {
     this.otherEquipments.push(receiverOrOtherEquipmentInput());
+  }
+
+  removeOtherEquipment(index: number) {
+    this.otherEquipments.removeAt(index);
   }
 
   submit() {

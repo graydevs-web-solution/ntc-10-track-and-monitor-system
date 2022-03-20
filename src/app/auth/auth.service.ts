@@ -269,6 +269,9 @@ export class AuthService {
     localStorage.removeItem('expiration');
     localStorage.removeItem('userId');
     localStorage.removeItem('role');
+    localStorage.removeItem('formCounter');
+    localStorage.removeItem('notedBy');
+    localStorage.removeItem('regionalDirector');
   }
 
   private saveAuthData(token: string, expirationDate: Date) {

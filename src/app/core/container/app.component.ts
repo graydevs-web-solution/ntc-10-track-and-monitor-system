@@ -25,4 +25,9 @@ export class AppComponent implements OnInit {
     });
     this.isAuthenticate = this.authService.getIsAuth();
   }
+
+  enableNew(): boolean {
+    const allowedUser = ['engr', 'it-admin'];
+    return allowedUser.includes(this.authService.getUserInfo().position);
+  }
 }

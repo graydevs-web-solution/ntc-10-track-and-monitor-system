@@ -10,7 +10,7 @@ import { DeficiencyNotice } from '../../models/deficiency-notice.model';
     <div class="d-flex">
       <div class="flex-grow-1">
         <a [routerLink]="[entry.id]" class="text-decoration-none">
-          <div>{{ entry.docketNumber }}</div>
+          <div>{{ entry.docketNumberDescription }}</div>
           <div>
             Done?:
             <span

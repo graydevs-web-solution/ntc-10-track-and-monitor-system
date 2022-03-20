@@ -28,12 +28,26 @@ export class ComplaintEditComponent implements OnInit {
     ['user_id']: '',
     name: '',
   };
+  admCounterInfo = {
+    start: 0,
+    end: 0,
+  };
+  admInfo = {
+    start: `ROX-DF-${this.admCounterInfo.start.toString().padStart(2, '0')}`,
+    end: `ROX-DF-${this.admCounterInfo.end.toString().padStart(2, '0')}`,
+  };
 
   faCalendarAlt = faCalendarAlt;
 
   getDestroyed = new Subject();
 
   violations: ViolationsType[] = [...violations];
+
+  alert = {
+    type: '',
+    description: '',
+  };
+  disableDuringProcess = false;
 
   constructor(
     private complaintService: ComplaintService,
@@ -79,6 +93,15 @@ export class ComplaintEditComponent implements OnInit {
     }
   }
 
+  setADMCounter() {
+    const resCounterInfo = +this.systemService.getFormCounterInfo().find((val) => val.setting === 'rox_counter').value;
+    this.admCounterInfo = {
+      start: resCounterInfo,
+      end: resCounterInfo,
+    };
+    console.log(resCounterInfo);
+  }
+
   initForm(): void {
     this.form = initForm();
   }
@@ -92,31 +115,46 @@ export class ComplaintEditComponent implements OnInit {
     this.transmitters.push(transmitterInput());
   }
 
+  removeTransmitterInput(index: number) {
+    this.transmitters.removeAt(index);
+  }
+
   submit(): void {
-    if (this.formMode === ADD) {
-      this.complaintService
-        .addOne(this.form.value)
-        .pipe(takeUntil(this.getDestroyed))
-        .subscribe({
-          next: (res) => {
-            console.log('OK');
-          },
-          error: (err) => {
-            console.error(err);
-          },
-        });
-    } else {
-      this.complaintService
-        .updateOne(this.formId, this.form.value)
-        .pipe(takeUntil(this.getDestroyed))
-        .subscribe({
-          next: (res) => {
-            console.log('OK');
-          },
-          error: (err) => {
-            console.error(err);
-          },
-        });
+    try {
+      this.alert.type = 'info';
+      this.alert.description = 'Saving data...';
+      this.disableDuringProcess = true;
+      if (this.formMode === ADD) {
+        this.complaintService
+          .addOne(this.form.value)
+          .pipe(takeUntil(this.getDestroyed))
+          .subscribe({
+            next: (res) => {
+              this.alert.type = 'success';
+              this.alert.description = 'Complaint saved!';
+              this.disableDuringProcess = false;
+            },
+            error: (error) => {
+              throw error;
+            },
+          });
+      } else {
+        this.complaintService
+          .updateOne(this.formId, this.form.value)
+          .pipe(takeUntil(this.getDestroyed))
+          .subscribe({
+            next: (res) => {
+              console.log('OK');
+            },
+            error: (error) => {
+              throw error;
+            },
+          });
+      }
+    } catch (error) {
+      this.alert.type = 'danger';
+      this.alert.description = 'Complaint not saved! Unknown error.';
+      this.disableDuringProcess = false;
     }
   }
 

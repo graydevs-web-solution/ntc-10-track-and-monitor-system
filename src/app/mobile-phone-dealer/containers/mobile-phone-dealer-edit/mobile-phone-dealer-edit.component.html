@@ -95,32 +95,40 @@
             </div>
           </div>
 
-          <div *ngFor="let item of listOfStocksOfSparesAndAccessories.controls; let i = index" class="border p-2 mb-2">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'particular' + i">Particular</label>
-                  <input
-                    type="text"
-                    [formControl]="item.get('particular')"
-                    class="form-control"
-                    [id]="'particular' + i"
-                    placeholder="Particular"
-                  />
+          <div
+            *ngFor="let item of listOfStocksOfSparesAndAccessories.controls; let i = index"
+            class="d-flex border rounded p-2 mb-2 bg-light"
+          >
+            <div class="flex-grow-1 pr-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'particular' + i">Particular</label>
+                    <input
+                      type="text"
+                      [formControl]="item.get('particular')"
+                      class="form-control"
+                      [id]="'particular' + i"
+                      placeholder="Particular"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'no-of-units' + i">No. Of Units</label>
+                    <input
+                      type="number"
+                      [formControl]="item.get('numberOfUnits')"
+                      class="form-control"
+                      [id]="'no-of-units' + i"
+                      placeholder="No. Of Units"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'no-of-units' + i">No. Of Units</label>
-                  <input
-                    type="number"
-                    [formControl]="item.get('numberOfUnits')"
-                    class="form-control"
-                    [id]="'no-of-units' + i"
-                    placeholder="No. Of Units"
-                  />
-                </div>
-              </div>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-danger font-weight-bold" (click)="removeStockSpareAndAccessory(i)">x</button>
             </div>
           </div>
 
@@ -137,32 +145,43 @@
             </div>
           </div>
 
-          <div *ngFor="let item of listOfStocksOfMobilePhone.controls; let i = index" class="border p-2 mb-2">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'model' + i">Market/Type/Model</label>
-                  <input
-                    type="text"
-                    [formControl]="item.get('model')"
-                    class="form-control"
-                    [id]="'model' + i"
-                    placeholder="Market/Type/Model"
-                  />
+          <div *ngFor="let item of listOfStocksOfMobilePhone.controls; let i = index" class="d-flex border rounded p-2 mb-2 bg-light">
+            <div class="flex-grow-1 pr-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'model' + i">Market/Type/Model</label>
+                    <input
+                      type="text"
+                      [formControl]="item.get('model')"
+                      class="form-control"
+                      [id]="'model' + i"
+                      placeholder="Market/Type/Model"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'imei' + i">IMEI No.</label>
+                    <input
+                      type="text"
+                      [formControl]="item.get('imeiNumber')"
+                      class="form-control"
+                      [id]="'imei' + i"
+                      placeholder="IMEI No."
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'source' + i">Source</label>
+                    <input type="text" [formControl]="item.get('source')" class="form-control" [id]="'source' + i" placeholder="Source" />
+                  </div>
                 </div>
               </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'imei' + i">IMEI No.</label>
-                  <input type="text" [formControl]="item.get('imeiNumber')" class="form-control" [id]="'imei' + i" placeholder="IMEI No." />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'source' + i">Source</label>
-                  <input type="text" [formControl]="item.get('source')" class="form-control" [id]="'source' + i" placeholder="Source" />
-                </div>
-              </div>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-danger font-weight-bold" (click)="removeStockMobilePhone(i)">x</button>
             </div>
           </div>
 
@@ -177,32 +196,40 @@
             </div>
           </div>
 
-          <div *ngFor="let item of listOfStocksOfSubscriberIdentificationModule.controls; let i = index" class="border p-2 mb-2">
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <label [for]="'sim-' + i">SIM Number</label>
-                  <input
-                    type="text"
-                    [formControl]="item.get('simNumber')"
-                    class="form-control"
-                    [id]="'sim-' + i"
-                    placeholder="SIM Number"
-                  />
+          <div
+            *ngFor="let item of listOfStocksOfSubscriberIdentificationModule.controls; let i = index"
+            class="d-flex border rounded p-2 mb-2 bg-light"
+          >
+            <div class="flex-grow-1 pr-3">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label [for]="'sim-' + i">SIM Number</label>
+                    <input
+                      type="text"
+                      [formControl]="item.get('simNumber')"
+                      class="form-control"
+                      [id]="'sim-' + i"
+                      placeholder="SIM Number"
+                    />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label [for]="'mobile-phone-company' + i">Mobile Phone Operator/Company</label>
+                    <input
+                      type="text"
+                      [formControl]="item.get('mobilePhoneCompany')"
+                      class="form-control"
+                      [id]="'mobile-phone-company' + i"
+                      placeholder="Mobile Phone Operator"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <label [for]="'mobile-phone-company' + i">Mobile Phone Operator/Company</label>
-                  <input
-                    type="text"
-                    [formControl]="item.get('mobilePhoneCompany')"
-                    class="form-control"
-                    [id]="'mobile-phone-company' + i"
-                    placeholder="Mobile Phone Operator"
-                  />
-                </div>
-              </div>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-danger font-weight-bold" (click)="removeStockSIM(i)">x</button>
             </div>
           </div>
 

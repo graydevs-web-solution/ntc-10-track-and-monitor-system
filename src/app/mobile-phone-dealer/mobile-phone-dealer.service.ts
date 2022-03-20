@@ -152,8 +152,9 @@ export class MobilePhoneDealerService {
       },
       recommendations: data.recommendations,
       notedBy: data.noted_by,
+      notedByApproved: data.noted_by_approved,
       regionalDirector: data.regional_director,
-      isApproved: data.is_approved,
+      regionalDirectorApproved: data.regional_director_approved,
       notedByInfo: data.noted_by_info,
       regionalDirectorInfo: data.regional_director_info,
     };

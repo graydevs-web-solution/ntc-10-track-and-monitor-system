@@ -23,6 +23,7 @@ export class DeficiencyNoticeViewComponent implements OnInit {
   formId: string;
   formMode = VIEW;
   clientName = '';
+  respondentName = '';
 
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
@@ -51,16 +52,19 @@ export class DeficiencyNoticeViewComponent implements OnInit {
         },
       });
     const fetchedValue = this.dnService.getSelectedEntry(this.formId);
-    for (const _ of fetchedValue.transmitters || []) {
+    for (const _ of fetchedValue.transmitters) {
       this.addTransmitterInput();
     }
     this.clientName = fetchedValue.clientName;
+    this.respondentName = fetchedValue.respondentName;
     const vals: DeficiencyNotice = {
       ...fetchedValue,
       date: formatDate(fetchedValue.date, false),
       dateOfDeficiencyHearing: formatDate(fetchedValue.dateOfDeficiencyHearing, false),
+      regionalDirector: fetchedValue.regionalDirectorInfo.name,
     };
     this.form.patchValue(vals);
+    console.log(fetchedValue);
     this.dnService.resourceType.next(VIEW);
   }
 
@@ -74,6 +78,10 @@ export class DeficiencyNoticeViewComponent implements OnInit {
 
   get transmitters() {
     return this.form.get('transmitters') as FormArray;
+  }
+
+  isDoneString(): string {
+    return !!(this.form.get('isDone').value as boolean) ? 'Yes' : 'No';
   }
 
   generatePdf(): void {

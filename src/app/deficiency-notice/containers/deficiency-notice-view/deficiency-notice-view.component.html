@@ -5,8 +5,8 @@
 <app-card>
   <div class="p-3" [formGroup]="form">
     <div class="form-group row">
-      <label for="staticEmail" class="col-3 col-form-label">Date</label>
-      <div class="col-9">
+      <label for="staticEmail" class="col-2 col-form-label">Date</label>
+      <div class="col-10">
         <div class="input-group">
           <input
             class="form-control"
@@ -17,11 +17,11 @@
             readonly
             #d="ngbDatepicker"
           />
-          <div class="input-group-append">
+          <!-- <div class="input-group-append">
             <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
               <fa-icon [icon]="faCalendarAlt"></fa-icon>
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -29,8 +29,8 @@
     <br />
 
     <div class="form-group row">
-      <label for="name-of-station" class="col-sm-3 col-form-label">Client</label>
-      <div class="input-group col-sm-9">
+      <label for="name-of-station" class="col-2 col-form-label">Client</label>
+      <div class="input-group col-10">
         <input
           type="text"
           class="form-control"
@@ -44,9 +44,24 @@
     </div>
 
     <div class="form-group row">
-      <label for="docketNumber" class="col-sm-3 col-form-label">Docket Number</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" id="docketNumber" formControlName="docketNumber" />
+      <label for="docketNumber" class="col-2 col-form-label">Docket Number</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="docketNumber" formControlName="docketNumberDescription" readonly />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="respondent" class="col-2 col-form-label">Respondent</label>
+      <div class="input-group col-10">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Respondent"
+          aria-label="Respondent"
+          [value]="respondentName"
+          aria-describedby="button-addon2"
+          readonly
+        />
       </div>
     </div>
 
@@ -63,11 +78,11 @@
             readonly
             #ddd="ngbDatepicker"
           />
-          <div class="input-group-append">
+          <!-- <div class="input-group-append">
             <button class="btn btn-outline-secondary calendar" (click)="ddd.toggle()" type="button">
               <fa-icon [icon]="faCalendarAlt"></fa-icon>
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -77,7 +92,13 @@
 
       <div class="col-10">
         <div class="custom-control custom-checkbox" *ngFor="let violation of violations; let i = index">
-          <input type="checkbox" class="custom-control-input" [id]="'violation' + i" [formControlName]="violation.formControlName" />
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            [id]="'violation' + i"
+            [formControlName]="violation.formControlName"
+            disabled
+          />
           <label class="custom-control-label" [for]="'violation' + i">{{ violation.name }}</label>
         </div>
       </div>
@@ -87,13 +108,13 @@
       <div class="d-flex justify-content-between mb-2">
         <div class="h5">Transmitter(s)/Transceiver(s) Used</div>
         <div>
-          <button class="btn btn-sm btn-primary" (click)="addTransmitterInput()">Add</button>
+          <!-- <button class="btn btn-sm btn-primary" (click)="addTransmitterInput()">Add</button> -->
         </div>
       </div>
 
-      <div *ngFor="let item of transmitters.controls; let i = index" class="border p-2 mb-2">
+      <div *ngFor="let item of transmitters.controls; let i = index" class="border rounded p-2 mb-2 bg-light">
         <div class="row">
-          <div class="col-4">
+          <div class="col-6">
             <div class="form-group">
               <label [for]="'transmitter' + i">Transmitter</label>
               <input
@@ -102,10 +123,11 @@
                 class="form-control"
                 [id]="'transmitter' + i"
                 placeholder="Transmitter"
+                readonly
               />
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-6">
             <div class="form-group">
               <label [for]="'serial-number-' + i">Serial Number</label>
               <input
@@ -114,6 +136,7 @@
                 class="form-control"
                 [id]="'serial-number-' + i"
                 placeholder="Serial Number"
+                readonly
               />
             </div>
           </div>
@@ -136,11 +159,11 @@
             readonly
             #dd="ngbDatepicker"
           />
-          <div class="input-group-append">
+          <!-- <div class="input-group-append">
             <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
               <fa-icon [icon]="faCalendarAlt"></fa-icon>
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -148,21 +171,14 @@
     <div class="form-group row">
       <label for="working-hours" class="col-sm-2 col-form-label">Is Done?</label>
       <div class="col-sm-8">
-        <div class="custom-control custom-radio custom-control-inline">
-          <input type="radio" id="approve-yes" name="isDone" class="custom-control-input" formControlName="isDone" [value]="true" />
-          <label class="custom-control-label" for="approve-yes">Yes</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input type="radio" id="approve-no" name="isDone" formControlName="isDone" class="custom-control-input" [value]="false" />
-          <label class="custom-control-label" for="approve-no">No</label>
-        </div>
+        <strong>{{ isDoneString() }}</strong>
       </div>
     </div>
 
     <div class="form-group row">
       <label for="approver" class="col-sm-2 col-form-label">Regional Director</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="approver" formControlName="regionalDirector" />
+        <input type="text" class="form-control" id="approver" formControlName="regionalDirector" readonly />
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PageOptions } from '../shared/models/page-options';
 import { formatDate, formatTime, openPDF } from '../shared/utility';
-import { ComplaintAPI } from './models/complaint-api.model';
+import { ComplaintAPI, ResponseAddComplaint } from './models/complaint-api.model';
 import { Complaint } from './models/complaint.model';
 
 @Injectable({
@@ -84,8 +84,8 @@ export class ComplaintService {
     return this.entries.find((entry) => entry.id === +id);
   }
 
-  addOne(data: Complaint): Observable<{ data: Complaint }> {
-    return this.http.post<{ data: Complaint }>(`${this.domainURL}/${this.resource1}/`, this.formatData(data));
+  addOne(data: Complaint): Observable<{ data: ResponseAddComplaint }> {
+    return this.http.post<{ data: ResponseAddComplaint }>(`${this.domainURL}/${this.resource1}/`, this.formatData(data));
   }
 
   updateOne(formId: string, data: Complaint): Observable<{ message: string }> {
@@ -146,7 +146,9 @@ export class ComplaintService {
       clientId: data.client_id,
       clientName: data.clients.owner_name,
       respondentName: data.respondent_name,
-      docketNumber: data.docket_number,
+      docketNumberDescription: data.docket_number_description,
+      docketNumberStart: data.docket_number_start,
+      docketNumberEnd: data.docket_number_end,
       dateOfInspection: formatDate(data.date_of_inspection as Date, false),
       location: data.location,
       reason: data.reason,
@@ -167,6 +169,11 @@ export class ComplaintService {
       timeOfHearing: formatTime(data.date_time_of_hearing as Date),
       isDone: data.is_done,
       regionalDirector: data.regional_director,
+      regionalDirectorInfo: {
+        ...data.regional_director_info,
+        name: `${data.regional_director_info.name_first} ${data.regional_director_info.name_last}`,
+      },
+      regionalDirectorApproved: data.regional_director_approved,
     };
     return value;
   };
