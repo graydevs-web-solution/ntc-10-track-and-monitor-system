@@ -130,8 +130,13 @@ export class DeficiencyNoticeEditComponent implements OnInit {
 
   submit(): void {
     try {
+      if (!this.form.valid) {
+        this.alert.type = 'warning';
+        this.alert.description = 'Fill up required data!';
+        return;
+      }
       this.alert.type = 'info';
-      this.alert.description = 'Saving data...';
+      this.alert.description = 'Saving data!';
       this.disableDuringProcess = true;
       if (this.formMode === ADD) {
         const data: DeficiencyNotice = this.form.value;

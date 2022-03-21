@@ -3,7 +3,7 @@
 <app-card>
   <div class="p-3" [formGroup]="form">
     <div class="form-group row">
-      <label for="staticEmail" class="col-3 col-form-label">Date</label>
+      <label for="staticEmail" class="col-3 col-form-label">Date <small>(Required)</small></label>
       <div class="col-9">
         <div class="input-group">
           <input
@@ -27,7 +27,7 @@
     <br />
 
     <div class="form-group row">
-      <label for="name-of-station" class="col-sm-3 col-form-label">Client</label>
+      <label for="name-of-station" class="col-sm-3 col-form-label">Client <small>(Required)</small></label>
       <div class="input-group col-sm-9">
         <input
           type="text"
@@ -45,21 +45,21 @@
     </div>
 
     <div class="form-group row">
-      <label for="docketNumber" class="col-sm-3 col-form-label">Docket Number</label>
+      <label for="docketNumber" class="col-sm-3 col-form-label">Docket Number </label>
       <div class="col-sm-9">
         <input type="text" class="form-control" id="docketNumber" formControlName="docketNumberDescription" readonly />
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="respondent" class="col-sm-3 col-form-label">Respondent Name</label>
+      <label for="respondent" class="col-sm-3 col-form-label">Respondent Name <small>(Required)</small></label>
       <div class="col-sm-9">
         <input type="text" class="form-control" id="respondent" formControlName="respondentName" />
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="staticEmail" class="col-3 col-form-label">Date of Inspection</label>
+      <label for="staticEmail" class="col-3 col-form-label">Date of Inspection <small>(Required)</small></label>
       <div class="col-9">
         <div class="input-group">
           <input
@@ -137,7 +137,7 @@
     </div>
 
     <div class="form-group row">
-      <label for="staticEmail" class="col-3 col-form-label">Date of Deficieny Hearing</label>
+      <label for="staticEmail" class="col-3 col-form-label">Date of Deficieny Hearing <small>(Required)</small></label>
       <div class="col-9">
         <div class="input-group">
           <input
@@ -159,7 +159,7 @@
     </div>
 
     <div class="form-group row">
-      <label for="working-hours" class="col-sm-3 col-form-label">Is Done?</label>
+      <label for="working-hours" class="col-sm-3 col-form-label">Is Done? <small>(Required)</small></label>
       <div class="col-sm-9">
         <div class="custom-control custom-radio custom-control-inline">
           <input type="radio" id="approve-yes" name="isDone" class="custom-control-input" formControlName="isDone" [value]="true" />
@@ -173,7 +173,7 @@
     </div>
 
     <div class="form-group row">
-      <label for="regionalDirector" class="col-sm-3 col-form-label">Regional Director</label>
+      <label for="regionalDirector" class="col-sm-3 col-form-label">Regional Director <small>(Required)</small></label>
       <div class="col-sm-9">
         <input type="text" class="form-control" id="regionalDirector" [value]="regDirectorInfo.name" readonly />
       </div>

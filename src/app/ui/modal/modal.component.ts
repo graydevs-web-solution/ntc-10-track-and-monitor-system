@@ -7,6 +7,7 @@ import {
   clientEdit,
   clientSearch,
   clientView,
+  complaint,
   dealerDelete,
   dealerEdit,
   dealerView,
@@ -41,6 +42,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { AccomplishmentReportService } from 'src/app/accomplishment-report/accomplishment-report.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ComplaintService } from 'src/app/complaint/complaint.service';
 
 @Component({
   selector: 'app-modal',
@@ -67,7 +69,8 @@ export class ModalComponent implements OnInit, OnDestroy {
     private radioDealerService: RadioDealerService,
     private dnService: DeficiencyNoticeService,
     private accomplishmentReportService: AccomplishmentReportService,
-    private authService: AuthService // private stationService: StationService, // private serviceCenterService: ServiceCenterService, // private dealerService: DealerService,
+    private authService: AuthService,
+    private complaintService: ComplaintService // private stationService: StationService, // private serviceCenterService: ServiceCenterService, // private dealerService: DealerService,
   ) {}
 
   ngOnInit(): void {
@@ -92,6 +95,7 @@ export class ModalComponent implements OnInit, OnDestroy {
       deficiencyNotice,
       clientDelete,
       accomplishmentReport,
+      complaint,
       // stationDelete,
       // serviceCenterDelete,
       // dealerDelete,
@@ -173,6 +177,10 @@ export class ModalComponent implements OnInit, OnDestroy {
         case accomplishmentReport:
           await this.accomplishmentReportService.deleteOne(this.formId).toPromise();
           this.accomplishmentReportService.getEntriesAPI();
+          break;
+        case complaint:
+          await this.complaintService.deleteOne(this.formId).toPromise();
+          this.complaintService.getEntriesAPI();
           break;
         // case stationDelete:
         //   this.stationService.deleteOne(this.formId);

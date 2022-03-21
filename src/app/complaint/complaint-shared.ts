@@ -3,17 +3,17 @@ import { ViolationsType } from '../deficiency-notice/models/violations.model';
 
 export const initForm = (readState = false): FormGroup => {
   return new FormGroup({
-    date: new FormControl({ value: '', disabled: false }),
-    complainantName: new FormControl({ value: '', disabled: false }),
-    clientId: new FormControl({ value: '', disabled: false }),
-    clientName: new FormControl({ value: '', disabled: false }),
-    respondentName: new FormControl({ value: '', disabled: false }),
-    docketNumberDescription: new FormControl({ value: '', disabled: false }),
+    date: new FormControl({ value: '', disabled: false }, Validators.required),
+    complainantName: new FormControl({ value: '', disabled: false }, Validators.required),
+    clientId: new FormControl({ value: '', disabled: false }, Validators.required),
+    clientName: new FormControl({ value: '', disabled: false }, Validators.required),
+    respondentName: new FormControl({ value: '', disabled: false }, Validators.required),
+    docketNumberDescription: new FormControl({ value: '', disabled: false }, Validators.required),
     docketNumberStart: new FormControl({ value: '', disabled: false }),
     docketNumberEnd: new FormControl({ value: '', disabled: false }),
-    dateOfInspection: new FormControl({ value: '', disabled: false }),
-    location: new FormControl({ value: '', disabled: false }),
-    reason: new FormControl({ value: '', disabled: false }),
+    dateOfInspection: new FormControl({ value: '', disabled: false }, Validators.required),
+    location: new FormControl({ value: '', disabled: false }, Validators.required),
+    reason: new FormControl({ value: '', disabled: false }, Validators.required),
     transmitters: new FormArray([]),
     violationInfo: new FormGroup({
       operationWithoutRSL: new FormControl({ value: false, disabled: readState }),
@@ -22,17 +22,25 @@ export const initForm = (readState = false): FormGroup => {
       possessionTransmitterWithoutPP: new FormControl({ value: false, disabled: readState }),
       noNTCPertinentPapers: new FormControl({ value: false, disabled: readState }),
     }),
-    dateOfHearing: new FormControl({ value: '', disabled: false }),
-    timeOfHearing: new FormControl({ value: { hour: 8, minute: 0 }, disabled: false }),
-    regionalDirector: new FormControl({ value: '', disabled: readState }),
-    isDone: new FormControl({ value: false, disabled: false }),
+    dateOfHearing: new FormControl({ value: '', disabled: false }, Validators.required),
+    timeOfHearing: new FormControl({ value: { hour: 8, minute: 0 }, disabled: false }, Validators.required),
+    regionalDirector: new FormControl({ value: '', disabled: readState }, Validators.required),
+    isDone: new FormControl({ value: false, disabled: false }, Validators.required),
   });
 };
 
-export const transmitterInput = (): FormGroup => {
+export const transmitterInput = (readOnly = false): FormGroup => {
+  console.log(readOnly);
+  if (readOnly) {
+    console.log('ok');
+    return new FormGroup({
+      transmitter: new FormControl({ value: '', disabled: false }, Validators.required),
+      serialNumber: new FormControl({ value: '', disabled: false }, Validators.required),
+    });
+  }
   return new FormGroup({
     transmitter: new FormControl({ value: '', disabled: false }),
-    serialNumber: new FormControl({ value: 0, disabled: false }),
+    serialNumber: new FormControl({ value: '', disabled: false }),
   });
 };
 

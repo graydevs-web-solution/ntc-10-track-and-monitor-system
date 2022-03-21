@@ -13,7 +13,7 @@ interface ViolationInfo {
   noNTCPertinentPapers: boolean;
 }
 
-interface TimeInfo {
+export interface TimeInfo {
   hour: number;
   minute: number;
 }
