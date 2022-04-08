@@ -41,6 +41,12 @@ export class RadioDealerEditComponent implements OnInit {
 
   getDestroyed = new Subject();
 
+  alert = {
+    type: '',
+    description: '',
+  };
+  disableDuringProcess = false;
+
   constructor(
     private radioDealerService: RadioDealerService,
     private route: ActivatedRoute,
@@ -113,16 +119,22 @@ export class RadioDealerEditComponent implements OnInit {
   }
 
   submit(): void {
+    this.alert.type = 'info';
+    this.alert.description = 'Saving data...';
+    this.disableDuringProcess = true;
     if (this.formMode === ADD) {
       this.radioDealerService
         .addOne(this.form.value)
         .pipe(takeUntil(this.getDestroyed))
         .subscribe({
-          next: (res) => {
-            console.log('OK');
+          next: async (res) => {
+            this.radioDealerService.getEntriesAPI();
+            await this.router.navigate(['/radio-transceiver']);
           },
-          error: (err) => {
-            console.error(err);
+          error: (error) => {
+            this.alert.type = 'danger';
+            this.alert.description = 'Unknown error';
+            this.disableDuringProcess = true;
           },
         });
     } else {
@@ -130,11 +142,14 @@ export class RadioDealerEditComponent implements OnInit {
         .updateOne(this.formId, this.form.value)
         .pipe(takeUntil(this.getDestroyed))
         .subscribe({
-          next: (res) => {
-            console.log('OK');
+          next: async (res) => {
+            this.radioDealerService.getEntriesAPI();
+            await this.router.navigate(['/radio-transceiver']);
           },
-          error: (err) => {
-            console.error(err);
+          error: (error) => {
+            this.alert.type = 'danger';
+            this.alert.description = 'Unknown error';
+            this.disableDuringProcess = true;
           },
         });
     }

@@ -168,41 +168,39 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    try {
-      this.alert.type = 'info';
-      this.alert.description = 'Saving data...';
-      this.disableDuringProcess = true;
-      if (this.formMode === ADD) {
-        this.radioTransceiverService
-          .addOne(this.form.value)
-          .pipe(takeUntil(this.getDestroyed))
-          .subscribe({
-            next: async (response) => {
-              this.radioTransceiverService.getEntriesAPI();
-              await this.router.navigate(['/radio-transceiver']);
-            },
-            error: (error) => {
-              throw error;
-            },
-          });
-      } else {
-        this.radioTransceiverService
-          .updateOne(this.formId, this.form.value)
-          .pipe(takeUntil(this.getDestroyed))
-          .subscribe({
-            next: async (response) => {
-              this.radioTransceiverService.getEntriesAPI();
-              await this.router.navigate(['/radio-transceiver']);
-            },
-            error: (error) => {
-              throw error;
-            },
-          });
-      }
-    } catch (error) {
-      this.alert.type = 'danger';
-      this.alert.description = 'Unknown error';
-      this.disableDuringProcess = true;
+    this.alert.type = 'info';
+    this.alert.description = 'Saving data...';
+    this.disableDuringProcess = true;
+    if (this.formMode === ADD) {
+      this.radioTransceiverService
+        .addOne(this.form.value)
+        .pipe(takeUntil(this.getDestroyed))
+        .subscribe({
+          next: async (response) => {
+            this.radioTransceiverService.getEntriesAPI();
+            await this.router.navigate(['/radio-transceiver']);
+          },
+          error: (error) => {
+            this.alert.type = 'danger';
+            this.alert.description = 'Unknown error';
+            this.disableDuringProcess = true;
+          },
+        });
+    } else {
+      this.radioTransceiverService
+        .updateOne(this.formId, this.form.value)
+        .pipe(takeUntil(this.getDestroyed))
+        .subscribe({
+          next: async (response) => {
+            this.radioTransceiverService.getEntriesAPI();
+            await this.router.navigate(['/radio-transceiver']);
+          },
+          error: (error) => {
+            this.alert.type = 'danger';
+            this.alert.description = 'Unknown error';
+            this.disableDuringProcess = true;
+          },
+        });
     }
   }
 

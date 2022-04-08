@@ -1,3 +1,5 @@
+<ngb-alert *ngIf="alert.description" [type]="alert.type" (closed)="close(alert)">{{ alert.description }}</ngb-alert>
+
 <app-card *ngIf="userInfo.position !== 'engr'">
   Approval Status: <span>{{ approveStatus }}</span></app-card
 >
