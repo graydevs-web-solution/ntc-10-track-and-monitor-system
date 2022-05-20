@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, AbstractControl } from '@angular/forms';
-import { Params, ActivatedRoute } from '@angular/router';
+import { Params, ActivatedRoute, Router } from '@angular/router';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
@@ -42,6 +42,12 @@ export class MobilePhoneDealerEditComponent implements OnInit {
 
   getDestroyed = new Subject();
 
+  alert = {
+    type: '',
+    description: '',
+  };
+  disableDuringProcess = false;
+
   constructor(
     private mobilePhoneDealerService: MobilePhoneDealerService,
     private route: ActivatedRoute,
@@ -49,7 +55,8 @@ export class MobilePhoneDealerEditComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private modalService: NgbModal,
     private authService: AuthService,
-    private systemService: SystemSettingService
+    private systemService: SystemSettingService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -79,7 +86,6 @@ export class MobilePhoneDealerEditComponent implements OnInit {
         const data: UserAssignedData = { ['user_id']: res.user_id, name: this.formatName(res), position: res.position };
         this.notedByInfo = { ['user_id']: data.user_id, name: data.name };
         this.form.patchValue({ notedBy: data.user_id });
-        console.log(this.notedByInfo);
       },
     });
 
@@ -94,7 +100,6 @@ export class MobilePhoneDealerEditComponent implements OnInit {
       fetchedValue.listOfStocksOfSubscriberIdentificationModule.forEach(() => {
         this.addStockSIM();
       });
-      console.log(fetchedValue);
       this.clientName = fetchedValue.clientName;
       this.form.patchValue({
         ...fetchedValue,
@@ -123,16 +128,22 @@ export class MobilePhoneDealerEditComponent implements OnInit {
   }
 
   submit(): void {
+    this.alert.type = 'info';
+    this.alert.description = 'Saving data...';
+    this.disableDuringProcess = true;
     if (this.formMode === ADD) {
       this.mobilePhoneDealerService
         .addOne(this.form.value)
         .pipe(takeUntil(this.getDestroyed))
         .subscribe({
-          next: (res) => {
-            console.log('OK');
+          next: async (res) => {
+            this.mobilePhoneDealerService.getEntriesAPI();
+            await this.router.navigate(['/mobile-phone-dealer']);
           },
           error: (err) => {
-            console.error(err);
+            this.alert.type = 'danger';
+            this.alert.description = 'Unknown error';
+            this.disableDuringProcess = true;
           },
         });
     } else {
@@ -140,11 +151,14 @@ export class MobilePhoneDealerEditComponent implements OnInit {
         .updateOne(this.formId, this.form.value)
         .pipe(takeUntil(this.getDestroyed))
         .subscribe({
-          next: (res) => {
-            console.log('OK');
+          next: async (res) => {
+            this.mobilePhoneDealerService.getEntriesAPI();
+            await this.router.navigate(['/mobile-phone-dealer']);
           },
           error: (err) => {
-            console.error(err);
+            this.alert.type = 'danger';
+            this.alert.description = 'Unknown error';
+            this.disableDuringProcess = true;
           },
         });
     }
@@ -154,12 +168,24 @@ export class MobilePhoneDealerEditComponent implements OnInit {
     this.listOfStocksOfSparesAndAccessories.push(stockSpareAndAccessoryInput());
   }
 
+  removeStockSpareAndAccessory(index: number): void {
+    this.listOfStocksOfSparesAndAccessories.removeAt(index);
+  }
+
   addStockMobilePhone() {
     this.listOfStocksOfMobilePhone.push(stockMobilePhoneInput());
   }
 
+  removeStockMobilePhone(index: number) {
+    this.listOfStocksOfMobilePhone.removeAt(index);
+  }
+
   addStockSIM() {
     this.listOfStocksOfSubscriberIdentificationModule.push(stockSIMInput());
+  }
+
+  removeStockSIM(index: number) {
+    this.listOfStocksOfSubscriberIdentificationModule.removeAt(index);
   }
 
   open(userType: 'client' | 'user'): void {

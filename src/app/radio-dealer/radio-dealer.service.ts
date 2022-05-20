@@ -163,6 +163,7 @@ export class RadioDealerService {
       ownerName: data.owner_name,
       recommendations: data.recommendations,
       regionalDirector: data.regional_director,
+      regionalDirectorApproved: data.regional_director_approved,
       regionalDirectorInfo: data.regional_director_info,
     };
     return value;

@@ -46,7 +46,6 @@ export class ServiceCenterReportViewComponent implements OnInit {
       this.addEmployedElectronicTechnician();
     });
     this.clientName = fetchedValue.clientName;
-    console.log(fetchedValue);
     this.form.patchValue({
       ...fetchedValue,
       notedBy: fetchedValue.notedByInfo.name,

@@ -180,7 +180,6 @@ export class AuthService {
     if (token) {
       const { expiresIn, name, position, userName, user_id } = jwt_decode<UserAuthenticated>(token);
       this.userLoggedInInfo = { name, position, userName, user_id };
-      console.log(this.userLoggedInInfo);
       const expirationTimer = expiresIn * 1000;
       this.setAuthTimer(expirationTimer);
       this.isAuthenticated = true;
@@ -269,6 +268,9 @@ export class AuthService {
     localStorage.removeItem('expiration');
     localStorage.removeItem('userId');
     localStorage.removeItem('role');
+    localStorage.removeItem('formCounter');
+    localStorage.removeItem('notedBy');
+    localStorage.removeItem('regionalDirector');
   }
 
   private saveAuthData(token: string, expirationDate: Date) {

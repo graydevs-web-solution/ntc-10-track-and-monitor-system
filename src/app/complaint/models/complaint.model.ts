@@ -1,4 +1,5 @@
 import { Client } from 'src/app/master-list/clients/models/client.model';
+import { UserAssignedData } from 'src/app/system-setting/model/user-assigned-data';
 interface TransmittersInfo {
   transmitter: string;
   serialNumber: string;
@@ -12,7 +13,7 @@ interface ViolationInfo {
   noNTCPertinentPapers: boolean;
 }
 
-interface TimeInfo {
+export interface TimeInfo {
   hour: number;
   minute: number;
 }
@@ -24,7 +25,9 @@ export interface Complaint {
   clientId: number | Client;
   clientName?: string;
   respondentName: string;
-  docketNumber: string;
+  docketNumberDescription: string;
+  docketNumberStart: number;
+  docketNumberEnd: number;
   dateOfInspection: Date | string;
   location: string;
   reason: string;
@@ -33,5 +36,7 @@ export interface Complaint {
   dateOfHearing: Date | string;
   timeOfHearing: TimeInfo;
   regionalDirector: string;
+  regionalDirectorInfo?: UserAssignedData;
+  regionalDirectorApproved: boolean;
   isDone: boolean;
 }

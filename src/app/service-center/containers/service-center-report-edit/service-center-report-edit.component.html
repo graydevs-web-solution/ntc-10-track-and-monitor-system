@@ -1,3 +1,5 @@
+<ngb-alert *ngIf="alert.description" [type]="alert.type" (closed)="close(alert)">{{ alert.description }}</ngb-alert>
+
 <app-card *ngIf="userInfo.position !== 'engr'">
   Approval Status: <span>{{ approveStatus }}</span></app-card
 >
@@ -95,32 +97,37 @@
             </div>
           </div>
 
-          <div *ngFor="let item of listOfServiceOrTestEquipments.controls; let i = index" class="border p-2 mb-2">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'particular' + i">Particular</label>
-                  <input
-                    type="text"
-                    [formControl]="item.get('particular')"
-                    class="form-control"
-                    [id]="'particular' + i"
-                    placeholder="Particular"
-                  />
+          <div *ngFor="let item of listOfServiceOrTestEquipments.controls; let i = index" class="d-flex border rounded p-2 mb-2 bg-light">
+            <div class="flex-grow-1 pr-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'particular' + i">Particular</label>
+                    <input
+                      type="text"
+                      [formControl]="item.get('particular')"
+                      class="form-control"
+                      [id]="'particular' + i"
+                      placeholder="Particular"
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'no-of-units' + i">No. Of Units</label>
+                    <input
+                      type="number"
+                      [formControl]="item.get('numberOfUnits')"
+                      class="form-control"
+                      [id]="'no-of-units' + i"
+                      placeholder="No. Of Units"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'no-of-units' + i">No. Of Units</label>
-                  <input
-                    type="number"
-                    [formControl]="item.get('numberOfUnits')"
-                    class="form-control"
-                    [id]="'no-of-units' + i"
-                    placeholder="No. Of Units"
-                  />
-                </div>
-              </div>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-danger font-weight-bold" (click)="removedServiceOrTestEquipment(i)">x</button>
             </div>
           </div>
 
@@ -135,26 +142,31 @@
             </div>
           </div>
 
-          <div *ngFor="let item of employedElectronicsTechnicians.controls; let i = index" class="border p-2 mb-2">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'name' + i">Name</label>
-                  <input type="text" [formControl]="item.get('name')" class="form-control" [id]="'name' + i" placeholder="Name" />
+          <div *ngFor="let item of employedElectronicsTechnicians.controls; let i = index" class="d-flex border rounded p-2 mb-2 bg-light">
+            <div class="flex-grow-1 pr-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'name' + i">Name</label>
+                    <input type="text" [formControl]="item.get('name')" class="form-control" [id]="'name' + i" placeholder="Name" />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label [for]="'qualifications' + i">Qualification/s</label>
+                    <input
+                      type="text"
+                      [formControl]="item.get('qualifications')"
+                      class="form-control"
+                      [id]="'qualifications' + i"
+                      placeholder="Qualifications"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label [for]="'qualifications' + i">Qualification/s</label>
-                  <input
-                    type="text"
-                    [formControl]="item.get('qualifications')"
-                    class="form-control"
-                    [id]="'qualifications' + i"
-                    placeholder="Qualifications"
-                  />
-                </div>
-              </div>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-danger font-weight-bold" (click)="removeEmployedElectronicTechnician(i)">x</button>
             </div>
           </div>
 

@@ -86,14 +86,12 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
         const data: UserAssignedData = { ['user_id']: res.user_id, name: this.formatName(res), position: res.position };
         this.notedByInfo = { ['user_id']: data.user_id, name: data.name };
         this.form.patchValue({ notedBy: data.user_id });
-        console.log(this.notedByInfo);
       },
     });
 
     if (this.formMode === EDIT) {
       this.radioTransceiverService.resourceType.next(EDIT);
       const fetchedValue = this.radioTransceiverService.getSelectedEntry(this.formId);
-      console.log(fetchedValue);
       for (const _ of isArrayValue(fetchedValue.operators)) {
         this.addOperatorInput();
       }
@@ -141,54 +139,68 @@ export class RadioTransceiverEditComponent implements OnInit, OnDestroy {
     this.operators.push(operatorInput());
   }
 
+  removeOperatorInput(index: number): void {
+    this.operators.removeAt(index);
+  }
+
   addRadioTransceiverInput(): void {
     this.radioTransceivers.push(radioTransceiverEntryInput());
+  }
+
+  removeRadioTransceiverInput(index: number): void {
+    this.radioTransceivers.removeAt(index);
   }
 
   addReceiver() {
     this.receivers.push(receiverOrOtherEquipmentInput());
   }
 
+  removeReceiver(index: number) {
+    this.receivers.removeAt(index);
+  }
+
   addOtherEquipment() {
     this.otherEquipments.push(receiverOrOtherEquipmentInput());
   }
 
+  removeOtherEquipment(index: number) {
+    this.otherEquipments.removeAt(index);
+  }
+
   submit() {
-    try {
-      this.alert.type = 'info';
-      this.alert.description = 'Saving data...';
-      this.disableDuringProcess = true;
-      if (this.formMode === ADD) {
-        this.radioTransceiverService
-          .addOne(this.form.value)
-          .pipe(takeUntil(this.getDestroyed))
-          .subscribe({
-            next: async (response) => {
-              this.radioTransceiverService.getEntriesAPI();
-              await this.router.navigate(['/radio-transceiver']);
-            },
-            error: (error) => {
-              throw error;
-            },
-          });
-      } else {
-        this.radioTransceiverService
-          .updateOne(this.formId, this.form.value)
-          .pipe(takeUntil(this.getDestroyed))
-          .subscribe({
-            next: async (response) => {
-              this.radioTransceiverService.getEntriesAPI();
-              await this.router.navigate(['/radio-transceiver']);
-            },
-            error: (error) => {
-              throw error;
-            },
-          });
-      }
-    } catch (error) {
-      this.alert.type = 'danger';
-      this.alert.description = 'Unknown error';
-      this.disableDuringProcess = true;
+    this.alert.type = 'info';
+    this.alert.description = 'Saving data...';
+    this.disableDuringProcess = true;
+    if (this.formMode === ADD) {
+      this.radioTransceiverService
+        .addOne(this.form.value)
+        .pipe(takeUntil(this.getDestroyed))
+        .subscribe({
+          next: async (response) => {
+            this.radioTransceiverService.getEntriesAPI();
+            await this.router.navigate(['/radio-transceiver']);
+          },
+          error: (error) => {
+            this.alert.type = 'danger';
+            this.alert.description = 'Unknown error';
+            this.disableDuringProcess = true;
+          },
+        });
+    } else {
+      this.radioTransceiverService
+        .updateOne(this.formId, this.form.value)
+        .pipe(takeUntil(this.getDestroyed))
+        .subscribe({
+          next: async (response) => {
+            this.radioTransceiverService.getEntriesAPI();
+            await this.router.navigate(['/radio-transceiver']);
+          },
+          error: (error) => {
+            this.alert.type = 'danger';
+            this.alert.description = 'Unknown error';
+            this.disableDuringProcess = true;
+          },
+        });
     }
   }
 

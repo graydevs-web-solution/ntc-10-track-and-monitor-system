@@ -88,7 +88,6 @@ export class AccomplishmentReportService {
 
   addOne(data: AccomplishmentReport): Observable<{ data: AccomplishmentReport }> {
     const attorneyId = this.authService.getUserInfo().user_id;
-    console.log(this.authService.getUserInfo());
     data.attorney = `${attorneyId}`;
     return this.http.post<{ data: AccomplishmentReport }>(`${this.domainURL}/${this.resource1}/`, data);
   }
@@ -110,7 +109,6 @@ export class AccomplishmentReportService {
   }
 
   generatePdf(formId: string) {
-    console.log('triggered');
     const PARAMS = new HttpParams({
       fromObject: {
         id: `${formId}`,
@@ -126,7 +124,6 @@ export class AccomplishmentReportService {
           const pdfWindow = window.open();
           pdfWindow.document.write(openPDF(response, 'Accomplishment Report'));
           pdfWindow.document.close();
-          // saveAs(response, 'sss.pdf');
         },
         error: (err) => {
           console.log('err', err);

@@ -3,6 +3,7 @@ import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { time } from 'console';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ViolationsType } from 'src/app/deficiency-notice/models/violations.model';
@@ -11,7 +12,7 @@ import { ADD, VIEW } from 'src/app/shared/constants';
 import { formatDate } from 'src/app/shared/utility';
 import { initForm, transmitterInput, violations } from '../../complaint-shared';
 import { ComplaintService } from '../../complaint.service';
-import { Complaint } from '../../models/complaint.model';
+import { Complaint, TimeInfo } from '../../models/complaint.model';
 
 @Component({
   selector: 'app-complaint-view',
@@ -61,6 +62,7 @@ export class ComplaintViewComponent implements OnInit {
       date: formatDate(fetchedValue.date, false),
       dateOfInspection: formatDate(fetchedValue.dateOfInspection, false),
       dateOfHearing: formatDate(fetchedValue.dateOfHearing, false),
+      regionalDirector: fetchedValue.regionalDirectorInfo.name,
     };
     this.form.patchValue(vals);
     this.complaintService.resourceType.next(VIEW);
@@ -71,7 +73,7 @@ export class ComplaintViewComponent implements OnInit {
   }
 
   addTransmitterInput() {
-    this.transmitters.push(transmitterInput());
+    this.transmitters.push(transmitterInput(true));
   }
 
   submit(): void {
@@ -108,5 +110,21 @@ export class ComplaintViewComponent implements OnInit {
 
   generatePdf(): void {
     this.complaintService.generatePdf(this.formId);
+  }
+
+  isDoneString(): string {
+    return !!(this.form.get('isDone').value as boolean) ? 'Yes' : 'No';
+  }
+
+  timeOfHearing() {
+    const timeObj = this.form.get('timeOfHearing').value as TimeInfo;
+    const minute = timeObj.minute;
+    let hour = timeObj.hour;
+    let meridian = 'AM';
+    if (timeObj.hour > 12) {
+      hour = timeObj.hour - 12;
+      meridian = 'PM';
+    }
+    return `${hour}:${minute.toString().padEnd(2, '0')} ${meridian}`;
   }
 }

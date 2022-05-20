@@ -52,7 +52,6 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
       this.addOtherEquipment();
     }
     this.clientName = fetchedValue.clientName;
-    console.log(fetchedValue);
     this.form.patchValue({
       ...fetchedValue,
       notedBy: fetchedValue.notedByInfo.name,

@@ -4,6 +4,8 @@ import { RadioTransceiver } from '../../models/radio-transceiver.model';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { DELETE, radioTransceiver } from 'src/app/shared/constants';
 import { Client } from 'src/app/master-list/clients/models/client.model';
+import { AuthService } from 'src/app/auth/auth.service';
+import { UserAuthenticated } from 'src/app/auth/model/user-authenticated';
 
 @Component({
   selector: 'app-radio-transceiver-entry',
@@ -18,8 +20,8 @@ import { Client } from 'src/app/master-list/clients/models/client.model';
         </a>
       </div>
       <div class="d-flex align-items-center">
-        <button class="btn btn sm btn-primary mr-1" [routerLink]="[entry.id, 'edit']">Edit</button>
-        <button class="btn btn sm btn-primary" (click)="open()">Remove</button>
+        <button class="btn btn sm btn-primary mr-1" *ngIf="enableEdit()" [routerLink]="[entry.id, 'edit']">Edit</button>
+        <button class="btn btn sm btn-primary" *ngIf="enableRemove()" (click)="open()">Remove</button>
       </div>
     </div>
   `,
@@ -28,8 +30,20 @@ import { Client } from 'src/app/master-list/clients/models/client.model';
 })
 export class RadioTransceiverEntryComponent implements OnInit {
   @Input() entry: RadioTransceiver;
-  constructor(private modalService: NgbModal) {}
-  ngOnInit(): void {}
+  userInfo: Partial<UserAuthenticated>;
+  allowedUser = ['it-admin', 'chf-engr', 'director'];
+  constructor(private modalService: NgbModal, private authService: AuthService) {}
+  ngOnInit(): void {
+    this.userInfo = this.authService.getUserInfo();
+  }
+
+  enableEdit(): boolean {
+    return this.allowedUser.includes(this.userInfo.position);
+  }
+
+  enableRemove(): boolean {
+    return this.allowedUser.includes(this.userInfo.position);
+  }
 
   // clientName = (client: RadioTransceiver): string => {
   //   return (client.clientId as Client).name;
