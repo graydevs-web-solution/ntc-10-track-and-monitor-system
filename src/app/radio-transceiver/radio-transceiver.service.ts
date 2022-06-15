@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
 import { LIST } from '../shared/constants';
 import { ClientAPI } from '../master-list/clients/models/client-api.model';
+import { Approval } from '../shared/models/approvalStatus';
 @Injectable({
   providedIn: 'root',
 })
@@ -283,4 +284,8 @@ export class RadioTransceiverService {
     };
     return value;
   };
+
+  setApprovalStatus(payload: Approval) {
+    return this.http.post<{ message: string }>(`${this.domainURL}/${this.resource1}/approval`, payload);
+  }
 }

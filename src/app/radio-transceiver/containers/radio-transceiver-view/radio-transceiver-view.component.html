@@ -1,5 +1,28 @@
-<div class="d-flex justify-content-end mb-3">
-  <button class="btn btn-sm btn-secondary" (click)="generatePdf()"><fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf</button>
+<div class="d-flex justify-content-between mb-2">
+  <div>
+    <div [ngClass]="{ 'bg-success': isApprovedDirector, 'bg-secondary': !isApprovedDirector }" class="rounded text-white px-3 py-2 mb-2">
+      <ng-container *ngIf="isApprovedDirector === null">
+        <div class="mb-1">Approve document?</div>
+        <button class="btn btn-sm btn-success mr-2" (click)="approve()"><fa-icon [icon]="faCheck"></fa-icon> Approve</button>
+        <button class="btn btn-sm btn-danger" (click)="disapprove()"><fa-icon [icon]="faTimes"></fa-icon> Disapprove</button>
+      </ng-container>
+      <ng-container *ngIf="isApprovedDirector"> Document Approved by Director </ng-container>
+    </div>
+
+    <div [ngClass]="{ 'bg-success': isApproveNotedBy, 'bg-secondary': !isApproveNotedBy }" class="rounded text-white px-3 py-2">
+      <ng-container *ngIf="isApproveNotedBy === null">
+        <div class="mb-1">Approve document?</div>
+        <button class="btn btn-sm btn-success mr-2" (click)="approve()"><fa-icon [icon]="faCheck"></fa-icon> Approve</button>
+        <button class="btn btn-sm btn-danger" (click)="disapprove()"><fa-icon [icon]="faTimes"></fa-icon> Disapprove</button>
+      </ng-container>
+      <ng-container *ngIf="isApproveNotedBy"> Document Approved by Chief Engineer </ng-container>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-sm btn-secondary shadow-sm" (click)="generatePdf()">
+      <fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf
+    </button>
+  </div>
 </div>
 
 <nav ngbNav #nav="ngbNav" class="nav-tabs bg-tab rounded-top">
@@ -871,14 +894,14 @@
         </div>
 
         <div class="form-group row">
-          <label for="notedBy" class="col-sm-3 col-form-label">Noted By</label>
+          <label for="notedBy" class="col-sm-3 col-form-label">Noted By <fa-icon [icon]="faCheckCircle"></fa-icon></label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="notedBy" formControlName="notedBy" readonly />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="regionalDirector" class="col-sm-3 col-form-label">Regional Director</label>
+          <label for="regionalDirector" class="col-sm-3 col-form-label">Regional Director <fa-icon [icon]="faCheckCircle"></fa-icon></label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="regionalDirector" formControlName="regionalDirector" readonly />
           </div>

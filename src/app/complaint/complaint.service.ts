@@ -19,7 +19,7 @@ export class ComplaintService {
     search: '',
   };
   resourceType = new ReplaySubject<string>();
-  createNewComplaintListener = new ReplaySubject<Complaint>();
+  createNewComplaintListener = new ReplaySubject<DeficiencyNotice>();
 
   private entries: Complaint[] = [];
   private entriesListener = new Subject<Complaint[]>();

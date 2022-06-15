@@ -28,13 +28,13 @@ export class DeficiencyNoticeEditComponent implements OnInit {
     ['user_id']: '',
     name: '',
   };
-  roxCounterInfo = {
+  roxCounter = {
     start: 0,
     end: 0,
   };
   roxInfo = {
-    start: `ROX-DF-${this.roxCounterInfo.start.toString().padStart(2, '0')}`,
-    end: `ROX-DF-${this.roxCounterInfo.end.toString().padStart(2, '0')}`,
+    start: `ROX-DF-${this.roxCounter.start.toString().padStart(2, '0')}`,
+    end: `ROX-DF-${this.roxCounter.end.toString().padStart(2, '0')}`,
   };
 
   faCalendarAlt = faCalendarAlt;
@@ -97,7 +97,7 @@ export class DeficiencyNoticeEditComponent implements OnInit {
 
   setROXCounter() {
     const resCounterInfo = +this.systemService.getFormCounterInfo().find((val) => val.setting === 'rox_counter').value;
-    this.roxCounterInfo = {
+    this.roxCounter = {
       start: resCounterInfo,
       end: resCounterInfo,
     };
@@ -115,21 +115,29 @@ export class DeficiencyNoticeEditComponent implements OnInit {
   addTransmitterInput() {
     this.transmitters.push(transmitterInput());
     if (this.transmitters.length >= 2) {
-      this.roxCounterInfo.end += 1;
+      this.roxCounter.end += 1;
     }
     this.generateDocketNumber();
   }
 
   removeTransmitterInput(index: number) {
     this.transmitters.removeAt(index);
-    if (this.roxCounterInfo.end !== this.roxCounterInfo.start) {
-      this.roxCounterInfo.end -= 1;
+    if (this.roxCounter.end !== this.roxCounter.start) {
+      this.roxCounter.end -= 1;
     }
     this.generateDocketNumber();
   }
 
   submit(): void {
     try {
+      const data: DeficiencyNotice = {
+        ...this.form.value,
+        docketNumberStart: this.roxCounter.start,
+        docketNumberEnd: this.roxCounter.end,
+      };
+      this.form.get('docketNumberStart').setValue(this.roxCounter.start);
+      this.form.get('docketNumberEnd').setValue(this.roxCounter.end);
+
       if (!this.form.valid) {
         this.alert.type = 'warning';
         this.alert.description = 'Fill up required data!';
@@ -139,9 +147,6 @@ export class DeficiencyNoticeEditComponent implements OnInit {
       this.alert.description = 'Saving data!';
       this.disableDuringProcess = true;
       if (this.formMode === ADD) {
-        const data: DeficiencyNotice = this.form.value;
-        data.docketNumberStart = this.roxCounterInfo.start;
-        data.docketNumberEnd = this.roxCounterInfo.end;
         this.dnService
           .addOne(data)
           .pipe(takeUntil(this.getDestroyed))
@@ -181,18 +186,18 @@ export class DeficiencyNoticeEditComponent implements OnInit {
   }
 
   generateDocketNumber(): void {
-    let docketNumber = '';
+    let docketNumberDescription = '';
     const currentDate = new Date().getFullYear();
     this.roxInfo = {
-      start: `ROX-DF-${this.roxCounterInfo.start.toString().padStart(3, '0')}-${currentDate}`,
-      end: `ROX-DF-${this.roxCounterInfo.end.toString().padStart(3, '0')}-${currentDate}`,
+      start: `ROX-DF-${this.roxCounter.start.toString().padStart(3, '0')}-${currentDate}`,
+      end: `ROX-DF-${this.roxCounter.end.toString().padStart(3, '0')}-${currentDate}`,
     };
     if (this.roxInfo.start === this.roxInfo.end || this.transmitters.length <= 1) {
-      docketNumber = this.roxInfo.start;
+      docketNumberDescription = this.roxInfo.start;
     } else {
-      docketNumber = `${this.roxInfo.start} to ${this.roxInfo.end}`;
+      docketNumberDescription = `${this.roxInfo.start} to ${this.roxInfo.end}`;
     }
-    this.docketNumberDescription.setValue(docketNumber);
+    this.docketNumberDescription.setValue(docketNumberDescription);
   }
 
   get transmitters() {
