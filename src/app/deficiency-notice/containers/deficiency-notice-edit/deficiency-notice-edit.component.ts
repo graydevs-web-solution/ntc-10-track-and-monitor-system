@@ -192,7 +192,17 @@ export class DeficiencyNoticeEditComponent implements OnInit {
     } else {
       docketNumber = `${this.roxInfo.start} to ${this.roxInfo.end}`;
     }
+    this.docketNumberStart.setValue(this.roxCounterInfo.start);
+    this.docketNumberEnd.setValue(this.roxCounterInfo.end);
     this.docketNumberDescription.setValue(docketNumber);
+  }
+
+  get docketNumberStart() {
+    return this.form.get('docketNumberStart');
+  }
+
+  get docketNumberEnd() {
+    return this.form.get('docketNumberEnd');
   }
 
   get transmitters() {
