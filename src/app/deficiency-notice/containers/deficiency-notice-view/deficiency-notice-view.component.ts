@@ -29,6 +29,7 @@ export class DeficiencyNoticeViewComponent implements OnInit {
 
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
+  deficiencyNotice: DeficiencyNotice;
 
   getDestroyed = new Subject();
 
@@ -55,7 +56,8 @@ export class DeficiencyNoticeViewComponent implements OnInit {
           this.formId = value;
         },
       });
-    const fetchedValue = this.dnService.getSelectedEntry(this.formId);
+    this.deficiencyNotice = this.dnService.getSelectedEntry(this.formId);
+    const fetchedValue = this.deficiencyNotice;
     for (const _ of fetchedValue.transmitters) {
       this.addTransmitterInput();
     }
@@ -93,10 +95,6 @@ export class DeficiencyNoticeViewComponent implements OnInit {
 
   async createNewComplaint() {
     await this.router.navigate(['complaint', 'new']);
-    const data: Complaint = {
-      ...this.form.value,
-      clientName: this.clientName,
-    };
-    this.complaintService.createNewComplaintListener.next(data);
+    this.complaintService.createNewComplaintListener.next(this.deficiencyNotice);
   }
 }

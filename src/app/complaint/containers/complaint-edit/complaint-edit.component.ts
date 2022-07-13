@@ -91,6 +91,7 @@ export class ComplaintEditComponent implements OnInit {
           docketNumberDescription: this.descriptionGenerator(descriptions),
         });
         this.clientName = val.clientName;
+        console.log({ val, form: this.form.value });
       },
     });
 

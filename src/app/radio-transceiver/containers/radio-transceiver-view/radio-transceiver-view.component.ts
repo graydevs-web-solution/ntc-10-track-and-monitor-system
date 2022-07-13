@@ -1,13 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faFilePdf, faCheck, faTimes, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { RadioTransceiverService } from './../../radio-transceiver.service';
 import { operatorInput, radioTransceiverEntryInput, initForm, receiverOrOtherEquipmentInput } from '../../radio-transceiver-shared';
 import { VIEW } from 'src/app/shared/constants';
 import { isArrayValue } from 'src/app/shared/utility';
+import { RadioTransceiver } from '../../models/radio-transceiver.model';
+import { Approval } from 'src/app/shared/models/approvalStatus';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-radio-transceiver-view',
@@ -18,13 +21,19 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
   form: FormGroup;
   formId: string;
   clientName = '';
+  responseData: RadioTransceiver;
 
   getDestroyed = new Subject();
 
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
+  faCheck = faCheck;
+  faTimes = faTimes;
+  faCheckCircle = faCheckCircle;
+  isApprovedDirector = false;
+  isApproveNotedBy = false;
 
-  constructor(private radioTransceiverService: RadioTransceiverService, private route: ActivatedRoute) {}
+  constructor(private radioTransceiverService: RadioTransceiverService, private route: ActivatedRoute, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -38,7 +47,36 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
           this.formId = value;
         },
       });
+
+    this.radioTransceiverService.getEntriesListener().subscribe({
+      next: () => {
+        const fetchedValueInner = this.radioTransceiverService.getSelectedEntry(this.formId);
+        this.responseData = fetchedValueInner;
+        for (const _ of isArrayValue(fetchedValue.operators)) {
+          this.addOperatorInput();
+        }
+        for (const _ of isArrayValue(fetchedValue.radioTransceivers)) {
+          this.addRadioTransceiverInput();
+        }
+        for (const _ of isArrayValue(fetchedValue.receivers)) {
+          this.addReceiver();
+        }
+        for (const _ of isArrayValue(fetchedValue.otherEquipments)) {
+          this.addOtherEquipment();
+        }
+        this.clientName = fetchedValue.clientName;
+        this.form.patchValue({
+          ...fetchedValue,
+          notedBy: fetchedValue.notedByInfo.name,
+          regionalDirector: fetchedValue.regionalDirectorInfo.name,
+        });
+        this.isApprovedDirector = this.responseData.regionalDirectorApproved;
+        this.isApproveNotedBy = this.responseData.notedByApproved;
+      },
+    });
+
     const fetchedValue = this.radioTransceiverService.getSelectedEntry(this.formId);
+    this.responseData = fetchedValue;
     for (const _ of isArrayValue(fetchedValue.operators)) {
       this.addOperatorInput();
     }
@@ -57,6 +95,9 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
       notedBy: fetchedValue.notedByInfo.name,
       regionalDirector: fetchedValue.regionalDirectorInfo.name,
     });
+    this.isApprovedDirector = this.responseData.regionalDirectorApproved;
+    this.isApproveNotedBy = this.responseData.notedByApproved;
+
     this.radioTransceiverService.resourceType.next(VIEW);
   }
 
@@ -87,6 +128,38 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
 
   generatePdf(): void {
     this.radioTransceiverService.generatePdf(this.formId);
+  }
+
+  async approve() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'approve',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        radioTransceiver: this.responseData,
+      };
+      const response = await this.radioTransceiverService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.radioTransceiverService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async disapprove() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'disapprove',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        radioTransceiver: this.responseData,
+      };
+      const response = await this.radioTransceiverService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.radioTransceiverService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   get operators() {
