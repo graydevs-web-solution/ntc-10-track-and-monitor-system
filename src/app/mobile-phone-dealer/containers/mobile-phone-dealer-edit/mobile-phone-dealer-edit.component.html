@@ -1,9 +1,5 @@
 <ngb-alert *ngIf="alert.description" [type]="alert.type" (closed)="close(alert)">{{ alert.description }}</ngb-alert>
 
-<app-card *ngIf="userInfo.position !== 'engr'">
-  Approval Status: <span>{{ approveStatus }}</span></app-card
->
-
 <nav ngbNav #nav="ngbNav" class="nav-tabs bg-tab rounded-top">
   <ng-container ngbNavItem>
     <a ngbNavLink>One</a>

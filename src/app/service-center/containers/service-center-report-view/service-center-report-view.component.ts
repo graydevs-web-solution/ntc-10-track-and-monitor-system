@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { DateTime } from 'luxon';
 import { employedETInput, initForm, serviceOrTestEquipmentInput } from '../../service-center-shared';
 import { VIEW } from 'src/app/shared/constants';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-service-center-report-view',
@@ -22,9 +23,19 @@ export class ServiceCenterReportViewComponent implements OnInit {
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
 
+  isApprovedDirector = null;
+  isApprovedChief = null;
+  isDirector = this.authService.isApprover();
+  isChief = this.authService.isChief();
+  isITAdmin = this.authService.isITAdmin();
+
   getDestroyed = new Subject();
 
-  constructor(private serviceCenterReportService: ServiceCenterReportService, private route: ActivatedRoute) {}
+  constructor(
+    private serviceCenterReportService: ServiceCenterReportService,
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -51,6 +62,9 @@ export class ServiceCenterReportViewComponent implements OnInit {
       notedBy: fetchedValue.notedByInfo.name,
       regionalDirector: fetchedValue.regionalDirectorInfo.name,
     });
+    this.isApprovedDirector = fetchedValue.regionalDirectorApproved;
+    this.isApprovedChief = fetchedValue.notedByApproved;
+
     this.serviceCenterReportService.resourceType.next(VIEW);
   }
 
@@ -72,6 +86,42 @@ export class ServiceCenterReportViewComponent implements OnInit {
 
   generatePdf(): void {
     this.serviceCenterReportService.generatePdf(this.formId);
+  }
+
+  showDocumentApprovalStatusDirector() {
+    return this.isDirector || this.isITAdmin;
+  }
+
+  showApproveDisapproveDirector() {
+    return this.isDirector && (this.isApprovedDirector === '' || this.isApprovedDirector === null);
+  }
+
+  showApprovalStatusDirector() {
+    if (this.isApprovedDirector === '') return false;
+    return this.isApprovedDirector;
+  }
+
+  showPendingStatusDirector() {
+    if (this.isDirector || this.isApprovedDirector) return false;
+    return true;
+  }
+
+  showDocumentApprovalStatusChief() {
+    return this.isChief || this.isITAdmin;
+  }
+
+  showApproveDisapproveChief() {
+    return this.isChief && (this.isApprovedChief === '' || this.isApprovedChief === null);
+  }
+
+  showApprovalStatusChief() {
+    if (this.isApprovedChief === '') return false;
+    return this.isApprovedChief;
+  }
+
+  showPendingStatusChief() {
+    if (this.isChief || this.isApprovedChief) return false;
+    return true;
   }
 
   get listOfServiceOrTestEquipments(): FormArray {

@@ -39,7 +39,7 @@ export interface ComplaintAPI {
   ['regional_director']: string;
   ['is_done']: boolean;
   ['regional_director_info']: UserAssignedData;
-  ['regional_director_approved']: boolean;
+  ['regional_director_approved']: string;
 }
 
 export interface ResponseAddComplaint {

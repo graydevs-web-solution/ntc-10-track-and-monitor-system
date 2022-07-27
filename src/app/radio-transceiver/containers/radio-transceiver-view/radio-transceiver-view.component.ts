@@ -1,3 +1,4 @@
+import { UserTypes } from './../../../shared/constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -30,8 +31,11 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
   faCheck = faCheck;
   faTimes = faTimes;
   faCheckCircle = faCheckCircle;
-  isApprovedDirector = false;
-  isApproveNotedBy = false;
+  isApprovedDirector = null;
+  isApprovedChief = null;
+  isDirector = this.authService.isApprover();
+  isChief = this.authService.isChief();
+  isITAdmin = this.authService.isITAdmin();
 
   constructor(private radioTransceiverService: RadioTransceiverService, private route: ActivatedRoute, private authService: AuthService) {}
 
@@ -71,7 +75,7 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
           regionalDirector: fetchedValue.regionalDirectorInfo.name,
         });
         this.isApprovedDirector = this.responseData.regionalDirectorApproved;
-        this.isApproveNotedBy = this.responseData.notedByApproved;
+        this.isApprovedChief = this.responseData.notedByApproved;
       },
     });
 
@@ -96,7 +100,8 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
       regionalDirector: fetchedValue.regionalDirectorInfo.name,
     });
     this.isApprovedDirector = this.responseData.regionalDirectorApproved;
-    this.isApproveNotedBy = this.responseData.notedByApproved;
+    this.isApprovedChief = this.responseData.notedByApproved;
+    console.log('approve director', this.isApprovedDirector);
 
     this.radioTransceiverService.resourceType.next(VIEW);
   }
@@ -128,6 +133,42 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
 
   generatePdf(): void {
     this.radioTransceiverService.generatePdf(this.formId);
+  }
+
+  showDocumentApprovalStatusDirector() {
+    return this.isDirector || this.isITAdmin;
+  }
+
+  showApproveDisapproveDirector() {
+    return this.isDirector && (this.isApprovedDirector === '' || this.isApprovedDirector === null);
+  }
+
+  showApprovalStatusDirector() {
+    if (this.isApprovedDirector === '') return false;
+    return this.isApprovedDirector;
+  }
+
+  showPendingStatusDirector() {
+    if (this.isDirector || this.isApprovedDirector) return false;
+    return true;
+  }
+
+  showDocumentApprovalStatusChief() {
+    return this.isChief || this.isITAdmin;
+  }
+
+  showApproveDisapproveChief() {
+    return this.isChief && (this.isApprovedChief === '' || this.isApprovedChief === null);
+  }
+
+  showApprovalStatusChief() {
+    if (this.isApprovedChief === '') return false;
+    return this.isApprovedChief;
+  }
+
+  showPendingStatusChief() {
+    if (this.isChief || this.isApprovedChief) return false;
+    return true;
   }
 
   async approve() {

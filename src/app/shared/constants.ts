@@ -37,3 +37,11 @@ export const EDIT = 'EDIT';
 export const DELETE = 'DELETE';
 // Resource type Exception
 export const LIST = 'LIST';
+
+export enum UserTypes {
+  engineer = 'engr',
+  chiefEngineer = 'chf-engr',
+  legal = 'legal',
+  director = 'director',
+  itAdmin = 'it-admin',
+}

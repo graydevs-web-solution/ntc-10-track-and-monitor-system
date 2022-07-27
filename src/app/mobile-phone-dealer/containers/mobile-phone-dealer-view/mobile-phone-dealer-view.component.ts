@@ -5,6 +5,7 @@ import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
 import { VIEW } from 'src/app/shared/constants';
 import { initForm, stockMobilePhoneInput, stockSIMInput, stockSpareAndAccessoryInput } from '../../mobile-phone-dealer-shared';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
@@ -22,9 +23,19 @@ export class MobilePhoneDealerViewComponent implements OnInit {
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
 
+  isApprovedDirector = null;
+  isApprovedChief = null;
+  isDirector = this.authService.isApprover();
+  isChief = this.authService.isChief();
+  isITAdmin = this.authService.isITAdmin();
+
   getDestroyed = new Subject();
 
-  constructor(private mobilePhoneDealerService: MobilePhoneDealerService, private route: ActivatedRoute) {}
+  constructor(
+    private mobilePhoneDealerService: MobilePhoneDealerService,
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -54,6 +65,9 @@ export class MobilePhoneDealerViewComponent implements OnInit {
       notedBy: fetchedValue.notedByInfo.name,
       regionalDirector: fetchedValue.regionalDirectorInfo.name,
     });
+    this.isApprovedDirector = fetchedValue.regionalDirectorApproved;
+    this.isApprovedChief = fetchedValue.notedByApproved;
+
     this.mobilePhoneDealerService.resourceType.next(VIEW);
   }
 
@@ -75,6 +89,42 @@ export class MobilePhoneDealerViewComponent implements OnInit {
 
   generatePdf(): void {
     this.mobilePhoneDealerService.generatePdf(this.formId);
+  }
+
+  showDocumentApprovalStatusDirector() {
+    return this.isDirector || this.isITAdmin;
+  }
+
+  showApproveDisapproveDirector() {
+    return this.isDirector && (this.isApprovedDirector === '' || this.isApprovedDirector === null);
+  }
+
+  showApprovalStatusDirector() {
+    if (this.isApprovedDirector === '') return false;
+    return this.isApprovedDirector;
+  }
+
+  showPendingStatusDirector() {
+    if (this.isDirector || this.isApprovedDirector) return false;
+    return true;
+  }
+
+  showDocumentApprovalStatusChief() {
+    return this.isChief || this.isITAdmin;
+  }
+
+  showApproveDisapproveChief() {
+    return this.isChief && (this.isApprovedChief === '' || this.isApprovedChief === null);
+  }
+
+  showApprovalStatusChief() {
+    if (this.isApprovedChief === '') return false;
+    return this.isApprovedChief;
+  }
+
+  showPendingStatusChief() {
+    if (this.isChief || this.isApprovedChief) return false;
+    return true;
   }
 
   get approveStatus(): string {

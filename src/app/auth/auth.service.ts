@@ -13,6 +13,7 @@ import { UserAuthenticated } from './model/user-authenticated';
 import { Router } from '@angular/router';
 import { UserType } from './model/user-type';
 import { SystemSettingService } from '../system-setting/system-setting.service';
+import { UserTypes } from '../shared/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -262,6 +263,19 @@ export class AuthService {
     };
     return value;
   };
+
+  isApprover() {
+    return this.userLoggedInInfo.position === UserTypes.director;
+  }
+
+  isChief() {
+    console.log(this.userLoggedInInfo);
+    return this.userLoggedInInfo.position === UserTypes.chiefEngineer;
+  }
+
+  isITAdmin() {
+    return this.userLoggedInInfo.position === UserTypes.itAdmin;
+  }
 
   private clearAuthData() {
     localStorage.removeItem('token');

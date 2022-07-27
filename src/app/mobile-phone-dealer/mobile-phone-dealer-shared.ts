@@ -21,8 +21,9 @@ export const initForm = (readState = false) => {
     }),
     recommendations: new FormControl({ value: '', disabled: readState }),
     notedBy: new FormControl({ value: '', disabled: readState }),
-    isApproved: new FormControl({ value: null, disabled: false }),
     regionalDirector: new FormControl({ value: '', disabled: readState }),
+    notedByApproved: new FormControl({ value: '', disabled: false }),
+    regionalDirectorApproved: new FormControl({ value: '', disabled: false }),
   });
 };
 
