@@ -7,6 +7,8 @@ import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { VIEW } from 'src/app/shared/constants';
+import { Approval } from 'src/app/shared/models/approvalStatus';
+import { RadioDealer } from '../../models/radio-dealer.model';
 import { initForm, supervisingECEInput, techniciansInput } from '../../radio-dealer-shared';
 import { RadioDealerService } from '../../radio-dealer.service';
 
@@ -28,6 +30,7 @@ export class RadioDealerViewComponent implements OnInit {
   isDirector = this.authService.isApprover();
   isChief = this.authService.isChief();
   isITAdmin = this.authService.isITAdmin();
+  responseData: RadioDealer;
 
   getDestroyed = new Subject();
 
@@ -93,6 +96,38 @@ export class RadioDealerViewComponent implements OnInit {
   showPendingStatusDirector() {
     if (this.isDirector || this.isApprovedDirector) return false;
     return true;
+  }
+
+  async approve() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'approve',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        radioDealer: this.responseData,
+      };
+      const response = await this.radioDealerService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.radioDealerService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async disapprove() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'disapprove',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        radioDealer: this.responseData,
+      };
+      const response = await this.radioDealerService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.radioDealerService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   get supervisingECE(): FormArray {

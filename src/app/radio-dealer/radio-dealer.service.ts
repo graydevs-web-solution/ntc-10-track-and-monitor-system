@@ -9,6 +9,7 @@ import { PageOptions } from '../shared/models/page-options';
 import { dateWithPadding } from '../shared/utility';
 import { RadioDealerAPI } from './models/radio-dealer-api.model';
 import { RadioDealer } from './models/radio-dealer.model';
+import { Approval } from '../shared/models/approvalStatus';
 
 @Injectable({
   providedIn: 'root',
@@ -168,4 +169,8 @@ export class RadioDealerService {
     };
     return value;
   };
+
+  setApprovalStatus(payload: Approval) {
+    return this.http.post<{ message: string }>(`${this.domainURL}/${this.resource1}/approval`, payload);
+  }
 }

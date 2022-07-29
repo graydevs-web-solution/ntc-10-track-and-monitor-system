@@ -4,6 +4,7 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DeficiencyNotice } from '../deficiency-notice/models/deficiency-notice.model';
+import { Approval } from '../shared/models/approvalStatus';
 import { PageOptions } from '../shared/models/page-options';
 import { formatDate, formatTime, openPDF } from '../shared/utility';
 import { ComplaintAPI, ResponseAddComplaint } from './models/complaint-api.model';
@@ -179,4 +180,8 @@ export class ComplaintService {
     };
     return value;
   };
+
+  setApprovalStatus(payload: Approval) {
+    return this.http.post<{ message: string }>(`${this.domainURL}/${this.resource1}/approval`, payload);
+  }
 }

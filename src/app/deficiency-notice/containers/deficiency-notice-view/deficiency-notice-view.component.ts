@@ -5,10 +5,12 @@ import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
 import { ComplaintService } from 'src/app/complaint/complaint.service';
 import { Complaint } from 'src/app/complaint/models/complaint.model';
 import { ClientService } from 'src/app/master-list/clients/client.service';
 import { VIEW } from 'src/app/shared/constants';
+import { Approval } from 'src/app/shared/models/approvalStatus';
 import { formatDate } from 'src/app/shared/utility';
 import { initForm, transmitterInput, violations } from '../../deficiency-notice-shared';
 import { DeficiencyNoticeService } from '../../deficiency-notice.service';
@@ -30,6 +32,7 @@ export class DeficiencyNoticeViewComponent implements OnInit {
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
   deficiencyNotice: DeficiencyNotice;
+  responseData: DeficiencyNotice;
 
   getDestroyed = new Subject();
 
@@ -41,7 +44,8 @@ export class DeficiencyNoticeViewComponent implements OnInit {
     private clientService: ClientService,
     private modalService: NgbModal,
     private router: Router,
-    private complaintService: ComplaintService
+    private complaintService: ComplaintService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -91,6 +95,38 @@ export class DeficiencyNoticeViewComponent implements OnInit {
 
   generatePdf(): void {
     this.dnService.generatePdf(this.formId);
+  }
+
+  async approve() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'approve',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        deficiencyNotice: this.responseData,
+      };
+      const response = await this.dnService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.dnService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async disapprove() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'disapprove',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        deficiencyNotice: this.responseData,
+      };
+      const response = await this.dnService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.dnService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async createNewComplaint() {

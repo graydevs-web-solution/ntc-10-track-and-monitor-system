@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Approval } from '../shared/models/approvalStatus';
 import { PageOptions } from '../shared/models/page-options';
 import { formatDate, openPDF } from '../shared/utility';
 import { Setting } from '../system-setting/model/setting';
@@ -175,4 +176,8 @@ export class DeficiencyNoticeService {
     };
     return value;
   };
+
+  setApprovalStatus(payload: Approval) {
+    return this.http.post<{ message: string }>(`${this.domainURL}/${this.resource1}/approval`, payload);
+  }
 }

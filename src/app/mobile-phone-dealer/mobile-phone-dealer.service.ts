@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Approval } from '../shared/models/approvalStatus';
 import { PageOptions } from '../shared/models/page-options';
 import { dateWithPadding, formatDate, openPDF } from '../shared/utility';
 import { MobilePhoneDealerAPI } from './models/mobile-phone-dealer-api.model';
@@ -160,4 +161,8 @@ export class MobilePhoneDealerService {
     };
     return value;
   };
+
+  setApprovalStatus(payload: Approval) {
+    return this.http.post<{ message: string }>(`${this.domainURL}/${this.resource1}/approval`, payload);
+  }
 }

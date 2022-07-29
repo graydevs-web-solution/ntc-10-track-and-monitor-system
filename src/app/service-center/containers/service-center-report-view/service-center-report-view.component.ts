@@ -9,6 +9,8 @@ import { DateTime } from 'luxon';
 import { employedETInput, initForm, serviceOrTestEquipmentInput } from '../../service-center-shared';
 import { VIEW } from 'src/app/shared/constants';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ServiceCenterReport } from '../../models/service-center-report.model';
+import { Approval } from 'src/app/shared/models/approvalStatus';
 
 @Component({
   selector: 'app-service-center-report-view',
@@ -28,6 +30,7 @@ export class ServiceCenterReportViewComponent implements OnInit {
   isDirector = this.authService.isApprover();
   isChief = this.authService.isChief();
   isITAdmin = this.authService.isITAdmin();
+  responseData: ServiceCenterReport;
 
   getDestroyed = new Subject();
 
@@ -122,6 +125,38 @@ export class ServiceCenterReportViewComponent implements OnInit {
   showPendingStatusChief() {
     if (this.isChief || this.isApprovedChief) return false;
     return true;
+  }
+
+  async approve() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'approve',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        serviceCenter: this.responseData,
+      };
+      const response = await this.serviceCenterReportService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.serviceCenterReportService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async disapprove() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'disapprove',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        serviceCenter: this.responseData,
+      };
+      const response = await this.serviceCenterReportService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.serviceCenterReportService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   get listOfServiceOrTestEquipments(): FormArray {
