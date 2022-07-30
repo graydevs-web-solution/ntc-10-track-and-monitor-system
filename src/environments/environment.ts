@@ -7,6 +7,7 @@ export const environment = {
   apiUrl: 'http://localhost:3000',
   production: false,
   appLogo: '/assets/images/logo.png',
+  // sample: 'sss'
 };
 
 /*
