@@ -21,7 +21,7 @@ export const initForm = (readState = false): FormGroup => {
     dateOfDeficiencyHearing: new FormControl({ value: '', disabled: false }, Validators.required),
     isDone: new FormControl({ value: false, disabled: false }),
     regionalDirector: new FormControl({ value: '', disabled: readState }, Validators.required),
-    regionalDirectorApproved: new FormControl({ value: false, disabled: readState }, Validators.required),
+    regionalDirectorApproved: new FormControl({ value: '', disabled: readState }),
   });
 };
 

@@ -130,6 +130,7 @@ export class DeficiencyNoticeEditComponent implements OnInit {
 
   submit(): void {
     try {
+      console.log(this.form.value);
       const data: DeficiencyNotice = {
         ...this.form.value,
         docketNumberStart: this.roxCounter.start,

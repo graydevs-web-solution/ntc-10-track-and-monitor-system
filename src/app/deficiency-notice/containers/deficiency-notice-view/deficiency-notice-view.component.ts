@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faCheck, faCheckCircle, faFilePdf, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -31,8 +31,15 @@ export class DeficiencyNoticeViewComponent implements OnInit {
 
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
+  faCheck = faCheck;
+  faTimes = faTimes;
+  faCheckCircle = faCheckCircle;
   deficiencyNotice: DeficiencyNotice;
   responseData: DeficiencyNotice;
+
+  isApprovedDirector = null;
+  isDirector = this.authService.isApprover();
+  isITAdmin = this.authService.isITAdmin();
 
   getDestroyed = new Subject();
 
@@ -60,8 +67,22 @@ export class DeficiencyNoticeViewComponent implements OnInit {
           this.formId = value;
         },
       });
+
+    this.dnService.getEntriesListener().subscribe({
+      next: () => {
+        this.setData();
+      },
+    });
+    this.setData();
+
+    this.dnService.resourceType.next(VIEW);
+  }
+
+  setData() {
     this.deficiencyNotice = this.dnService.getSelectedEntry(this.formId);
     const fetchedValue = this.deficiencyNotice;
+    this.responseData = fetchedValue;
+    console.log({ fetchedValue });
     for (const _ of fetchedValue.transmitters) {
       this.addTransmitterInput();
     }
@@ -74,7 +95,7 @@ export class DeficiencyNoticeViewComponent implements OnInit {
       regionalDirector: fetchedValue.regionalDirectorInfo.name,
     };
     this.form.patchValue(vals);
-    this.dnService.resourceType.next(VIEW);
+    this.isApprovedDirector = this.responseData.regionalDirectorApproved;
   }
 
   initForm(): void {
@@ -105,6 +126,7 @@ export class DeficiencyNoticeViewComponent implements OnInit {
         position: this.authService.getUserInfo().position,
         deficiencyNotice: this.responseData,
       };
+      console.log({ approveData });
       const response = await this.dnService.setApprovalStatus(approveData).toPromise();
       console.log({ response });
       this.dnService.getEntriesAPI();
@@ -132,5 +154,23 @@ export class DeficiencyNoticeViewComponent implements OnInit {
   async createNewComplaint() {
     await this.router.navigate(['complaint', 'new']);
     this.complaintService.createNewComplaintListener.next(this.deficiencyNotice);
+  }
+
+  showDocumentApprovalStatusDirector() {
+    return this.isDirector || this.isITAdmin;
+  }
+
+  showApproveDisapproveDirector() {
+    return this.isDirector && (this.isApprovedDirector === '' || this.isApprovedDirector === null);
+  }
+
+  showApprovalStatusDirector() {
+    if (this.isApprovedDirector === '') return false;
+    return this.isApprovedDirector;
+  }
+
+  showPendingStatusDirector() {
+    if (this.isDirector || this.isApprovedDirector) return false;
+    return true;
   }
 }

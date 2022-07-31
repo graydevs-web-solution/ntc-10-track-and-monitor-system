@@ -54,31 +54,16 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
 
     this.radioTransceiverService.getEntriesListener().subscribe({
       next: () => {
-        const fetchedValueInner = this.radioTransceiverService.getSelectedEntry(this.formId);
-        this.responseData = fetchedValueInner;
-        for (const _ of isArrayValue(fetchedValue.operators)) {
-          this.addOperatorInput();
-        }
-        for (const _ of isArrayValue(fetchedValue.radioTransceivers)) {
-          this.addRadioTransceiverInput();
-        }
-        for (const _ of isArrayValue(fetchedValue.receivers)) {
-          this.addReceiver();
-        }
-        for (const _ of isArrayValue(fetchedValue.otherEquipments)) {
-          this.addOtherEquipment();
-        }
-        this.clientName = fetchedValue.clientName;
-        this.form.patchValue({
-          ...fetchedValue,
-          notedBy: fetchedValue.notedByInfo.name,
-          regionalDirector: fetchedValue.regionalDirectorInfo.name,
-        });
-        this.isApprovedDirector = this.responseData.regionalDirectorApproved;
-        this.isApprovedChief = this.responseData.notedByApproved;
+        this.setData();
       },
     });
+    this.setData();
+    console.log('approve director', this.isApprovedDirector);
 
+    this.radioTransceiverService.resourceType.next(VIEW);
+  }
+
+  setData() {
     const fetchedValue = this.radioTransceiverService.getSelectedEntry(this.formId);
     this.responseData = fetchedValue;
     for (const _ of isArrayValue(fetchedValue.operators)) {
@@ -101,9 +86,6 @@ export class RadioTransceiverViewComponent implements OnInit, OnDestroy {
     });
     this.isApprovedDirector = this.responseData.regionalDirectorApproved;
     this.isApprovedChief = this.responseData.notedByApproved;
-    console.log('approve director', this.isApprovedDirector);
-
-    this.radioTransceiverService.resourceType.next(VIEW);
   }
 
   ngOnDestroy(): void {

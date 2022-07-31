@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faCheck, faCheckCircle, faFilePdf, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -24,6 +24,9 @@ export class RadioDealerViewComponent implements OnInit {
 
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
+  faCheck = faCheck;
+  faTimes = faTimes;
+  faCheckCircle = faCheckCircle;
 
   isApprovedDirector = null;
   isApprovedChief = null;
@@ -48,7 +51,21 @@ export class RadioDealerViewComponent implements OnInit {
           this.formId = value;
         },
       });
+
+    this.radioDealerService.getEntriesListener().subscribe({
+      next: () => {
+        console.log('triggered');
+        this.setData();
+      },
+    });
+    this.setData();
+
+    this.radioDealerService.resourceType.next(VIEW);
+  }
+
+  setData() {
     const fetchedValue = this.radioDealerService.getSelectedEntry(this.formId);
+    this.responseData = fetchedValue;
     fetchedValue.supervisingECE.forEach(() => {
       this.addSupervisingECE();
     });
@@ -61,7 +78,6 @@ export class RadioDealerViewComponent implements OnInit {
       regionalDirector: fetchedValue.regionalDirectorInfo.name,
     });
     this.isApprovedDirector = fetchedValue.regionalDirectorApproved;
-    this.radioDealerService.resourceType.next(VIEW);
   }
 
   initForm(): void {
@@ -106,6 +122,7 @@ export class RadioDealerViewComponent implements OnInit {
         position: this.authService.getUserInfo().position,
         radioDealer: this.responseData,
       };
+      console.log(approveData);
       const response = await this.radioDealerService.setApprovalStatus(approveData).toPromise();
       console.log({ response });
       this.radioDealerService.getEntriesAPI();

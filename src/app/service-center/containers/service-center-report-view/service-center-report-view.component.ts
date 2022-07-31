@@ -1,7 +1,7 @@
 import { ServiceCenterReportService } from './../../service-center-report.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faCheck, faCheckCircle, faFilePdf, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Params } from '@angular/router';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -24,6 +24,9 @@ export class ServiceCenterReportViewComponent implements OnInit {
 
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
+  faCheck = faCheck;
+  faTimes = faTimes;
+  faCheckCircle = faCheckCircle;
 
   isApprovedDirector = null;
   isApprovedChief = null;
@@ -52,7 +55,20 @@ export class ServiceCenterReportViewComponent implements OnInit {
           this.formId = value;
         },
       });
+
+    this.serviceCenterReportService.getEntriesListener().subscribe({
+      next: () => {
+        this.setData();
+      },
+    });
+    this.setData();
+
+    this.serviceCenterReportService.resourceType.next(VIEW);
+  }
+
+  setData() {
     const fetchedValue = this.serviceCenterReportService.getSelectedEntry(this.formId);
+    this.responseData = fetchedValue;
     fetchedValue.listOfServiceOrTestEquipments.forEach(() => {
       this.addServiceOrTestEquipment();
     });
@@ -67,8 +83,6 @@ export class ServiceCenterReportViewComponent implements OnInit {
     });
     this.isApprovedDirector = fetchedValue.regionalDirectorApproved;
     this.isApprovedChief = fetchedValue.notedByApproved;
-
-    this.serviceCenterReportService.resourceType.next(VIEW);
   }
 
   initForm(): void {

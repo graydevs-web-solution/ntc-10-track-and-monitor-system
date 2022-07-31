@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faCheck, faCheckCircle, faFilePdf, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -24,6 +24,9 @@ export class MobilePhoneDealerViewComponent implements OnInit {
 
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
+  faCheck = faCheck;
+  faTimes = faTimes;
+  faCheckCircle = faCheckCircle;
 
   isApprovedDirector = null;
   isApprovedChief = null;
@@ -52,6 +55,18 @@ export class MobilePhoneDealerViewComponent implements OnInit {
           this.formId = value;
         },
       });
+
+    this.mobilePhoneDealerService.getEntriesListener().subscribe({
+      next: () => {
+        this.setData();
+      },
+    });
+    this.setData();
+
+    this.mobilePhoneDealerService.resourceType.next(VIEW);
+  }
+
+  setData() {
     const fetchedValue = this.mobilePhoneDealerService.getSelectedEntry(this.formId);
     fetchedValue.listOfStocksOfSparesAndAccessories.forEach(() => {
       this.addStockSpareAndAccessory();
@@ -63,6 +78,7 @@ export class MobilePhoneDealerViewComponent implements OnInit {
       this.addStockSIM();
     });
     this.clientName = fetchedValue.clientName;
+    this.responseData = fetchedValue;
     this.form.patchValue({
       ...fetchedValue,
       notedBy: fetchedValue.notedByInfo.name,
@@ -70,8 +86,6 @@ export class MobilePhoneDealerViewComponent implements OnInit {
     });
     this.isApprovedDirector = fetchedValue.regionalDirectorApproved;
     this.isApprovedChief = fetchedValue.notedByApproved;
-
-    this.mobilePhoneDealerService.resourceType.next(VIEW);
   }
 
   initForm(): void {
@@ -186,9 +200,5 @@ export class MobilePhoneDealerViewComponent implements OnInit {
 
   get listOfStocksOfSubscriberIdentificationModule(): FormArray {
     return this.form.get('listOfStocksOfSubscriberIdentificationModule') as FormArray;
-  }
-
-  get isApproved(): string {
-    return !!this.form.get('isApproved').value ? 'YES' : 'NO';
   }
 }

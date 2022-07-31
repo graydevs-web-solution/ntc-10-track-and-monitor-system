@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faCheck, faCheckCircle, faFilePdf, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { time } from 'console';
 import { Subject } from 'rxjs';
@@ -31,6 +31,13 @@ export class ComplaintViewComponent implements OnInit {
 
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
+  faCheck = faCheck;
+  faTimes = faTimes;
+  faCheckCircle = faCheckCircle;
+
+  isApprovedDirector = null;
+  isDirector = this.authService.isApprover();
+  isITAdmin = this.authService.isITAdmin();
 
   getDestroyed = new Subject();
 
@@ -56,7 +63,20 @@ export class ComplaintViewComponent implements OnInit {
           this.formId = value;
         },
       });
+
+    this.complaintService.getEntriesListener().subscribe({
+      next: () => {
+        this.setData();
+      },
+    });
+    this.setData();
+
+    this.complaintService.resourceType.next(VIEW);
+  }
+
+  setData() {
     const fetchedValue = this.complaintService.getSelectedEntry(this.formId);
+    this.responseData = fetchedValue;
     for (const _ of fetchedValue.transmitters || []) {
       this.addTransmitterInput();
     }
@@ -69,7 +89,7 @@ export class ComplaintViewComponent implements OnInit {
       regionalDirector: fetchedValue.regionalDirectorInfo.name,
     };
     this.form.patchValue(vals);
-    this.complaintService.resourceType.next(VIEW);
+    this.isApprovedDirector = this.responseData.regionalDirectorApproved;
   }
 
   initForm(): void {
@@ -158,6 +178,24 @@ export class ComplaintViewComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  showDocumentApprovalStatusDirector() {
+    return this.isDirector || this.isITAdmin;
+  }
+
+  showApproveDisapproveDirector() {
+    return this.isDirector && (this.isApprovedDirector === '' || this.isApprovedDirector === null);
+  }
+
+  showApprovalStatusDirector() {
+    if (this.isApprovedDirector === '') return false;
+    return this.isApprovedDirector;
+  }
+
+  showPendingStatusDirector() {
+    if (this.isDirector || this.isApprovedDirector) return false;
+    return true;
   }
 
   get transmitters() {

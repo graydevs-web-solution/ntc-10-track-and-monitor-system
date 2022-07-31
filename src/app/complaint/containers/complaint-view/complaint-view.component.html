@@ -1,5 +1,23 @@
-<div class="d-flex justify-content-end mb-3">
-  <button class="btn btn-sm btn-secondary" (click)="generatePdf()"><fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf</button>
+<div class="d-flex justify-content-between mb-2">
+  <div class="capitalize">
+    <div
+      [ngClass]="{ 'bg-success': isApprovedDirector === 'approve', 'bg-secondary': isApprovedDirector !== 'approve' }"
+      class="rounded text-white px-3 py-2 mb-2"
+    >
+      <ng-container *ngIf="showApproveDisapproveDirector()">
+        <div class="mb-1">Approve document as Director?</div>
+        <button class="btn btn-sm btn-success mr-2" (click)="approve()"><fa-icon [icon]="faCheck"></fa-icon> Approve</button>
+        <button class="btn btn-sm btn-danger" (click)="disapprove()"><fa-icon [icon]="faTimes"></fa-icon> Disapprove</button>
+      </ng-container>
+      <ng-container *ngIf="showApprovalStatusDirector()"> {{ showApprovalStatusDirector() }}d by Director </ng-container>
+      <ng-container *ngIf="showPendingStatusDirector()"> Pending Approval for Director </ng-container>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-sm btn-secondary shadow-sm" (click)="generatePdf()">
+      <fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf
+    </button>
+  </div>
 </div>
 
 <app-card>
