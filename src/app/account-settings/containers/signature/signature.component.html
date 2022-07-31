@@ -1,0 +1,20 @@
+<app-card>
+  <h4>Signature</h4>
+
+  <section>
+    <div class="wrapper mb-2">
+      <canvas #sPad id="signature-pad" class="signature-pad" width="400" height="200"></canvas>
+    </div>
+
+    <div>
+      <button class="btn btn-primary mr-2" (click)="clearSignature()" type="button">Clear</button>
+
+      <button class="btn btn-primary" (click)="save()" type="button">Save</button>
+    </div>
+
+    <div>
+      Base64 Png:
+      <img [src]="sampleImage" alt="Sample Image" />
+    </div>
+  </section>
+</app-card>
