@@ -277,6 +277,18 @@ export class AuthService {
     return this.userLoggedInInfo.position === UserTypes.itAdmin;
   }
 
+  getSignature(userId: string): Observable<User> {
+    const payload: User = {
+      user_id: userId,
+    };
+
+    return this.http.post<User>(`${this.domainURL}/${this.resource1}/signature`, payload);
+  }
+
+  saveSignature(user: User): Observable<User> {
+    return this.http.post<User>(`${this.domainURL}/${this.resource1}/update-signature`, user);
+  }
+
   private clearAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
