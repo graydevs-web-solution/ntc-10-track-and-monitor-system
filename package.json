@@ -7,7 +7,7 @@
     "prebuild:major": "npm --no-git-tag-version version major",
     "prebuild:minor": "npm --no-git-tag-version version minor",
     "prebuild:patch": "npm --no-git-tag-version version patch",
-    "build": "ng build --prod",
+    "build": "ng build --configuration production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
