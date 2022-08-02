@@ -10,7 +10,7 @@ import { ModalComponent } from 'src/app/ui/modal/modal.component';
   selector: 'app-client-entry',
   template: `
     <div class="d-flex">
-      <div class="flex-grow-1 cursor" (click)="open()">
+      <div class="flex-grow-1" (click)="open()">
         <div>{{ entry.businessName }}</div>
       </div>
       <div class="d-flex align-items-center">

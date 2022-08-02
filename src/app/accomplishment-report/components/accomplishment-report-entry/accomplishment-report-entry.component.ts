@@ -21,7 +21,7 @@ import { AccomplishmentReport } from '../../models/accomplishment-report.model';
         </a>
       </div>
       <div class="d-flex align-items-center">
-        <button class="btn btn sm btn-primary" (click)="download()">Download</button>
+        <button class="btn btn sm btn-primary mr-2" (click)="download()">Download</button>
         <button class="btn btn sm btn-primary" (click)="open()">Remove</button>
       </div>
     </div>

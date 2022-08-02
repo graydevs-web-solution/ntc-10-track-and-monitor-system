@@ -85,11 +85,11 @@ export class RadioDealerViewComponent implements OnInit {
   }
 
   addSupervisingECE(): void {
-    this.supervisingECE.push(supervisingECEInput());
+    this.supervisingECE.push(supervisingECEInput(true));
   }
 
   addTechnicians() {
-    this.radioTechnicians.push(techniciansInput());
+    this.radioTechnicians.push(techniciansInput(true));
   }
 
   generatePdf(): void {

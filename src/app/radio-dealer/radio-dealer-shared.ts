@@ -27,20 +27,20 @@ export const initForm = (readState = false) => {
   });
 };
 
-export const supervisingECEInput = (): FormGroup => {
+export const supervisingECEInput = (readState = false): FormGroup => {
   return new FormGroup({
-    name: new FormControl({ value: '', disabled: false }),
-    licenseNumber: new FormControl({ value: '', disabled: false }),
-    expiryDate: new FormControl({ value: '', disabled: false }),
-    ptrNumber: new FormControl({ value: '', disabled: false }),
-    dateIssued: new FormControl({ value: '', disabled: false }),
+    name: new FormControl({ value: '', disabled: readState }),
+    licenseNumber: new FormControl({ value: '', disabled: readState }),
+    expiryDate: new FormControl({ value: '', disabled: readState }),
+    ptrNumber: new FormControl({ value: '', disabled: readState }),
+    dateIssued: new FormControl({ value: '', disabled: readState }),
   });
 };
 
-export const techniciansInput = (): FormGroup => {
+export const techniciansInput = (readState = false): FormGroup => {
   return new FormGroup({
-    name: new FormControl({ value: '', disabled: false }),
-    particularsOfLicense: new FormControl({ value: '', disabled: false }),
-    expiryDate: new FormControl({ value: '', disabled: false }),
+    name: new FormControl({ value: '', disabled: readState }),
+    particularsOfLicense: new FormControl({ value: '', disabled: readState }),
+    expiryDate: new FormControl({ value: '', disabled: readState }),
   });
 };

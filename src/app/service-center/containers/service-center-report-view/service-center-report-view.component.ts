@@ -86,7 +86,7 @@ export class ServiceCenterReportViewComponent implements OnInit {
   }
 
   initForm(): void {
-    this.form = initForm();
+    this.form = initForm(true);
   }
 
   submit(): void {
@@ -94,11 +94,11 @@ export class ServiceCenterReportViewComponent implements OnInit {
   }
 
   addServiceOrTestEquipment(): void {
-    this.listOfServiceOrTestEquipments.push(serviceOrTestEquipmentInput());
+    this.listOfServiceOrTestEquipments.push(serviceOrTestEquipmentInput(true));
   }
 
   addEmployedElectronicTechnician() {
-    this.employedElectronicsTechnicians.push(employedETInput());
+    this.employedElectronicsTechnicians.push(employedETInput(true));
   }
 
   generatePdf(): void {

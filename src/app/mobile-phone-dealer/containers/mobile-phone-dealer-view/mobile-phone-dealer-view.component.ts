@@ -93,15 +93,15 @@ export class MobilePhoneDealerViewComponent implements OnInit {
   }
 
   addStockSpareAndAccessory(): void {
-    this.listOfStocksOfSparesAndAccessories.push(stockSpareAndAccessoryInput());
+    this.listOfStocksOfSparesAndAccessories.push(stockSpareAndAccessoryInput(true));
   }
 
   addStockMobilePhone() {
-    this.listOfStocksOfMobilePhone.push(stockMobilePhoneInput());
+    this.listOfStocksOfMobilePhone.push(stockMobilePhoneInput(true));
   }
 
   addStockSIM() {
-    this.listOfStocksOfSubscriberIdentificationModule.push(stockSIMInput());
+    this.listOfStocksOfSubscriberIdentificationModule.push(stockSIMInput(true));
   }
 
   generatePdf(): void {

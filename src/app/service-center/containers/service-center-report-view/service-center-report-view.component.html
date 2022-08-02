@@ -48,11 +48,11 @@
                 readonly
                 #d="ngbDatepicker"
               />
-              <div class="input-group-append">
+              <!-- <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
                   <fa-icon [icon]="faCalendarAlt"></fa-icon>
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -71,9 +71,9 @@
               aria-describedby="button-addon2"
               readonly
             />
-            <div class="input-group-append">
+            <!-- <div class="input-group-append">
               <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2" (click)="open()">Select</button>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -100,11 +100,11 @@
                 #dd="ngbDatepicker"
                 id="permit-expiry-date"
               />
-              <div class="input-group-append">
+              <!-- <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
                   <fa-icon [icon]="faCalendarAlt"></fa-icon>
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -119,13 +119,13 @@
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">List of Stocks of Spares and Accessories</div>
             <div>
-              <button class="btn btn-sm btn-primary" (click)="addServiceOrTestEquipment()">Add</button>
+              <!-- <button class="btn btn-sm btn-primary" (click)="addServiceOrTestEquipment()">Add</button> -->
             </div>
           </div>
 
-          <div *ngFor="let item of listOfServiceOrTestEquipments.controls; let i = index" class="border p-2 mb-2">
+          <div *ngFor="let item of listOfServiceOrTestEquipments.controls; let i = index" class="border rounded p-2 mb-2">
             <div class="row">
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label [for]="'particular' + i">Particular</label>
                   <input
@@ -137,7 +137,7 @@
                   />
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label [for]="'no-of-units' + i">No. Of Units</label>
                   <input
@@ -159,19 +159,19 @@
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">Employed Electronics Technician</div>
             <div>
-              <button class="btn btn-sm btn-primary" (click)="addEmployedElectronicTechnician()">Add</button>
+              <!-- <button class="btn btn-sm btn-primary" (click)="addEmployedElectronicTechnician()">Add</button> -->
             </div>
           </div>
 
-          <div *ngFor="let item of employedElectronicsTechnicians.controls; let i = index" class="border p-2 mb-2">
+          <div *ngFor="let item of employedElectronicsTechnicians.controls; let i = index" class="border rounded p-2 mb-2">
             <div class="row">
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label [for]="'name' + i">Name</label>
                   <input type="text" [formControl]="item.get('name')" class="form-control" [id]="'name' + i" placeholder="Name" />
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label [for]="'qualifications' + i">Qualification/s</label>
                   <input
@@ -274,34 +274,6 @@
           <label for="noted-by" class="col-sm-3 col-form-label">Noted By</label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="noted-by" formControlName="notedBy" />
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="working-hours" class="col-sm-3 col-form-label">Approved?</label>
-          <div class="col-sm-9">
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="approve-yes"
-                name="isApproved"
-                class="custom-control-input"
-                formControlName="isApproved"
-                [value]="true"
-              />
-              <label class="custom-control-label" for="approve-yes">Yes</label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="approve-no"
-                name="isApproved"
-                formControlName="isApproved"
-                class="custom-control-input"
-                [value]="false"
-              />
-              <label class="custom-control-label" for="approve-no">No</label>
-            </div>
           </div>
         </div>
 
