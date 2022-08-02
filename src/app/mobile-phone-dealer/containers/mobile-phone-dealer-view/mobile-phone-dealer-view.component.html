@@ -1,10 +1,38 @@
-<div class="d-flex justify-content-end mb-3">
-  <button class="btn btn-sm btn-secondary" (click)="generatePdf()"><fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf</button>
+<div class="d-flex justify-content-between mb-2">
+  <div class="capitalize">
+    <div
+      [ngClass]="{ 'bg-success': isApprovedDirector === 'approve', 'bg-secondary': isApprovedDirector !== 'approve' }"
+      class="rounded text-white px-3 py-2 mb-2"
+    >
+      <ng-container *ngIf="showApproveDisapproveDirector()">
+        <div class="mb-1">Approve document as Director?</div>
+        <button class="btn btn-sm btn-success mr-2" (click)="approve()"><fa-icon [icon]="faCheck"></fa-icon> Approve</button>
+        <button class="btn btn-sm btn-danger" (click)="disapprove()"><fa-icon [icon]="faTimes"></fa-icon> Disapprove</button>
+      </ng-container>
+      <ng-container *ngIf="showApprovalStatusDirector()"> {{ showApprovalStatusDirector() }}d by Director </ng-container>
+      <ng-container *ngIf="showPendingStatusDirector()"> Pending Approval for Director </ng-container>
+    </div>
+
+    <div [ngClass]="{ 'bg-success': isApprovedChief, 'bg-secondary': !isApprovedChief }" class="rounded text-white px-3 py-2">
+      <ng-container *ngIf="showApproveDisapproveChief()">
+        <div class="mb-1">Approve document as Chief Engineer?</div>
+        <button class="btn btn-sm btn-success mr-2" (click)="approve()"><fa-icon [icon]="faCheck"></fa-icon> Approve</button>
+        <button class="btn btn-sm btn-danger" (click)="disapprove()"><fa-icon [icon]="faTimes"></fa-icon> Disapprove</button>
+      </ng-container>
+      <ng-container *ngIf="showApprovalStatusChief()">{{ showApprovalStatusChief() }}d by Chief Engineer </ng-container>
+      <ng-container *ngIf="showPendingStatusChief()"> Pending Approval for Chief </ng-container>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-sm btn-secondary shadow-sm" (click)="generatePdf()">
+      <fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf
+    </button>
+  </div>
 </div>
 
-<app-card>
+<!-- <app-card>
   Approval Status: <span>{{ approveStatus }}</span></app-card
->
+> -->
 
 <nav ngbNav #nav="ngbNav" class="nav-tabs">
   <ng-container ngbNavItem>
@@ -24,11 +52,11 @@
                 readonly
                 #d="ngbDatepicker"
               />
-              <div class="input-group-append">
+              <!-- <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
                   <fa-icon [icon]="faCalendarAlt"></fa-icon>
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -47,9 +75,9 @@
               aria-describedby="button-addon2"
               readonly
             />
-            <div class="input-group-append">
+            <!-- <div class="input-group-append">
               <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2" (click)="open()">Select</button>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -57,7 +85,7 @@
 
         <div class="form-group row">
           <label for="permit-number" class="col-sm-2 col-form-label">Permit Number</label>
-          <div class="col-sm-8">
+          <div class="col-sm-10">
             <input type="text" class="form-control" id="permit-number" formControlName="permitNumber" />
           </div>
         </div>
@@ -76,11 +104,11 @@
                 #dd="ngbDatepicker"
                 id="permit-expiry-date"
               />
-              <div class="input-group-append">
+              <!-- <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
                   <fa-icon [icon]="faCalendarAlt"></fa-icon>
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -95,13 +123,13 @@
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">List of Stocks of Spares and Accessories</div>
             <div>
-              <button class="btn btn-sm btn-primary" (click)="addStockSpareAndAccessory()">Add</button>
+              <!-- <button class="btn btn-sm btn-primary" (click)="addStockSpareAndAccessory()">Add</button> -->
             </div>
           </div>
 
-          <div *ngFor="let item of listOfStocksOfSparesAndAccessories.controls; let i = index" class="border p-2 mb-2">
+          <div *ngFor="let item of listOfStocksOfSparesAndAccessories.controls; let i = index" class="border rounded p-2 mb-2">
             <div class="row">
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label [for]="'particular' + i">Particular</label>
                   <input
@@ -113,7 +141,7 @@
                   />
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label [for]="'no-of-units' + i">No. Of Units</label>
                   <input
@@ -128,7 +156,7 @@
             </div>
           </div>
 
-          <div *ngIf="!listOfStocksOfSparesAndAccessories.controls.length" class="border p-3 text-center">
+          <div *ngIf="!listOfStocksOfSparesAndAccessories.controls.length" class="border rounded p-3 text-center">
             No Stock of Spares and Accessories
           </div>
         </div>
@@ -137,11 +165,11 @@
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">List of Stocks of Mobile Phone</div>
             <div>
-              <button class="btn btn-sm btn-primary" (click)="addStockMobilePhone()">Add</button>
+              <!-- <button class="btn btn-sm btn-primary" (click)="addStockMobilePhone()">Add</button> -->
             </div>
           </div>
 
-          <div *ngFor="let item of listOfStocksOfMobilePhone.controls; let i = index" class="border p-2 mb-2">
+          <div *ngFor="let item of listOfStocksOfMobilePhone.controls; let i = index" class="border rounded p-2 mb-2">
             <div class="row">
               <div class="col-4">
                 <div class="form-group">
@@ -177,7 +205,7 @@
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">List of Stocks of Subscriber Identification Module(SIM)</div>
             <div>
-              <button class="btn btn-sm btn-primary" (click)="addStockSIM()">Add</button>
+              <!-- <button class="btn btn-sm btn-primary" (click)="addStockSIM()">Add</button> -->
             </div>
           </div>
 
@@ -252,7 +280,7 @@
       <div class="p-3" [formGroup]="form">
         <div class="form-group row">
           <label for="inspector" class="col-sm-2 col-form-label">Inspector</label>
-          <div class="col-sm-8">
+          <div class="col-sm-10">
             <input type="text" class="form-control" id="inspector" formControlName="inspectedBy" />
           </div>
         </div>
@@ -262,14 +290,14 @@
         <div formGroupName="ownerInfo">
           <div class="form-group row">
             <label for="owner-name" class="col-sm-2 col-form-label">Owner/Representative Name</label>
-            <div class="col-sm-8">
+            <div class="col-sm-10">
               <input type="text" class="form-control" id="owner-name" formControlName="name" />
             </div>
           </div>
 
           <div class="form-group row">
             <label for="position" class="col-sm-2 col-form-label">Position/Designation</label>
-            <div class="col-sm-8">
+            <div class="col-sm-10">
               <input type="text" class="form-control" id="position" formControlName="position" />
             </div>
           </div>
@@ -279,28 +307,21 @@
 
         <div class="form-group row">
           <label class="col-sm-2 col-form-label" for="recommendation">Recommendation/s</label>
-          <div class="col-sm-8">
+          <div class="col-sm-10">
             <textarea autosize class="form-control" id="recommendation" formControlName="recommendations" rows="3"></textarea>
           </div>
         </div>
 
         <div class="form-group row">
           <label for="noted-by" class="col-sm-2 col-form-label">Noted By</label>
-          <div class="col-sm-8">
+          <div class="col-sm-10">
             <input type="text" class="form-control" id="noted-by" formControlName="notedBy" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="working-hours" class="col-sm-2 col-form-label">Approved?</label>
-          <div class="col-sm-8">
-            <div>{{ isApproved }}</div>
-          </div>
-        </div>
-
-        <div class="form-group row">
           <label for="approver" class="col-sm-2 col-form-label">Regional Director</label>
-          <div class="col-sm-8">
+          <div class="col-sm-10">
             <input type="text" class="form-control" id="approver" formControlName="regionalDirector" />
           </div>
         </div>

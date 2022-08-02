@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -9,7 +9,6 @@ import { ClientService } from '../../client.service';
   selector: 'app-client-view',
   templateUrl: './client-view.component.html',
   styleUrls: ['./client-view.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientViewComponent implements OnInit, OnDestroy {
   form: FormGroup;
@@ -27,7 +26,6 @@ export class ClientViewComponent implements OnInit, OnDestroy {
     this.viewServiceCenterSubs = this.clientService.selectedEntry.subscribe({
       next: (value) => {
         this.form.patchValue(value);
-        this.cd.detectChanges();
       },
     });
     this.initForm();
@@ -38,7 +36,7 @@ export class ClientViewComponent implements OnInit, OnDestroy {
   }
 
   initForm(): void {
-    this.form = initForm();
+    this.form = initForm(true);
   }
 
   submit(): void {

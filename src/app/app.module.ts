@@ -14,6 +14,7 @@ import { ServiceCenterReportModule } from './service-center/service-center-repor
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { AuthGuard } from './auth/auth.guard';
+import { AccountSettingsModule } from './account-settings/account-settings.module';
 @NgModule({
   imports: [
     BrowserModule,
@@ -26,6 +27,7 @@ import { AuthGuard } from './auth/auth.guard';
     CardModule,
     ModalModule,
     MasterListModule,
+    AccountSettingsModule,
   ],
   providers: [AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],

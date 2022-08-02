@@ -78,6 +78,8 @@ export const initForm = (readState = false): FormGroup => {
     recommendations: new FormControl({ value: '', disabled: false }),
     notedBy: new FormControl({ value: '', disabled: false }),
     regionalDirector: new FormControl({ value: '', disabled: false }),
+    notedByApproved: new FormControl({ value: '', disabled: false }),
+    regionalDirectorApproved: new FormControl({ value: '', disabled: false }),
   });
 };
 

@@ -3,11 +3,13 @@ import { ViolationsType } from './models/violations.model';
 
 export const initForm = (readState = false): FormGroup => {
   return new FormGroup({
-    date: new FormControl({ value: '', disabled: false }),
-    clientId: new FormControl({ value: '', disabled: false }),
-    docketNumber: new FormControl({ value: '', disabled: false }),
-    respondentName: new FormControl({ value: '', disabled: false }),
-    dateOfInspection: new FormControl({ value: '', disabled: false }),
+    date: new FormControl({ value: '', disabled: false }, Validators.required),
+    clientId: new FormControl({ value: '', disabled: false }, Validators.required),
+    docketNumberDescription: new FormControl({ value: '', disabled: false }, Validators.required),
+    docketNumberStart: new FormControl({ value: '', disabled: false }, Validators.required),
+    docketNumberEnd: new FormControl({ value: '', disabled: false }, Validators.required),
+    respondentName: new FormControl({ value: '', disabled: false }, Validators.required),
+    dateOfInspection: new FormControl({ value: '', disabled: false }, Validators.required),
     violationInfo: new FormGroup({
       operationWithoutRSL: new FormControl({ value: false, disabled: readState }),
       operationWithoutLRO: new FormControl({ value: false, disabled: readState }),
@@ -16,16 +18,17 @@ export const initForm = (readState = false): FormGroup => {
       noNTCPertinentPapers: new FormControl({ value: false, disabled: readState }),
     }),
     transmitters: new FormArray([]),
-    dateOfDeficiencyHearing: new FormControl({ value: '', disabled: false }),
+    dateOfDeficiencyHearing: new FormControl({ value: '', disabled: false }, Validators.required),
     isDone: new FormControl({ value: false, disabled: false }),
-    regionalDirector: new FormControl({ value: '', disabled: readState }),
+    regionalDirector: new FormControl({ value: '', disabled: readState }, Validators.required),
+    regionalDirectorApproved: new FormControl({ value: '', disabled: readState }),
   });
 };
 
 export const transmitterInput = (): FormGroup => {
   return new FormGroup({
     transmitter: new FormControl({ value: '', disabled: false }),
-    serialNumber: new FormControl({ value: 0, disabled: false }),
+    serialNumber: new FormControl({ value: '', disabled: false }),
   });
 };
 

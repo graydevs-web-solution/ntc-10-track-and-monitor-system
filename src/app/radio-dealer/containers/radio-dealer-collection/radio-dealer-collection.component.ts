@@ -23,7 +23,6 @@ export class RadioDealerCollectionComponent implements OnInit, OnDestroy {
       next: (value) => {
         this.entries = value;
         this.cd.detectChanges();
-        console.log(value);
       },
     });
     this.radioDealerService.getEntriesAPI();

@@ -22,6 +22,7 @@ export class MobilePhoneDealerCollectionComponent implements OnInit, OnDestroy {
     this.entriesSubs = this.mobilePhoneDealerService.getEntriesListener().subscribe({
       next: (value) => {
         this.entries = value;
+        console.log(value);
         this.cd.detectChanges();
       },
     });

@@ -13,6 +13,7 @@ import { UserAuthenticated } from './model/user-authenticated';
 import { Router } from '@angular/router';
 import { UserType } from './model/user-type';
 import { SystemSettingService } from '../system-setting/system-setting.service';
+import { UserTypes } from '../shared/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -180,7 +181,6 @@ export class AuthService {
     if (token) {
       const { expiresIn, name, position, userName, user_id } = jwt_decode<UserAuthenticated>(token);
       this.userLoggedInInfo = { name, position, userName, user_id };
-      console.log(this.userLoggedInInfo);
       const expirationTimer = expiresIn * 1000;
       this.setAuthTimer(expirationTimer);
       this.isAuthenticated = true;
@@ -264,11 +264,39 @@ export class AuthService {
     return value;
   };
 
+  isApprover() {
+    return this.userLoggedInInfo.position === UserTypes.director;
+  }
+
+  isChief() {
+    console.log(this.userLoggedInInfo);
+    return this.userLoggedInInfo.position === UserTypes.chiefEngineer;
+  }
+
+  isITAdmin() {
+    return this.userLoggedInInfo.position === UserTypes.itAdmin;
+  }
+
+  getSignature(userId: string): Observable<User> {
+    const payload: User = {
+      user_id: userId,
+    };
+
+    return this.http.post<User>(`${this.domainURL}/${this.resource1}/signature`, payload);
+  }
+
+  saveSignature(user: User): Observable<User> {
+    return this.http.post<User>(`${this.domainURL}/${this.resource1}/update-signature`, user);
+  }
+
   private clearAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
     localStorage.removeItem('userId');
     localStorage.removeItem('role');
+    localStorage.removeItem('formCounter');
+    localStorage.removeItem('notedBy');
+    localStorage.removeItem('regionalDirector');
   }
 
   private saveAuthData(token: string, expirationDate: Date) {

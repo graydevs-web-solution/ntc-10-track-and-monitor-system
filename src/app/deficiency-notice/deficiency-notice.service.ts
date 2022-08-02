@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Approval } from '../shared/models/approvalStatus';
 import { PageOptions } from '../shared/models/page-options';
 import { formatDate, openPDF } from '../shared/utility';
-import { DeficiencyNoticeAPI } from './models/deficiency-notice-api.model';
+import { Setting } from '../system-setting/model/setting';
+import { DeficiencyNoticeAPI, ResponseAddDeficiencyNotice } from './models/deficiency-notice-api.model';
 import { DeficiencyNotice } from './models/deficiency-notice.model';
 
 @Injectable({
@@ -84,8 +86,8 @@ export class DeficiencyNoticeService {
     return this.entries.find((entry) => entry.id === +id);
   }
 
-  addOne(data: DeficiencyNotice): Observable<{ data: DeficiencyNotice }> {
-    return this.http.post<{ data: DeficiencyNotice }>(`${this.domainURL}/${this.resource1}/`, this.formatData(data));
+  addOne(data: DeficiencyNotice): Observable<{ data: ResponseAddDeficiencyNotice }> {
+    return this.http.post<{ data: ResponseAddDeficiencyNotice }>(`${this.domainURL}/${this.resource1}/`, this.formatData(data));
   }
 
   updateOne(formId: string, data: DeficiencyNotice): Observable<{ message: string }> {
@@ -135,6 +137,7 @@ export class DeficiencyNoticeService {
       dateOfInspection: formatDate(data.dateOfInspection as string),
       dateOfDeficiencyHearing: formatDate(data.dateOfDeficiencyHearing as string),
     };
+
     return formattedData;
   };
 
@@ -146,7 +149,9 @@ export class DeficiencyNoticeService {
       date: formatDate(data.date, false),
       clientId: data.client_id,
       clientName: data.clients.owner_name,
-      docketNumber: data.docket_number,
+      docketNumberDescription: data.docket_number_description,
+      docketNumberStart: data.docket_number_start,
+      docketNumberEnd: data.docket_number_end,
       transmitters: data.deficiency_notice_transmitter
         ? data.deficiency_notice_transmitter.map((val) => ({
             transmitter: val.transmitter,
@@ -162,8 +167,17 @@ export class DeficiencyNoticeService {
       },
       dateOfDeficiencyHearing: formatDate(data.date_of_deficiency_hearing as Date, false),
       regionalDirector: data.regional_director,
+      regionalDirectorInfo: {
+        ...data.regional_director_info,
+        name: `${data.regional_director_info.name_first} ${data.regional_director_info.name_last}`,
+      },
+      regionalDirectorApproved: data.regional_director_approved,
       isDone: data.is_done,
     };
     return value;
   };
+
+  setApprovalStatus(payload: Approval) {
+    return this.http.post<{ message: string }>(`${this.domainURL}/${this.resource1}/approval`, payload);
+  }
 }

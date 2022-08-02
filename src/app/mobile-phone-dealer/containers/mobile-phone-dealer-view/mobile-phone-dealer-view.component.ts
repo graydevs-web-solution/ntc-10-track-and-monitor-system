@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faCheck, faCheckCircle, faFilePdf, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
 import { VIEW } from 'src/app/shared/constants';
+import { Approval } from 'src/app/shared/models/approvalStatus';
 import { initForm, stockMobilePhoneInput, stockSIMInput, stockSpareAndAccessoryInput } from '../../mobile-phone-dealer-shared';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
+import { MobilePhoneDealer } from '../../models/mobile-phone-dealer.model';
 
 @Component({
   selector: 'app-mobile-phone-dealer-view',
@@ -21,10 +24,24 @@ export class MobilePhoneDealerViewComponent implements OnInit {
 
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
+  faCheck = faCheck;
+  faTimes = faTimes;
+  faCheckCircle = faCheckCircle;
+
+  isApprovedDirector = null;
+  isApprovedChief = null;
+  isDirector = this.authService.isApprover();
+  isChief = this.authService.isChief();
+  isITAdmin = this.authService.isITAdmin();
+  responseData: MobilePhoneDealer;
 
   getDestroyed = new Subject();
 
-  constructor(private mobilePhoneDealerService: MobilePhoneDealerService, private route: ActivatedRoute) {}
+  constructor(
+    private mobilePhoneDealerService: MobilePhoneDealerService,
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -38,6 +55,18 @@ export class MobilePhoneDealerViewComponent implements OnInit {
           this.formId = value;
         },
       });
+
+    this.mobilePhoneDealerService.getEntriesListener().subscribe({
+      next: () => {
+        this.setData();
+      },
+    });
+    this.setData();
+
+    this.mobilePhoneDealerService.resourceType.next(VIEW);
+  }
+
+  setData() {
     const fetchedValue = this.mobilePhoneDealerService.getSelectedEntry(this.formId);
     fetchedValue.listOfStocksOfSparesAndAccessories.forEach(() => {
       this.addStockSpareAndAccessory();
@@ -49,12 +78,14 @@ export class MobilePhoneDealerViewComponent implements OnInit {
       this.addStockSIM();
     });
     this.clientName = fetchedValue.clientName;
+    this.responseData = fetchedValue;
     this.form.patchValue({
       ...fetchedValue,
       notedBy: fetchedValue.notedByInfo.name,
       regionalDirector: fetchedValue.regionalDirectorInfo.name,
     });
-    this.mobilePhoneDealerService.resourceType.next(VIEW);
+    this.isApprovedDirector = fetchedValue.regionalDirectorApproved;
+    this.isApprovedChief = fetchedValue.notedByApproved;
   }
 
   initForm(): void {
@@ -62,19 +93,87 @@ export class MobilePhoneDealerViewComponent implements OnInit {
   }
 
   addStockSpareAndAccessory(): void {
-    this.listOfStocksOfSparesAndAccessories.push(stockSpareAndAccessoryInput());
+    this.listOfStocksOfSparesAndAccessories.push(stockSpareAndAccessoryInput(true));
   }
 
   addStockMobilePhone() {
-    this.listOfStocksOfMobilePhone.push(stockMobilePhoneInput());
+    this.listOfStocksOfMobilePhone.push(stockMobilePhoneInput(true));
   }
 
   addStockSIM() {
-    this.listOfStocksOfSubscriberIdentificationModule.push(stockSIMInput());
+    this.listOfStocksOfSubscriberIdentificationModule.push(stockSIMInput(true));
   }
 
   generatePdf(): void {
     this.mobilePhoneDealerService.generatePdf(this.formId);
+  }
+
+  showDocumentApprovalStatusDirector() {
+    return this.isDirector || this.isITAdmin;
+  }
+
+  showApproveDisapproveDirector() {
+    return this.isDirector && (this.isApprovedDirector === '' || this.isApprovedDirector === null);
+  }
+
+  showApprovalStatusDirector() {
+    if (this.isApprovedDirector === '') return false;
+    return this.isApprovedDirector;
+  }
+
+  showPendingStatusDirector() {
+    if (this.isDirector || this.isApprovedDirector) return false;
+    return true;
+  }
+
+  showDocumentApprovalStatusChief() {
+    return this.isChief || this.isITAdmin;
+  }
+
+  showApproveDisapproveChief() {
+    return this.isChief && (this.isApprovedChief === '' || this.isApprovedChief === null);
+  }
+
+  showApprovalStatusChief() {
+    if (this.isApprovedChief === '') return false;
+    return this.isApprovedChief;
+  }
+
+  showPendingStatusChief() {
+    if (this.isChief || this.isApprovedChief) return false;
+    return true;
+  }
+
+  async approve() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'approve',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        mobilePhoneDealer: this.responseData,
+      };
+      const response = await this.mobilePhoneDealerService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.mobilePhoneDealerService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async disapprove() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'disapprove',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        mobilePhoneDealer: this.responseData,
+      };
+      const response = await this.mobilePhoneDealerService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.mobilePhoneDealerService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   get approveStatus(): string {
@@ -101,9 +200,5 @@ export class MobilePhoneDealerViewComponent implements OnInit {
 
   get listOfStocksOfSubscriberIdentificationModule(): FormArray {
     return this.form.get('listOfStocksOfSubscriberIdentificationModule') as FormArray;
-  }
-
-  get isApproved(): string {
-    return !!this.form.get('isApproved').value ? 'YES' : 'NO';
   }
 }

@@ -1,5 +1,8 @@
 import { ClientAPI } from 'src/app/master-list/clients/models/client-api.model';
 import { Client } from 'src/app/master-list/clients/models/client.model';
+import { Setting } from 'src/app/system-setting/model/setting';
+import { UserAssignedData } from 'src/app/system-setting/model/user-assigned-data';
+import { DeficiencyNotice } from './deficiency-notice.model';
 interface Transmitters {
   ['transmitter']: string;
   ['serial_number']: string;
@@ -20,7 +23,9 @@ export interface DeficiencyNoticeAPI {
   ['clients']: ClientAPI;
   ['respondent_name']: string;
   ['date_of_inspection']: Date | string;
-  ['docket_number']: string;
+  ['docket_number_description']: string;
+  ['docket_number_start']: number;
+  ['docket_number_end']: number;
   ['vi_operation_without_rsl']: boolean;
   ['vi_operation_without_lro']: boolean;
   ['vi_operation_unauthorized_frequency']: boolean;
@@ -30,4 +35,11 @@ export interface DeficiencyNoticeAPI {
   ['date_of_deficiency_hearing']: Date;
   ['is_done']: boolean;
   ['regional_director']: string;
+  ['regional_director_approved']: string;
+  ['regional_director_info']: UserAssignedData;
+}
+
+export interface ResponseAddDeficiencyNotice {
+  deficiencyNotice: DeficiencyNotice;
+  setting: Setting;
 }

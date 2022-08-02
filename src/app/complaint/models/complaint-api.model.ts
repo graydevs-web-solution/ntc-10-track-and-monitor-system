@@ -1,5 +1,8 @@
 import { ClientAPI } from 'src/app/master-list/clients/models/client-api.model';
 import { Client } from 'src/app/master-list/clients/models/client.model';
+import { Setting } from 'src/app/system-setting/model/setting';
+import { UserAssignedData } from 'src/app/system-setting/model/user-assigned-data';
+import { Complaint } from './complaint.model';
 interface Transmitters {
   ['transmitter']: string;
   ['serial_number']: string;
@@ -20,7 +23,9 @@ export interface ComplaintAPI {
   ['client_id']: number | Client;
   ['clients']: ClientAPI;
   ['respondent_name']: string;
-  ['docket_number']: string;
+  ['docket_number_description']: string;
+  ['docket_number_start']: number;
+  ['docket_number_end']: number;
   ['date_of_inspection']: Date | string;
   ['location']: string;
   ['reason']: string;
@@ -33,4 +38,11 @@ export interface ComplaintAPI {
   ['date_time_of_hearing']: Date;
   ['regional_director']: string;
   ['is_done']: boolean;
+  ['regional_director_info']: UserAssignedData;
+  ['regional_director_approved']: string;
+}
+
+export interface ResponseAddComplaint {
+  complaint: Complaint;
+  setting: Setting;
 }

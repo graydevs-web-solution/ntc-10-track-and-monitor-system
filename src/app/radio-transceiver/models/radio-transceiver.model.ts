@@ -121,7 +121,9 @@ export interface RadioTransceiver {
   radioRegulationInspector: string;
   recommendations: string;
   notedBy: string;
+  notedByApproved: string;
   regionalDirector: string;
+  regionalDirectorApproved: string;
   notedByInfo?: UserAssignedData;
   regionalDirectorInfo?: UserAssignedData;
 }

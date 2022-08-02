@@ -1,5 +1,23 @@
-<div class="d-flex justify-content-end mb-3">
-  <button class="btn btn-sm btn-secondary" (click)="generatePdf()"><fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf</button>
+<div class="d-flex justify-content-between mb-2">
+  <div class="capitalize">
+    <div
+      [ngClass]="{ 'bg-success': isApprovedDirector === 'approve', 'bg-secondary': isApprovedDirector !== 'approve' }"
+      class="rounded text-white px-3 py-2 mb-2"
+    >
+      <ng-container *ngIf="showApproveDisapproveDirector()">
+        <div class="mb-1">Approve document as Director?</div>
+        <button class="btn btn-sm btn-success mr-2" (click)="approve()"><fa-icon [icon]="faCheck"></fa-icon> Approve</button>
+        <button class="btn btn-sm btn-danger" (click)="disapprove()"><fa-icon [icon]="faTimes"></fa-icon> Disapprove</button>
+      </ng-container>
+      <ng-container *ngIf="showApprovalStatusDirector()"> {{ showApprovalStatusDirector() }}d by Director </ng-container>
+      <ng-container *ngIf="showPendingStatusDirector()"> Pending Approval for Director </ng-container>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-sm btn-secondary shadow-sm" (click)="generatePdf()">
+      <fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf
+    </button>
+  </div>
 </div>
 
 <app-card>
@@ -18,9 +36,9 @@
             #d="ngbDatepicker"
           />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+            <!-- <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
               <fa-icon [icon]="faCalendarAlt"></fa-icon>
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
@@ -29,17 +47,17 @@
     <br />
 
     <div class="form-group row">
-      <label for="respondent" class="col-sm-2 col-form-label">Complainant Name</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" id="respondent" formControlName="complainantName" />
+      <label for="respondent" class="col-2 col-form-label">Complainant Name</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="respondent" formControlName="complainantName" readonly />
       </div>
     </div>
 
     <br />
 
     <div class="form-group row">
-      <label for="name-of-station" class="col-sm-2 col-form-label">Client</label>
-      <div class="input-group col-sm-10">
+      <label for="name-of-station" class="col-2 col-form-label">Client</label>
+      <div class="input-group col-10">
         <input
           type="text"
           class="form-control"
@@ -56,16 +74,16 @@
     </div>
 
     <div class="form-group row">
-      <label for="respondent" class="col-sm-2 col-form-label">Respondent Name</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" id="respondent" formControlName="respondentName" />
+      <label for="respondent" class="col-2 col-form-label">Respondent Name</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="respondent" formControlName="respondentName" readonly />
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="respondent" class="col-sm-2 col-form-label">Docket Number</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" id="respondent" formControlName="docketNumber" />
+      <label for="respondent" class="col-2 col-form-label">Docket Number</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="respondent" formControlName="docketNumberDescription" readonly />
       </div>
     </div>
 
@@ -83,25 +101,25 @@
             #ddd="ngbDatepicker"
           />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="ddd.toggle()" type="button">
+            <!-- <button class="btn btn-outline-secondary calendar" (click)="ddd.toggle()" type="button">
               <fa-icon [icon]="faCalendarAlt"></fa-icon>
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="location" class="col-sm-2 col-form-label">Location</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" id="location" formControlName="location" />
+      <label for="location" class="col-2 col-form-label">Location</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="location" formControlName="location" readonly />
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="reason" class="col-sm-2 col-form-label">Reason</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" id="reason" formControlName="reason" />
+      <label for="reason" class="col-2 col-form-label">Reason</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="reason" formControlName="reason" readonly />
       </div>
     </div>
 
@@ -109,13 +127,13 @@
       <div class="d-flex justify-content-between mb-2">
         <div class="h5">Transmitter(s)/Transceiver(s) Used</div>
         <div>
-          <button class="btn btn-sm btn-primary" (click)="addTransmitterInput()">Add</button>
+          <!-- <button class="btn btn-sm btn-primary" (click)="addTransmitterInput()">Add</button> -->
         </div>
       </div>
 
-      <div *ngFor="let item of transmitters.controls; let i = index" class="border p-2 mb-2">
+      <div *ngFor="let item of transmitters.controls; let i = index" class="border rounded p-2 mb-2 bg-light">
         <div class="row">
-          <div class="col-4">
+          <div class="col-6">
             <div class="form-group">
               <label [for]="'transmitter' + i">Transmitter</label>
               <input
@@ -124,10 +142,11 @@
                 class="form-control"
                 [id]="'transmitter' + i"
                 placeholder="Transmitter"
+                readonly
               />
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-6">
             <div class="form-group">
               <label [for]="'serial-number-' + i">Serial Number</label>
               <input
@@ -136,13 +155,14 @@
                 class="form-control"
                 [id]="'serial-number-' + i"
                 placeholder="Serial Number"
+                readonly
               />
             </div>
           </div>
         </div>
       </div>
 
-      <div *ngIf="!transmitters.controls.length" class="border p-3 text-center">No Transmitters</div>
+      <div *ngIf="!transmitters.controls.length" class="border rounded p-3 text-center bg-light">No Transmitters</div>
     </div>
 
     <div class="form-group row" formGroupName="violationInfo">
@@ -150,7 +170,13 @@
 
       <div class="col-10">
         <div class="custom-control custom-checkbox" *ngFor="let violation of violations; let i = index">
-          <input type="checkbox" class="custom-control-input" [id]="'violation' + i" [formControlName]="violation.formControlName" />
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            [id]="'violation' + i"
+            [formControlName]="violation.formControlName"
+            disabled
+          />
           <label class="custom-control-label" [for]="'violation' + i">{{ violation.name }}</label>
         </div>
       </div>
@@ -170,37 +196,32 @@
             #dd="ngbDatepicker"
           />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
+            <!-- <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
               <fa-icon [icon]="faCalendarAlt"></fa-icon>
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
     </div>
 
-    <div>
-      <div>Time of Hearing</div>
-      <ngb-timepicker formControlName="timeOfHearing" [meridian]="meridian"></ngb-timepicker>
-    </div>
-
     <div class="form-group row">
-      <label for="working-hours" class="col-sm-2 col-form-label">Is Done?</label>
-      <div class="col-sm-8">
-        <div class="custom-control custom-radio custom-control-inline">
-          <input type="radio" id="approve-yes" name="isDone" class="custom-control-input" formControlName="isDone" [value]="true" />
-          <label class="custom-control-label" for="approve-yes">Yes</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input type="radio" id="approve-no" name="isDone" formControlName="isDone" class="custom-control-input" [value]="false" />
-          <label class="custom-control-label" for="approve-no">No</label>
-        </div>
+      <div class="col-2 col-form-label">Time of Hearing</div>
+      <div class="col-10">
+        <strong>{{ timeOfHearing() }}</strong>
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="approver" class="col-sm-2 col-form-label">Regional Director</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" id="approver" formControlName="regionalDirector" />
+      <label for="working-hours" class="col-2 col-form-label">Is Done?</label>
+      <div class="col-10">
+        <strong>{{ isDoneString() }}</strong>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="approver" class="col-2 col-form-label">Regional Director</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="approver" formControlName="regionalDirector" readonly />
       </div>
     </div>
   </div>

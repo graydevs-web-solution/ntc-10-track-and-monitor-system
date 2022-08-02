@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/auth/auth.service';
+import { UserAuthenticated } from 'src/app/auth/model/user-authenticated';
 import { DELETE, serviceCenterReport } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { ServiceCenterReport } from '../../models/service-center-report.model';
@@ -16,11 +18,11 @@ import { ServiceCenterReport } from '../../models/service-center-report.model';
             <span
               class="font-weight-bold"
               [ngClass]="{
-                'text-success': entry.isApproved,
-                'text-danger': !entry.isApproved
+                'text-success': entry.regionalDirectorApproved,
+                'text-danger': !entry.regionalDirectorApproved
               }"
             >
-              {{ entry.isApproved ? 'Yes' : 'No' }}</span
+              {{ entry.regionalDirectorApproved ? 'Yes' : 'No' }}</span
             >
           </div>
           <div>
@@ -34,24 +36,35 @@ import { ServiceCenterReport } from '../../models/service-center-report.model';
         </a>
       </div>
       <div class="d-flex align-items-center">
-        <button class="btn btn sm btn-primary mr-1" [routerLink]="[entry.id, 'edit']">Edit</button>
-        <button class="btn btn sm btn-primary" (click)="open()">Remove</button>
+        <button class="btn btn sm btn-primary mr-1" *ngIf="enableEdit()" [routerLink]="[entry.id, 'edit']">Edit</button>
+        <button class="btn btn sm btn-primary" *ngIf="enableRemove()" (click)="open()">Remove</button>
       </div>
     </div>
   `,
   styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServiceCenterReportEntryComponent implements OnInit {
   @Input() entry: ServiceCenterReport;
-  constructor(private modalService: NgbModal) {}
+  userInfo: Partial<UserAuthenticated>;
+  allowedUser = ['it-admin', 'chf-engr', 'director'];
+  constructor(private modalService: NgbModal, private authService: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userInfo = this.authService.getUserInfo();
+  }
 
   open() {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
     modalRef.componentInstance.formId = this.entry.id;
     modalRef.componentInstance.componentName = serviceCenterReport;
     modalRef.componentInstance.formMode = DELETE;
+  }
+
+  enableEdit(): boolean {
+    return this.allowedUser.includes(this.userInfo.position);
+  }
+
+  enableRemove(): boolean {
+    return this.allowedUser.includes(this.userInfo.position);
   }
 }

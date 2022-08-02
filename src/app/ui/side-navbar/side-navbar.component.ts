@@ -32,7 +32,6 @@ export class SideNavbarComponent implements OnInit {
   ngOnInit(): void {
     this.userTypes = this.authService.getUserTypes();
     this.userPosition = this.authService.getUserInfo().position;
-    console.log(this.userPosition);
   }
 
   logout() {

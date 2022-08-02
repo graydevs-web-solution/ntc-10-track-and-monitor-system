@@ -11,6 +11,7 @@ import { SystemSettingService } from 'src/app/system-setting/system-setting.serv
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { initForm, transmitterInput, violations } from '../../deficiency-notice-shared';
 import { DeficiencyNoticeService } from '../../deficiency-notice.service';
+import { DeficiencyNotice } from '../../models/deficiency-notice.model';
 import { ViolationsType } from '../../models/violations.model';
 
 @Component({
@@ -27,13 +28,13 @@ export class DeficiencyNoticeEditComponent implements OnInit {
     ['user_id']: '',
     name: '',
   };
-  roxCounterInfo = {
+  roxCounter = {
     start: 0,
     end: 0,
   };
   roxInfo = {
-    start: `ROX-DF-${this.roxCounterInfo.start.toString().padStart(2, '0')}`,
-    end: `ROX-DF-${this.roxCounterInfo.end.toString().padStart(2, '0')}`,
+    start: `ROX-DF-${this.roxCounter.start.toString().padStart(2, '0')}`,
+    end: `ROX-DF-${this.roxCounter.end.toString().padStart(2, '0')}`,
   };
 
   faCalendarAlt = faCalendarAlt;
@@ -41,6 +42,12 @@ export class DeficiencyNoticeEditComponent implements OnInit {
   getDestroyed = new Subject();
 
   violations: ViolationsType[] = [...violations];
+
+  alert = {
+    type: '',
+    description: '',
+  };
+  disableDuringProcess = false;
 
   constructor(
     private dnService: DeficiencyNoticeService,
@@ -80,16 +87,20 @@ export class DeficiencyNoticeEditComponent implements OnInit {
       this.form.patchValue({ ...fetchedValue });
       this.dnService.resourceType.next(EDIT);
     } else {
-      const resCounterInfo = +this.systemService.getFormCounterInfo().find((val) => val.setting === 'rox_counter').value;
-      this.roxCounterInfo = {
-        start: resCounterInfo,
-        end: resCounterInfo,
-      };
+      this.setROXCounter();
       this.generateDocketNumber();
       this.regDirectorInfo = this.systemService.getRegionalDirectorInfo();
       this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id });
       this.dnService.resourceType.next(ADD);
     }
+  }
+
+  setROXCounter() {
+    const resCounterInfo = +this.systemService.getFormCounterInfo().find((val) => val.setting === 'rox_counter').value;
+    this.roxCounter = {
+      start: resCounterInfo,
+      end: resCounterInfo,
+    };
   }
 
   initForm(): void {
@@ -102,65 +113,109 @@ export class DeficiencyNoticeEditComponent implements OnInit {
   }
 
   addTransmitterInput() {
-    this.roxCounterInfo.end += 1;
-    this.generateDocketNumber();
     this.transmitters.push(transmitterInput());
+    if (this.transmitters.length >= 2) {
+      this.roxCounter.end += 1;
+    }
+    this.generateDocketNumber();
   }
 
   removeTransmitterInput(index: number) {
-    this.roxCounterInfo.end -= 1;
-    this.generateDocketNumber();
     this.transmitters.removeAt(index);
+    if (this.roxCounter.end !== this.roxCounter.start) {
+      this.roxCounter.end -= 1;
+    }
+    this.generateDocketNumber();
   }
 
   submit(): void {
-    if (this.formMode === ADD) {
-      this.dnService
-        .addOne(this.form.value)
-        .pipe(takeUntil(this.getDestroyed))
-        .subscribe({
-          next: (res) => {
-            console.log('OK');
-          },
-          error: (err) => {
-            console.error(err);
-          },
-        });
-    } else {
-      this.dnService
-        .updateOne(this.formId, this.form.value)
-        .pipe(takeUntil(this.getDestroyed))
-        .subscribe({
-          next: (res) => {
-            console.log('OK');
-          },
-          error: (err) => {
-            console.error(err);
-          },
-        });
+    try {
+      console.log(this.form.value);
+      const data: DeficiencyNotice = {
+        ...this.form.value,
+        docketNumberStart: this.roxCounter.start,
+        docketNumberEnd: this.roxCounter.end,
+      };
+      this.form.get('docketNumberStart').setValue(this.roxCounter.start);
+      this.form.get('docketNumberEnd').setValue(this.roxCounter.end);
+
+      if (!this.form.valid) {
+        this.alert.type = 'warning';
+        this.alert.description = 'Fill up required data!';
+        return;
+      }
+      this.alert.type = 'info';
+      this.alert.description = 'Saving data!';
+      this.disableDuringProcess = true;
+      if (this.formMode === ADD) {
+        this.dnService
+          .addOne(data)
+          .pipe(takeUntil(this.getDestroyed))
+          .subscribe({
+            next: (res) => {
+              this.alert.type = 'success';
+              this.alert.description = 'Deficiency Notice saved!';
+              this.disableDuringProcess = false;
+              this.systemService.setFormCounterManual(res.data.setting);
+              this.setROXCounter();
+              this.form.reset();
+            },
+            error: (error) => {
+              throw error;
+            },
+          });
+      } else {
+        this.dnService
+          .updateOne(this.formId, this.form.value)
+          .pipe(takeUntil(this.getDestroyed))
+          .subscribe({
+            next: (res) => {
+              this.alert.type = 'success';
+              this.alert.description = 'Deficiency Notice saved!';
+              this.disableDuringProcess = false;
+            },
+            error: (error) => {
+              throw error;
+            },
+          });
+      }
+    } catch (error) {
+      this.alert.type = 'danger';
+      this.alert.description = 'Deficiency Notice not saved! Unknown error';
+      this.disableDuringProcess = false;
     }
   }
 
   generateDocketNumber(): void {
-    let docketNumber = '';
+    let docketNumberDescription = '';
     const currentDate = new Date().getFullYear();
     this.roxInfo = {
-      start: `ROX-DF-${this.roxCounterInfo.start.toString().padStart(3, '0')}-${currentDate}`,
-      end: `ROX-DF-${this.roxCounterInfo.end.toString().padStart(3, '0')}-${currentDate}`,
+      start: `ROX-DF-${this.roxCounter.start.toString().padStart(3, '0')}-${currentDate}`,
+      end: `ROX-DF-${this.roxCounter.end.toString().padStart(3, '0')}-${currentDate}`,
     };
-    if (this.roxInfo.start === this.roxInfo.end) {
-      docketNumber = this.roxInfo.start;
+    if (this.roxInfo.start === this.roxInfo.end || this.transmitters.length <= 1) {
+      docketNumberDescription = this.roxInfo.start;
     } else {
-      docketNumber = `${this.roxInfo.start} to ${this.roxInfo.end}`;
+      docketNumberDescription = `${this.roxInfo.start} to ${this.roxInfo.end}`;
     }
-    this.docketNumber.setValue(docketNumber);
+    this.docketNumberStart.setValue(this.roxCounter.start);
+    this.docketNumberEnd.setValue(this.roxCounter.end);
+    this.docketNumberDescription.setValue(docketNumberDescription);
+  }
+
+  get docketNumberStart() {
+    return this.form.get('docketNumberStart');
+  }
+
+  get docketNumberEnd() {
+    return this.form.get('docketNumberEnd');
   }
 
   get transmitters() {
     return this.form.get('transmitters') as FormArray;
   }
 
-  get docketNumber() {
-    return this.form.get('docketNumber');
+  get docketNumberDescription() {
+    return this.form.get('docketNumberDescription');
   }
 }

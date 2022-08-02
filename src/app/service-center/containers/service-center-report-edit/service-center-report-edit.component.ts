@@ -1,4 +1,4 @@
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ServiceCenterReportService } from './../../service-center-report.service';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
@@ -42,6 +42,12 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
 
   getDestroyed = new Subject();
 
+  alert = {
+    type: '',
+    description: '',
+  };
+  disableDuringProcess = false;
+
   constructor(
     private serviceCenterReportService: ServiceCenterReportService,
     private route: ActivatedRoute,
@@ -49,7 +55,8 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private modalService: NgbModal,
     private systemService: SystemSettingService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -79,7 +86,6 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
         const data: UserAssignedData = { ['user_id']: res.user_id, name: this.formatName(res), position: res.position };
         this.notedByInfo = { ['user_id']: data.user_id, name: data.name };
         this.form.patchValue({ notedBy: data.user_id });
-        console.log(this.notedByInfo);
       },
     });
 
@@ -124,16 +130,23 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    this.alert.type = 'info';
+    this.alert.description = 'Saving data...';
+    this.disableDuringProcess = true;
     if (this.formMode === ADD) {
+      console.log('start');
       this.serviceCenterReportService
         .addOne(this.form.value)
         .pipe(takeUntil(this.getDestroyed))
         .subscribe({
-          next: (res) => {
-            console.log('OK');
+          next: async (res) => {
+            this.serviceCenterReportService.getEntriesAPI();
+            await this.router.navigate(['/service-center']);
           },
-          error: (err) => {
-            console.error(err);
+          error: (error) => {
+            this.alert.type = 'danger';
+            this.alert.description = 'Unknown error';
+            this.disableDuringProcess = true;
           },
         });
     } else {
@@ -141,11 +154,14 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
         .updateOne(this.formId, this.form.value)
         .pipe(takeUntil(this.getDestroyed))
         .subscribe({
-          next: (res) => {
-            console.log('OK');
+          next: async (res) => {
+            this.serviceCenterReportService.getEntriesAPI();
+            await this.router.navigate(['/service-center']);
           },
-          error: (err) => {
-            console.error(err);
+          error: (error) => {
+            this.alert.type = 'danger';
+            this.alert.description = 'Unknown error';
+            this.disableDuringProcess = true;
           },
         });
     }
@@ -155,8 +171,16 @@ export class ServiceCenterReportEditComponent implements OnInit, OnDestroy {
     this.listOfServiceOrTestEquipments.push(serviceOrTestEquipmentInput());
   }
 
+  removedServiceOrTestEquipment(index: number): void {
+    this.listOfServiceOrTestEquipments.removeAt(index);
+  }
+
   addEmployedElectronicTechnician() {
     this.employedElectronicsTechnicians.push(employedETInput());
+  }
+
+  removeEmployedElectronicTechnician(index: number) {
+    this.employedElectronicsTechnicians.removeAt(index);
   }
 
   open(userType: 'client' | 'user'): void {

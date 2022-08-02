@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { ADD, EDIT, LIST, VIEW } from 'src/app/shared/constants';
 import { DeficiencyNoticeService } from '../../deficiency-notice.service';
 
@@ -11,7 +12,7 @@ import { DeficiencyNoticeService } from '../../deficiency-notice.service';
 export class DeficiencyNoticeLayoutComponent implements OnInit {
   url: string;
   type = LIST;
-  constructor(private router: Router, private dnService: DeficiencyNoticeService) {}
+  constructor(private router: Router, private dnService: DeficiencyNoticeService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.dnService.resourceType.subscribe((type) => {
@@ -30,5 +31,10 @@ export class DeficiencyNoticeLayoutComponent implements OnInit {
         await this.router.navigate(['/']);
         break;
     }
+  }
+
+  enableNew(): boolean {
+    const allowedUser = ['legal', 'it-admin'];
+    return allowedUser.includes(this.authService.getUserInfo().position);
   }
 }

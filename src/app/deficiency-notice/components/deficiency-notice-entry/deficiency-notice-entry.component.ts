@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/auth/auth.service';
+import { UserAuthenticated } from 'src/app/auth/model/user-authenticated';
 import { deficiencyNotice, DELETE } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { DeficiencyNotice } from '../../models/deficiency-notice.model';
@@ -10,7 +12,7 @@ import { DeficiencyNotice } from '../../models/deficiency-notice.model';
     <div class="d-flex">
       <div class="flex-grow-1">
         <a [routerLink]="[entry.id]" class="text-decoration-none">
-          <div>{{ entry.docketNumber }}</div>
+          <div>{{ entry.docketNumberDescription }}</div>
           <div>
             Done?:
             <span
@@ -34,8 +36,8 @@ import { DeficiencyNotice } from '../../models/deficiency-notice.model';
         </a>
       </div>
       <div class="d-flex align-items-center">
-        <button class="btn btn sm btn-primary mr-1" [routerLink]="[entry.id, 'edit']">Edit</button>
-        <button class="btn btn sm btn-primary" (click)="open()">Remove</button>
+        <button class="btn btn sm btn-primary mr-1" *ngIf="enableEdit()" [routerLink]="[entry.id, 'edit']">Edit</button>
+        <button class="btn btn sm btn-primary" *ngIf="isRemoveAllowed()" (click)="open()">Remove</button>
       </div>
     </div>
   `,
@@ -43,9 +45,22 @@ import { DeficiencyNotice } from '../../models/deficiency-notice.model';
 })
 export class DeficiencyNoticeEntryComponent implements OnInit {
   @Input() entry: DeficiencyNotice;
-  constructor(private modalService: NgbModal) {}
+  userInfo: Partial<UserAuthenticated>;
+  allowedUser = ['it-admin', 'legal'];
 
-  ngOnInit(): void {}
+  constructor(private modalService: NgbModal, private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.userInfo = this.authService.getUserInfo();
+  }
+
+  enableEdit(): boolean {
+    return this.allowedUser.includes(this.userInfo.position);
+  }
+
+  isRemoveAllowed(): boolean {
+    return this.allowedUser.includes(this.userInfo.position);
+  }
 
   open() {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });

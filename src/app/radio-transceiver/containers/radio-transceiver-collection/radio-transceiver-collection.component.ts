@@ -20,6 +20,7 @@ export class RadioTransceiverCollectionComponent implements OnInit {
     this.entriesSubs = this.radioTransceiverService.getEntriesListener().subscribe({
       next: (value) => {
         this.entries = value;
+        console.log(value);
         this.cd.detectChanges();
       },
     });

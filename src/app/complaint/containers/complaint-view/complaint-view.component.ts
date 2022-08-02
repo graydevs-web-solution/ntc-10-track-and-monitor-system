@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { faCalendarAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faCheck, faCheckCircle, faFilePdf, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { time } from 'console';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
 import { ViolationsType } from 'src/app/deficiency-notice/models/violations.model';
 import { ClientService } from 'src/app/master-list/clients/client.service';
 import { ADD, VIEW } from 'src/app/shared/constants';
+import { Approval } from 'src/app/shared/models/approvalStatus';
 import { formatDate } from 'src/app/shared/utility';
 import { initForm, transmitterInput, violations } from '../../complaint-shared';
 import { ComplaintService } from '../../complaint.service';
-import { Complaint } from '../../models/complaint.model';
+import { Complaint, TimeInfo } from '../../models/complaint.model';
 
 @Component({
   selector: 'app-complaint-view',
@@ -24,9 +27,17 @@ export class ComplaintViewComponent implements OnInit {
   formMode = ADD;
   clientName = '';
   meridian = true;
+  responseData: Complaint;
 
   faCalendarAlt = faCalendarAlt;
   faFilePdf = faFilePdf;
+  faCheck = faCheck;
+  faTimes = faTimes;
+  faCheckCircle = faCheckCircle;
+
+  isApprovedDirector = null;
+  isDirector = this.authService.isApprover();
+  isITAdmin = this.authService.isITAdmin();
 
   getDestroyed = new Subject();
 
@@ -36,7 +47,8 @@ export class ComplaintViewComponent implements OnInit {
     private complaintService: ComplaintService,
     private route: ActivatedRoute,
     private clientService: ClientService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +63,20 @@ export class ComplaintViewComponent implements OnInit {
           this.formId = value;
         },
       });
+
+    this.complaintService.getEntriesListener().subscribe({
+      next: () => {
+        this.setData();
+      },
+    });
+    this.setData();
+
+    this.complaintService.resourceType.next(VIEW);
+  }
+
+  setData() {
     const fetchedValue = this.complaintService.getSelectedEntry(this.formId);
+    this.responseData = fetchedValue;
     for (const _ of fetchedValue.transmitters || []) {
       this.addTransmitterInput();
     }
@@ -61,9 +86,10 @@ export class ComplaintViewComponent implements OnInit {
       date: formatDate(fetchedValue.date, false),
       dateOfInspection: formatDate(fetchedValue.dateOfInspection, false),
       dateOfHearing: formatDate(fetchedValue.dateOfHearing, false),
+      regionalDirector: fetchedValue.regionalDirectorInfo.name,
     };
     this.form.patchValue(vals);
-    this.complaintService.resourceType.next(VIEW);
+    this.isApprovedDirector = this.responseData.regionalDirectorApproved;
   }
 
   initForm(): void {
@@ -71,7 +97,7 @@ export class ComplaintViewComponent implements OnInit {
   }
 
   addTransmitterInput() {
-    this.transmitters.push(transmitterInput());
+    this.transmitters.push(transmitterInput(true));
   }
 
   submit(): void {
@@ -102,11 +128,77 @@ export class ComplaintViewComponent implements OnInit {
     }
   }
 
-  get transmitters() {
-    return this.form.get('transmitters') as FormArray;
-  }
-
   generatePdf(): void {
     this.complaintService.generatePdf(this.formId);
+  }
+
+  isDoneString(): string {
+    return !!(this.form.get('isDone').value as boolean) ? 'Yes' : 'No';
+  }
+
+  timeOfHearing() {
+    const timeObj = this.form.get('timeOfHearing').value as TimeInfo;
+    const minute = timeObj.minute;
+    let hour = timeObj.hour;
+    let meridian = 'AM';
+    if (timeObj.hour > 12) {
+      hour = timeObj.hour - 12;
+      meridian = 'PM';
+    }
+    return `${hour}:${minute.toString().padEnd(2, '0')} ${meridian}`;
+  }
+
+  async approve() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'approve',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        complaint: this.responseData,
+      };
+      const response = await this.complaintService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.complaintService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async disapprove() {
+    try {
+      const approveData: Approval = {
+        approvalStatus: 'disapprove',
+        userID: this.authService.getUserInfo().user_id,
+        position: this.authService.getUserInfo().position,
+        complaint: this.responseData,
+      };
+      const response = await this.complaintService.setApprovalStatus(approveData).toPromise();
+      console.log({ response });
+      this.complaintService.getEntriesAPI();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  showDocumentApprovalStatusDirector() {
+    return this.isDirector || this.isITAdmin;
+  }
+
+  showApproveDisapproveDirector() {
+    return this.isDirector && (this.isApprovedDirector === '' || this.isApprovedDirector === null);
+  }
+
+  showApprovalStatusDirector() {
+    if (this.isApprovedDirector === '') return false;
+    return this.isApprovedDirector;
+  }
+
+  showPendingStatusDirector() {
+    if (this.isDirector || this.isApprovedDirector) return false;
+    return true;
+  }
+
+  get transmitters() {
+    return this.form.get('transmitters') as FormArray;
   }
 }

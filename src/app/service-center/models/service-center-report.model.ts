@@ -37,8 +37,9 @@ export interface ServiceCenterReport {
   ownerInfo: OwnerInfo;
   recommendations: string;
   notedBy: string;
-  isApproved: boolean;
+  notedByApproved: string;
+  notedByInfo: UserAssignedData;
   regionalDirector: string;
-  notedByInfo?: UserAssignedData;
-  regionalDirectorInfo?: UserAssignedData;
+  regionalDirectorApproved: string;
+  regionalDirectorInfo: UserAssignedData;
 }

@@ -4,7 +4,7 @@ export const initForm = (readState = false) => {
   return new FormGroup({
     dateInspected: new FormControl({ value: '', disabled: false }),
     clientId: new FormControl({ value: '', disabled: false }),
-    permitNumber: new FormControl({ value: '', disabled: false }),
+    permitNumber: new FormControl({ value: '', disabled: readState }),
     permitExpiryDate: new FormControl({ value: '', disabled: false }),
     listOfServiceOrTestEquipments: new FormArray([]),
     employedElectronicsTechnicians: new FormArray([]),
@@ -21,21 +21,22 @@ export const initForm = (readState = false) => {
     }),
     recommendations: new FormControl({ value: '', disabled: readState }),
     notedBy: new FormControl({ value: '', disabled: readState }),
-    isApproved: new FormControl({ value: false, disabled: false }),
     regionalDirector: new FormControl({ value: '', disabled: readState }),
+    notedByApproved: new FormControl({ value: '', disabled: false }),
+    regionalDirectorApproved: new FormControl({ value: '', disabled: false }),
   });
 };
 
-export const serviceOrTestEquipmentInput = (): FormGroup => {
+export const serviceOrTestEquipmentInput = (readState = false): FormGroup => {
   return new FormGroup({
-    particular: new FormControl({ value: '', disabled: false }),
-    numberOfUnits: new FormControl({ value: 0, disabled: false }),
+    particular: new FormControl({ value: '', disabled: readState }),
+    numberOfUnits: new FormControl({ value: 0, disabled: readState }),
   });
 };
 
-export const employedETInput = (): FormGroup => {
+export const employedETInput = (readState = false): FormGroup => {
   return new FormGroup({
-    name: new FormControl({ value: '', disabled: false }),
-    qualifications: new FormControl({ value: '', disabled: false }),
+    name: new FormControl({ value: '', disabled: readState }),
+    qualifications: new FormControl({ value: '', disabled: readState }),
   });
 };

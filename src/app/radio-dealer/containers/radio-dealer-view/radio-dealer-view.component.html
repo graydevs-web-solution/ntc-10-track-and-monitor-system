@@ -1,5 +1,23 @@
-<div class="d-flex justify-content-end mb-3">
-  <button class="btn btn-sm btn-secondary" (click)="generatePdf()"><fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf</button>
+<div class="d-flex justify-content-between mb-2">
+  <div class="capitalize">
+    <div
+      [ngClass]="{ 'bg-success': isApprovedDirector === 'approve', 'bg-secondary': isApprovedDirector !== 'approve' }"
+      class="rounded text-white px-3 py-2 mb-2"
+    >
+      <ng-container *ngIf="showApproveDisapproveDirector()">
+        <div class="mb-1">Approve document as Director?</div>
+        <button class="btn btn-sm btn-success mr-2" (click)="approve()"><fa-icon [icon]="faCheck"></fa-icon> Approve</button>
+        <button class="btn btn-sm btn-danger" (click)="disapprove()"><fa-icon [icon]="faTimes"></fa-icon> Disapprove</button>
+      </ng-container>
+      <ng-container *ngIf="showApprovalStatusDirector()"> {{ showApprovalStatusDirector() }}d by Director </ng-container>
+      <ng-container *ngIf="showPendingStatusDirector()"> Pending Approval for Director </ng-container>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-sm btn-secondary shadow-sm" (click)="generatePdf()">
+      <fa-icon [icon]="faFilePdf"></fa-icon> Download as Pdf
+    </button>
+  </div>
 </div>
 
 <nav ngbNav #nav="ngbNav" class="nav-tabs">
@@ -20,11 +38,11 @@
                 readonly
                 #d="ngbDatepicker"
               />
-              <div class="input-group-append">
+              <!-- <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
                   <fa-icon [icon]="faCalendarAlt"></fa-icon>
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -43,9 +61,9 @@
               aria-describedby="button-addon2"
               readonly
             />
-            <div class="input-group-append">
+            <!-- <div class="input-group-append">
               <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2" (click)="open()">Select</button>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -72,11 +90,11 @@
                 #dd="ngbDatepicker"
                 id="permit-expiry-date"
               />
-              <div class="input-group-append">
+              <!-- <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
                   <fa-icon [icon]="faCalendarAlt"></fa-icon>
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -91,11 +109,11 @@
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">Supervising ECE</div>
             <div>
-              <button class="btn btn-sm btn-primary" (click)="addSupervisingECE()">Add</button>
+              <!-- <button class="btn btn-sm btn-primary" (click)="addSupervisingECE()">Add</button> -->
             </div>
           </div>
 
-          <div *ngFor="let item of supervisingECE.controls; let i = index" class="border p-2 mb-2">
+          <div *ngFor="let item of supervisingECE.controls; let i = index" class="border rounded p-2 mb-2">
             <div class="row">
               <div class="col-4">
                 <div class="form-group">
@@ -130,11 +148,11 @@
                         [id]="'tp-exp-date' + i"
                         #ddddd="ngbDatepicker"
                       />
-                      <div class="input-group-append">
+                      <!-- <div class="input-group-append">
                         <button class="btn btn-outline-secondary calendar" (click)="ddddd.toggle()" type="button">
                           <fa-icon [icon]="faCalendarAlt"></fa-icon>
                         </button>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -168,11 +186,11 @@
                         [id]="'tp-date-issued' + i"
                         #dddd="ngbDatepicker"
                       />
-                      <div class="input-group-append">
+                      <!-- <div class="input-group-append">
                         <button class="btn btn-outline-secondary calendar" (click)="dddd.toggle()" type="button">
                           <fa-icon [icon]="faCalendarAlt"></fa-icon>
                         </button>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -187,7 +205,7 @@
           <div class="d-flex justify-content-between mb-2">
             <div class="h5">Technicians</div>
             <div>
-              <button class="btn btn-sm btn-primary" (click)="addTechnicians()">Add</button>
+              <!-- <button class="btn btn-sm btn-primary" (click)="addTechnicians()">Add</button> -->
             </div>
           </div>
 
@@ -226,11 +244,11 @@
                         [id]="'tp-exp-date' + i"
                         #ddddd="ngbDatepicker"
                       />
-                      <div class="input-group-append">
+                      <!-- <div class="input-group-append">
                         <button class="btn btn-outline-secondary calendar" (click)="ddddd.toggle()" type="button">
                           <fa-icon [icon]="faCalendarAlt"></fa-icon>
                         </button>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -304,13 +322,21 @@
                 type="radio"
                 id="isLaboratoryRoomShieldedYes"
                 name="isLaboratoryRoomShielded"
+                formControlName="isLaboratoryRoomShielded"
                 value="yes"
                 class="custom-control-input"
               />
               <label class="custom-control-label" for="isLaboratoryRoomShieldedYes">Yes</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="isLaboratoryRoomShieldedNo" name="isLaboratoryRoomShielded" value="no" class="custom-control-input" />
+              <input
+                type="radio"
+                id="isLaboratoryRoomShieldedNo"
+                formControlName="isLaboratoryRoomShielded"
+                name="isLaboratoryRoomShielded"
+                value="no"
+                class="custom-control-input"
+              />
               <label class="custom-control-label" for="isLaboratoryRoomShieldedNo">No</label>
             </div>
           </div>

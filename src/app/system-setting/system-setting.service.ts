@@ -145,6 +145,21 @@ export class SystemSettingService {
     });
   }
 
+  setFormCounterManual(data: Setting) {
+    let matchedIndex = -1;
+    const currentData = this.formCounters.find((val, index) => {
+      if (val.setting === data.setting) {
+        matchedIndex = index;
+        return val;
+      }
+    });
+    currentData.value = data.value;
+    const currentFormCounter = [...this.formCounters];
+    currentFormCounter[matchedIndex] = currentData;
+    this.formCounters = currentFormCounter;
+    localStorage.setItem('formCounter', JSON.stringify([...this.formCounters]));
+  }
+
   getFormCountersLocalStorage() {
     const formCounter = localStorage.getItem('formCounter');
     if (!formCounter) {

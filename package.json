@@ -1,6 +1,6 @@
 {
   "name": "monitoring-system",
-  "version": "0.1.1",
+  "version": "1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -34,6 +34,7 @@
     "luxon": "^2.0.1",
     "ngx-autosize": "^1.8.4",
     "rxjs": "~6.6.0",
+    "signature_pad": "^4.0.7",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
   },
