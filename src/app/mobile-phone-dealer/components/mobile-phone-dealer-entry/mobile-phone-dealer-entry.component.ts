@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/auth/auth.service';
+import { UserAuthenticated } from 'src/app/auth/model/user-authenticated';
 import { DELETE, mobilePhoneDealer } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { MobilePhoneDealer } from '../../models/mobile-phone-dealer.model';
@@ -34,8 +36,8 @@ import { MobilePhoneDealer } from '../../models/mobile-phone-dealer.model';
         </a>
       </div>
       <div class="d-flex align-items-center">
-        <button class="btn btn sm btn-primary mr-1" [routerLink]="[entry.id, 'edit']">Edit</button>
-        <button class="btn btn sm btn-primary" (click)="open()">Remove</button>
+        <button class="btn btn sm btn-primary mr-1" *ngIf="enableEdit()" [routerLink]="[entry.id, 'edit']">Edit</button>
+        <button class="btn btn sm btn-primary" *ngIf="enableRemove()" (click)="open()">Remove</button>
       </div>
     </div>
   `,
@@ -44,14 +46,26 @@ import { MobilePhoneDealer } from '../../models/mobile-phone-dealer.model';
 })
 export class MobilePhoneDealerEntryComponent implements OnInit {
   @Input() entry: MobilePhoneDealer;
-  constructor(private modalService: NgbModal) {}
+  userInfo: Partial<UserAuthenticated>;
+  allowedUser = ['it-admin', 'chf-engr', 'director'];
+  constructor(private modalService: NgbModal, private authService: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userInfo = this.authService.getUserInfo();
+  }
 
   open() {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
     modalRef.componentInstance.formId = this.entry.id;
     modalRef.componentInstance.componentName = mobilePhoneDealer;
     modalRef.componentInstance.formMode = DELETE;
+  }
+
+  enableEdit(): boolean {
+    return this.allowedUser.includes(this.userInfo.position);
+  }
+
+  enableRemove(): boolean {
+    return this.allowedUser.includes(this.userInfo.position);
   }
 }

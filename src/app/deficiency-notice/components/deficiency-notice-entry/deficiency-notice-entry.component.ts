@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/auth/auth.service';
+import { UserAuthenticated } from 'src/app/auth/model/user-authenticated';
 import { deficiencyNotice, DELETE } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { DeficiencyNotice } from '../../models/deficiency-notice.model';
@@ -35,7 +36,7 @@ import { DeficiencyNotice } from '../../models/deficiency-notice.model';
         </a>
       </div>
       <div class="d-flex align-items-center">
-        <button class="btn btn sm btn-primary mr-1" [routerLink]="[entry.id, 'edit']">Edit</button>
+        <button class="btn btn sm btn-primary mr-1" *ngIf="enableEdit()" [routerLink]="[entry.id, 'edit']">Edit</button>
         <button class="btn btn sm btn-primary" *ngIf="isRemoveAllowed()" (click)="open()">Remove</button>
       </div>
     </div>
@@ -44,17 +45,21 @@ import { DeficiencyNotice } from '../../models/deficiency-notice.model';
 })
 export class DeficiencyNoticeEntryComponent implements OnInit {
   @Input() entry: DeficiencyNotice;
-  role = '';
+  userInfo: Partial<UserAuthenticated>;
+  allowedUser = ['it-admin', 'legal'];
 
   constructor(private modalService: NgbModal, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.role = this.authService.getUserInfo().position;
+    this.userInfo = this.authService.getUserInfo();
+  }
+
+  enableEdit(): boolean {
+    return this.allowedUser.includes(this.userInfo.position);
   }
 
   isRemoveAllowed(): boolean {
-    const rolesAllowed = ['it-admin', 'legal'];
-    return rolesAllowed.includes(this.role);
+    return this.allowedUser.includes(this.userInfo.position);
   }
 
   open() {

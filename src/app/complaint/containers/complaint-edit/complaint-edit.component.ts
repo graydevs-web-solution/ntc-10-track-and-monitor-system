@@ -144,7 +144,7 @@ export class ComplaintEditComponent implements OnInit {
 
   submit(): void {
     try {
-      console.log(!this.form.valid);
+      console.log(this.form.value);
       if (!this.form.valid) {
         this.alert.type = 'warning';
         this.alert.description = 'Fill up required!';

@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/auth/auth.service';
+import { UserAuthenticated } from 'src/app/auth/model/user-authenticated';
 import { complaint, DELETE } from 'src/app/shared/constants';
 import { ModalComponent } from 'src/app/ui/modal/modal.component';
 import { Complaint } from '../../models/complaint.model';
@@ -34,8 +36,8 @@ import { Complaint } from '../../models/complaint.model';
         </a>
       </div>
       <div class="d-flex align-items-center">
-        <button class="btn btn sm btn-primary mr-1" [routerLink]="[entry.id, 'edit']">Edit</button>
-        <button class="btn btn sm btn-primary" (click)="open()">Remove</button>
+        <button class="btn btn sm btn-primary mr-1" *ngIf="enableEdit()" [routerLink]="[entry.id, 'edit']">Edit</button>
+        <button class="btn btn sm btn-primary" *ngIf="enableRemove()" (click)="open()">Remove</button>
       </div>
     </div>
   `,
@@ -43,7 +45,10 @@ import { Complaint } from '../../models/complaint.model';
 })
 export class ComplaintEntryComponent implements OnInit {
   @Input() entry: Complaint;
-  constructor(private modalService: NgbModal) {}
+  userInfo: Partial<UserAuthenticated>;
+  allowedUser = ['it-admin', 'legal'];
+
+  constructor(private modalService: NgbModal, private authService: AuthService) {}
 
   open() {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
@@ -52,5 +57,15 @@ export class ComplaintEntryComponent implements OnInit {
     modalRef.componentInstance.formMode = DELETE;
   }
 
-  ngOnInit(): void {}
+  enableEdit(): boolean {
+    return this.allowedUser.includes(this.userInfo.position);
+  }
+
+  enableRemove(): boolean {
+    return this.allowedUser.includes(this.userInfo.position);
+  }
+
+  ngOnInit(): void {
+    this.userInfo = this.authService.getUserInfo();
+  }
 }

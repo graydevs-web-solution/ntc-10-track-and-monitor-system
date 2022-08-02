@@ -26,7 +26,6 @@ import { UserAuthenticated } from 'src/app/auth/model/user-authenticated';
     </div>
   `,
   styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioTransceiverEntryComponent implements OnInit {
   @Input() entry: RadioTransceiver;
