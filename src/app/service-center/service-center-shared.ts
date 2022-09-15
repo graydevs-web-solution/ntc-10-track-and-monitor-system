@@ -9,9 +9,9 @@ export const initForm = (readState = false) => {
     listOfServiceOrTestEquipments: new FormArray([]),
     employedElectronicsTechnicians: new FormArray([]),
     sundryOfInformation: new FormGroup({
-      one: new FormControl({ value: '', disabled: readState }),
-      two: new FormControl({ value: '', disabled: readState }),
-      three: new FormControl({ value: '', disabled: readState }),
+      oneCb: new FormControl({ value: '', disabled: readState }),
+      twoCb: new FormControl({ value: '', disabled: readState }),
+      threeCb: new FormControl({ value: '', disabled: readState }),
     }),
     remarksDeficienciesDiscrepanciesNoted: new FormControl({ value: '', disabled: readState }),
     inspectedBy: new FormControl({ value: '', disabled: readState }),

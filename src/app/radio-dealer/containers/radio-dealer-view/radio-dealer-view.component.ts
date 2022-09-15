@@ -65,6 +65,7 @@ export class RadioDealerViewComponent implements OnInit {
 
   setData() {
     const fetchedValue = this.radioDealerService.getSelectedEntry(this.formId);
+    console.log({ fetchedValue });
     this.responseData = fetchedValue;
     fetchedValue.supervisingECE.forEach(() => {
       this.addSupervisingECE();
@@ -76,8 +77,10 @@ export class RadioDealerViewComponent implements OnInit {
     this.form.patchValue({
       ...fetchedValue,
       regionalDirector: fetchedValue.regionalDirectorInfo.name,
+      notedBy: fetchedValue.notedByInfo.name,
     });
     this.isApprovedDirector = fetchedValue.regionalDirectorApproved;
+    this.isApprovedChief = fetchedValue.notedByApproved;
   }
 
   initForm(): void {
@@ -111,6 +114,24 @@ export class RadioDealerViewComponent implements OnInit {
 
   showPendingStatusDirector() {
     if (this.isDirector || this.isApprovedDirector) return false;
+    return true;
+  }
+
+  showDocumentApprovalStatusChief() {
+    return this.isChief || this.isITAdmin;
+  }
+
+  showApproveDisapproveChief() {
+    return this.isChief && (this.isApprovedChief === '' || this.isApprovedChief === null);
+  }
+
+  showApprovalStatusChief() {
+    if (this.isApprovedChief === '') return false;
+    return this.isApprovedChief;
+  }
+
+  showPendingStatusChief() {
+    if (this.isChief || this.isApprovedChief) return false;
     return true;
   }
 

@@ -135,9 +135,9 @@ export class ServiceCenterReportService {
           }))
         : [],
       sundryOfInformation: {
-        one: data.sundry_one,
-        two: data.sundry_two,
-        three: data.sundry_three,
+        oneCb: data.sundry_one,
+        twoCb: data.sundry_two,
+        threeCb: data.sundry_three,
       },
       remarksDeficienciesDiscrepanciesNoted: data.remarks_deficiencies_discrepancies_noted,
       inspectedBy: data.inspected_by,

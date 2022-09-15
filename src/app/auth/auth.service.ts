@@ -236,6 +236,7 @@ export class AuthService {
       ['name_last']: new FormControl({ value: '', disabled: false }),
       ['user_name']: new FormControl({ value: '', disabled: false }),
       ['position']: new FormControl({ value: '', disabled: false }),
+      ['designation']: new FormControl({ value: '', disabled: false }),
     });
   };
 

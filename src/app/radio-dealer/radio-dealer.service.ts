@@ -166,6 +166,9 @@ export class RadioDealerService {
       regionalDirector: data.regional_director,
       regionalDirectorApproved: data.regional_director_approved,
       regionalDirectorInfo: data.regional_director_info,
+      notedBy: data.noted_by,
+      notedByApproved: data.noted_by_approved,
+      notedByInfo: data.noted_by_info,
     };
     return value;
   };

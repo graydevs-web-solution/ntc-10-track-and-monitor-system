@@ -101,15 +101,21 @@ export class RadioDealerEditComponent implements OnInit {
       this.form.patchValue({
         ...fetchedValue,
         regionalDirector: fetchedValue.regionalDirectorInfo.user_id,
+        notedBy: fetchedValue.notedByInfo.user_id,
       });
       this.regDirectorInfo = {
         name: fetchedValue.regionalDirectorInfo.name,
         ['user_id']: fetchedValue.regionalDirectorInfo.user_id,
       };
+      this.notedByInfo = {
+        name: fetchedValue.notedByInfo.name,
+        ['user_id']: fetchedValue.notedByInfo.user_id,
+      };
       this.radioDealerService.resourceType.next(EDIT);
     } else {
       this.regDirectorInfo = this.systemService.getRegionalDirectorInfo();
-      this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id });
+      this.notedByInfo = this.systemService.getNotedByInfo();
+      this.form.patchValue({ regionalDirector: this.regDirectorInfo.user_id, notedBy: this.notedByInfo.user_id });
       this.radioDealerService.resourceType.next(ADD);
     }
   }

@@ -23,7 +23,10 @@ export const initForm = (readState = false) => {
     radioRegulationInspector: new FormControl({ value: '', disabled: readState }),
     ownerName: new FormControl({ value: '', disabled: readState }),
     recommendations: new FormControl({ value: '', disabled: readState }),
+    notedBy: new FormControl({ value: '', disabled: readState }),
     regionalDirector: new FormControl({ value: '', disabled: readState }),
+    notedByApproved: new FormControl({ value: '', disabled: false }),
+    regionalDirectorApproved: new FormControl({ value: '', disabled: false }),
   });
 };
 

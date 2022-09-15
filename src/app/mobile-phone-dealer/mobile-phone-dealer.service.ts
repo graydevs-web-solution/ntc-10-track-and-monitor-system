@@ -142,8 +142,8 @@ export class MobilePhoneDealerService {
           }))
         : [],
       sundryOfInformation: {
-        one: data.sundry_one,
-        two: data.sundry_two,
+        oneCb: data.sundry_one,
+        twoCb: data.sundry_two,
       },
       remarksDeficienciesDiscrepanciesNoted: data.remarks_deficiencies_discrepancies_noted,
       inspectedBy: data.inspected_by,

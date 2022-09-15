@@ -40,6 +40,9 @@ export interface RadioDealer {
   radioRegulationInspector: string;
   ownerName: string;
   recommendations: string;
+  notedBy: string;
+  notedByApproved: string;
+  notedByInfo: UserAssignedData;
   regionalDirector: string;
   regionalDirectorApproved: string;
   regionalDirectorInfo: UserAssignedData;
