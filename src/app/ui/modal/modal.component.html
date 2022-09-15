@@ -31,7 +31,7 @@
   <button type="button" class="btn btn-outline-dark" *ngIf="isClientEdit()" (click)="saveClient()">Add</button>
   <button type="button" class="btn btn-outline-dark" *ngIf="isRemoveEntry()" (click)="removeEntry()">Remove</button>
   <button type="button" class="btn btn-outline-dark" [disabled]="disableDuringProcess" *ngIf="isUserEdit()" (click)="saveUser()">
-    Add
+    Submit
   </button>
   <button type="button" class="btn btn-outline-dark" *ngIf="isAccomplishment()" (click)="saveAccomplishmentReport()">Create</button>
 </div>

@@ -69,7 +69,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
               setTimeout(() => {
                 this.alert.type = '';
                 this.alert.description = '';
-              });
+              }, 7000);
             },
             error: (error) => {
               this.authService.disableDuringProcess.next(false);
@@ -88,10 +88,24 @@ export class UserEditComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.getDestroyed))
           .subscribe({
             next: () => {
-              console.log('OK');
+              this.authService.disableDuringProcess.next(false);
+              this.authService.getEntriesAPI();
+              this.alert.type = 'success';
+              this.alert.description = 'User updated successfully';
+              setTimeout(() => {
+                this.alert.type = '';
+                this.alert.description = '';
+              }, 7000);
             },
             error: (error) => {
-              console.log(error);
+              this.authService.disableDuringProcess.next(false);
+              if (error?.message) {
+                this.alert.type = 'danger';
+                this.alert.description = 'Error server.';
+                return;
+              }
+              this.alert.type = 'danger';
+              this.alert.description = 'Unknown server error.';
             },
           });
       }

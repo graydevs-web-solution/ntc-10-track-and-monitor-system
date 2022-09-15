@@ -29,7 +29,7 @@ import { Complaint } from '../../models/complaint.model';
             <small>
               Date Inspected:
               <span class="font-weight-bold">
-                {{ entry.date | date: 'mediumDate' }}
+                {{ entry.dateOfInspection | date: 'mediumDate' }}
               </span>
             </small>
           </div>

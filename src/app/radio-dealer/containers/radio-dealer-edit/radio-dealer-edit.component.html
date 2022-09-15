@@ -362,6 +362,13 @@
         </div>
 
         <div class="form-group row">
+          <label for="notedBy" class="col-sm-3 col-form-label">Noted By</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="notedBy" [value]="notedByInfo.name" readonly />
+          </div>
+        </div>
+
+        <div class="form-group row">
           <label for="regionalDirector" class="col-sm-3 col-form-label">Regional Director</label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="regionalDirector" [value]="regDirectorInfo.name" readonly />

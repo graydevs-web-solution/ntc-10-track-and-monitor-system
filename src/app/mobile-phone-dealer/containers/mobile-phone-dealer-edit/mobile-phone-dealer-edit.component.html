@@ -247,7 +247,15 @@
               at the entrance of its premises?</label
             >
             <div>
-              <input type="text" class="form-control" id="sundry-one" formControlName="one" />
+              <!-- <input type="text" class="form-control" id="sundry-one" formControlName="one" /> -->
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="oneCb" formControlName="oneCb" id="sundry-one-yes" value="Yes" />
+                <label class="form-check-label" for="sundry-one-yes"> Yes </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="oneCb" formControlName="oneCb" id="sundry-one-no" value="No" />
+                <label class="form-check-label" for="sundry-one-no"> No </label>
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -255,7 +263,15 @@
               >2.) Are the stocks of spares and accessories sufficient enough to cover the warranty of mobile phones?</label
             >
             <div>
-              <input type="text" class="form-control" id="sundry-two" formControlName="two" />
+              <!-- <input type="text" class="form-control" id="sundry-two" formControlName="two" /> -->
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="twoCb" formControlName="twoCb" id="sundry-two-yes" value="Yes" />
+                <label class="form-check-label" for="sundry-two-yes"> Yes </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="twoCb" formControlName="twoCb" id="sundry-two-no" value="No" />
+                <label class="form-check-label" for="sundry-two-no"> No </label>
+              </div>
             </div>
           </div>
         </div>

@@ -12,9 +12,9 @@ interface EmployedElectronicsTechnicians {
 }
 
 interface SundryOfInformation {
-  one: string;
-  two: string;
-  three: string;
+  oneCb: string;
+  twoCb: string;
+  threeCb: string;
 }
 
 interface OwnerInfo {
