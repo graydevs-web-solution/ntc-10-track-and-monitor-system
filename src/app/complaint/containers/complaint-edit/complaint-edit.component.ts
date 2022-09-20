@@ -87,6 +87,7 @@ export class ComplaintEditComponent implements OnInit {
         });
         this.form.patchValue({
           ...val,
+          deficiencyNoticeId: val.id,
           complainantName: 'National Telecommunication Commission',
           docketNumberDescription: this.descriptionGenerator(descriptions),
         });
