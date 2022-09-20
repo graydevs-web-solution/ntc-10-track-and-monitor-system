@@ -145,6 +145,7 @@ export class ComplaintService {
     const value: Complaint = {
       id: data.id,
       date: formatDate(data.date, false),
+      deficiencyNoticeId: data.deficiency_notice_id,
       complainantName: data.complainant_name,
       clientId: data.client_id,
       clientName: data.clients.owner_name,

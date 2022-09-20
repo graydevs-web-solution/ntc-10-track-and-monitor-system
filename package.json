@@ -1,6 +1,6 @@
 {
   "name": "monitoring-system",
-  "version": "1.0",
+  "version": "1.10",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

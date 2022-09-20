@@ -4,6 +4,7 @@ import { ViolationsType } from '../deficiency-notice/models/violations.model';
 export const initForm = (readState = false): FormGroup => {
   return new FormGroup({
     date: new FormControl({ value: '', disabled: false }, Validators.required),
+    deficiencyNoticeId: new FormControl({ value: '', disabled: false }, Validators.required),
     complainantName: new FormControl({ value: '', disabled: false }, Validators.required),
     clientId: new FormControl({ value: '', disabled: false }, Validators.required),
     clientName: new FormControl({ value: '', disabled: false }, Validators.required),
