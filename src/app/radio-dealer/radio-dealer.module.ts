@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RadioDealerRoutingModule } from './radio-dealer-routing.module';
-import { NgbNavModule, NgbDatepickerModule, NgbModalModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule, NgbDatepickerModule, NgbModalModule, NgbAlertModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AutosizeModule } from 'ngx-autosize';
@@ -36,6 +36,7 @@ import { RadioDealerListComponent } from './components/radio-dealer-list/radio-d
     RouterModule,
     NgbModalModule,
     NgbAlertModule,
+    NgbPaginationModule,
   ],
 })
 export class RadioDealerModule {}

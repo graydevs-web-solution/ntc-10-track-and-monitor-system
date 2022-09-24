@@ -23,6 +23,7 @@ export class AuthService {
     current: 1,
     size: 10,
     search: '',
+    collectionSize: 0,
   };
   resourceType = new ReplaySubject<string>();
   selectedEntry = new Subject<User>();

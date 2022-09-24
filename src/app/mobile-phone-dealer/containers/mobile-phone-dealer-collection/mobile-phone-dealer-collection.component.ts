@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { LIST } from 'src/app/shared/constants';
+import { PageOptions } from 'src/app/shared/models/page-options';
 import { MobilePhoneDealerService } from '../../mobile-phone-dealer.service';
 import { MobilePhoneDealer } from '../../models/mobile-phone-dealer.model';
 
@@ -14,15 +15,40 @@ export class MobilePhoneDealerCollectionComponent implements OnInit, OnDestroy {
   // entries: Observable<MobilePhoneDealerSummary[]>;
   entries: MobilePhoneDealer[] = [];
   entriesSubs: Subscription;
+  page = {
+    collectionSize: 0,
+    pageIndex: 1,
+    pageSize: 5,
+    rotate: true,
+    ellipses: false,
+    boundaryLinks: true,
+  };
+  currentPage: PageOptions;
 
   constructor(private mobilePhoneDealerService: MobilePhoneDealerService, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    this.currentPage = this.mobilePhoneDealerService.getPage();
+    this.page = {
+      ...this.page,
+      pageIndex: this.currentPage.current,
+      pageSize: this.currentPage.size,
+      collectionSize: this.currentPage.collectionSize,
+    };
+
     this.entries = this.mobilePhoneDealerService.getEntries();
     this.entriesSubs = this.mobilePhoneDealerService.getEntriesListener().subscribe({
       next: (value) => {
         this.entries = value;
-        console.log(value);
+
+        this.currentPage = this.mobilePhoneDealerService.getPage();
+        this.page = {
+          ...this.page,
+          pageIndex: this.currentPage.current,
+          pageSize: this.currentPage.size,
+          collectionSize: this.currentPage.collectionSize,
+        };
+
         this.cd.detectChanges();
       },
     });

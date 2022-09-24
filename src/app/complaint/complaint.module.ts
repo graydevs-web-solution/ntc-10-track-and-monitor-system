@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NgbAlertModule, NgbDatepickerModule, NgbModalModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbDatepickerModule, NgbModalModule, NgbPaginationModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardModule } from '../ui/card/card.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,6 +34,7 @@ import { ComplaintViewComponent } from './containers/complaint-view/complaint-vi
     ReactiveFormsModule,
     NgbTimepickerModule,
     NgbAlertModule,
+    NgbPaginationModule,
   ],
 })
 export class ComplaintModule {}

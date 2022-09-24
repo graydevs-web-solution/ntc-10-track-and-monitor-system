@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DeficiencyNoticeLayoutComponent } from './components/deficiency-notice-layout/deficiency-notice-layout.component';
 import { RouterModule } from '@angular/router';
-import { NgbAlertModule, NgbDatepickerModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbDatepickerModule, NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardModule } from '../ui/card/card.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -35,6 +35,7 @@ import { DeficiencyNoticeViewComponent } from './containers/deficiency-notice-vi
     RouterModule,
     NgbModalModule,
     NgbAlertModule,
+    NgbPaginationModule,
   ],
 })
 export class DeficiencyNoticeModule {}

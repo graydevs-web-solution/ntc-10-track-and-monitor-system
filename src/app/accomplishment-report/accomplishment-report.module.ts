@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AccomplishmentReportLayoutComponent } from './components/accomplishment-report-layout/accomplishment-report-layout.component';
 import { AccomplishmentReportEntryComponent } from './components/accomplishment-report-entry/accomplishment-report-entry.component';
 import { RouterModule } from '@angular/router';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardModule } from '../ui/card/card.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -30,6 +30,7 @@ import { AccomplishmentReportEditComponent } from './containers/accomplishment-r
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbPaginationModule,
   ],
   exports: [AccomplishmentReportEditComponent],
 })

@@ -10,6 +10,7 @@ import { dateWithPadding } from '../shared/utility';
 import { RadioDealerAPI } from './models/radio-dealer-api.model';
 import { RadioDealer } from './models/radio-dealer.model';
 import { Approval } from '../shared/models/approvalStatus';
+import { APIResponse } from '../shared/models/api-response';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,7 @@ export class RadioDealerService {
     current: 1,
     size: 10,
     search: '',
+    collectionSize: 0,
   };
   resourceType = new ReplaySubject<string>();
 
@@ -29,6 +31,14 @@ export class RadioDealerService {
   private resource1 = 'api/main/radio-dealer';
 
   constructor(private http: HttpClient) {}
+
+  setPage(payload: PageOptions) {
+    this.page = payload;
+  }
+
+  getPage() {
+    return this.page;
+  }
 
   getEntries(): RadioDealer[] {
     return this.entries;
@@ -42,13 +52,19 @@ export class RadioDealerService {
       },
     });
     this.http
-      .get<{ data: RadioDealerAPI[] }>(`${this.domainURL}/${this.resource1}`, {
+      .get<APIResponse>(`${this.domainURL}/${this.resource1}`, {
         params: PARAMS,
       })
-      .pipe(map(({ data }) => ({ data: data.map(this.formatList) })))
+      .pipe(map(({ data, collectionSize }) => ({ data: (data as RadioDealerAPI[]).map(this.formatList), collectionSize })))
       .subscribe({
         next: (response) => {
           this.entries = response.data;
+
+          this.page = {
+            ...this.page,
+            collectionSize: response.collectionSize,
+          };
+
           this.entriesListener.next(response.data);
         },
       });

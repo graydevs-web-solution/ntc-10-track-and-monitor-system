@@ -4,4 +4,14 @@
   <app-card *ngIf="!entries.length" [centered]="true">
     <div class="font-weight-bold">No entries</div>
   </app-card>
+
+  <ngb-pagination
+    class="d-flex justify-content-center"
+    [collectionSize]="page.collectionSize"
+    [(page)]="page.pageIndex"
+    [maxSize]="page.pageSize"
+    [rotate]="page.rotate"
+    [ellipses]="page.ellipses"
+    [boundaryLinks]="page.boundaryLinks"
+  ></ngb-pagination>
 </div>

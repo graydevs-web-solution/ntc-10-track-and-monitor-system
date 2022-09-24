@@ -2,7 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RadioTransceiverEditComponent } from './containers/radio-transceiver-edit/radio-transceiver-edit.component';
 import { RadioTransceiverRoutingModule } from './radio-transceiver-routing.module';
-import { NgbDatepickerModule, NgbDateAdapter, NgbDateParserFormatter, NgbNavModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDatepickerModule,
+  NgbDateAdapter,
+  NgbDateParserFormatter,
+  NgbNavModule,
+  NgbAlertModule,
+  NgbPaginationModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CustomAdapter, CustomDateParserFormatter } from '../shared/datepicker/datepicker-adapter';
@@ -35,6 +42,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     RouterModule,
     NgbModalModule,
     NgbAlertModule,
+    NgbPaginationModule,
   ],
   providers: [
     { provide: NgbDateAdapter, useClass: CustomAdapter },

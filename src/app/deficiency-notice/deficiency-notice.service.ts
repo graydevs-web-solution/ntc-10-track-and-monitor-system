@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { APIResponse } from '../shared/models/api-response';
 import { Approval } from '../shared/models/approvalStatus';
 import { PageOptions } from '../shared/models/page-options';
 import { formatDate, openPDF } from '../shared/utility';
@@ -18,6 +19,7 @@ export class DeficiencyNoticeService {
     current: 1,
     size: 10,
     search: '',
+    collectionSize: 0,
   };
   resourceType = new ReplaySubject<string>();
 
@@ -28,6 +30,14 @@ export class DeficiencyNoticeService {
   private resource1 = 'api/main/deficiency-notice';
 
   constructor(private http: HttpClient) {}
+
+  setPage(payload: PageOptions) {
+    this.page = payload;
+  }
+
+  getPage() {
+    return this.page;
+  }
 
   getEntries(): DeficiencyNotice[] {
     return this.entries;
@@ -66,13 +76,19 @@ export class DeficiencyNoticeService {
       },
     });
     this.http
-      .get<{ data: DeficiencyNoticeAPI[] }>(`${this.domainURL}/${this.resource1}`, {
+      .get<APIResponse>(`${this.domainURL}/${this.resource1}`, {
         params: PARAMS,
       })
-      .pipe(map(({ data }) => ({ data: data.map(this.formatList) })))
+      .pipe(map(({ data, collectionSize }) => ({ data: (data as DeficiencyNoticeAPI[]).map(this.formatList), collectionSize })))
       .subscribe({
         next: (response) => {
           this.entries = response.data;
+
+          this.page = {
+            ...this.page,
+            collectionSize: response.collectionSize,
+          };
+
           this.entriesListener.next(response.data);
         },
       });

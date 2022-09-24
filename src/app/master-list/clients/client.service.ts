@@ -6,6 +6,7 @@ import { Client } from './models/client.model';
 import { PageOptions } from 'src/app/shared/models/page-options';
 import { map, tap } from 'rxjs/operators';
 import { ClientAPI } from './models/client-api.model';
+import { APIResponse } from 'src/app/shared/models/api-response';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class ClientService {
     current: 1,
     size: 10,
     search: '',
+    collectionSize: 0,
   };
 
   private entries: Client[] = [];
@@ -27,6 +29,14 @@ export class ClientService {
   private resource1 = 'api/main/client';
 
   constructor(private http: HttpClient) {}
+
+  setPage(payload: PageOptions) {
+    this.page = payload;
+  }
+
+  getPage() {
+    return this.page;
+  }
 
   getEntries(): Client[] {
     return this.entries;
@@ -40,13 +50,19 @@ export class ClientService {
       },
     });
     this.http
-      .get<{ data: ClientAPI[] }>(`${this.domainURL}/${this.resource1}`, {
+      .get<APIResponse>(`${this.domainURL}/${this.resource1}`, {
         params: PARAMS,
       })
-      .pipe(map(({ data }) => ({ data: data.map(this.formatList) })))
+      .pipe(map(({ data, collectionSize }) => ({ data: (data as ClientAPI[]).map(this.formatList), collectionSize })))
       .subscribe({
         next: (response) => {
           this.entries = response.data;
+
+          this.page = {
+            ...this.page,
+            collectionSize: response.collectionSize,
+          };
+
           this.entriesListener.next(response.data);
         },
       });

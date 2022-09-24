@@ -13,6 +13,7 @@ import { saveAs } from 'file-saver';
 import { LIST } from '../shared/constants';
 import { ClientAPI } from '../master-list/clients/models/client-api.model';
 import { Approval } from '../shared/models/approvalStatus';
+import { APIResponse } from '../shared/models/api-response';
 @Injectable({
   providedIn: 'root',
 })
@@ -21,6 +22,7 @@ export class RadioTransceiverService {
     current: 1,
     size: 10,
     search: '',
+    collectionSize: 0,
   };
   resourceType = new ReplaySubject<string>();
 
@@ -31,6 +33,14 @@ export class RadioTransceiverService {
   private resource1 = 'api/main/radio-transceiver';
 
   constructor(private http: HttpClient) {}
+
+  setPage(payload: PageOptions) {
+    this.page = payload;
+  }
+
+  getPage() {
+    return this.page;
+  }
 
   getEntries(): RadioTransceiver[] {
     return this.entries;
@@ -44,13 +54,19 @@ export class RadioTransceiverService {
       },
     });
     this.http
-      .get<{ data: RadioTransceiverAPI[] }>(`${this.domainURL}/${this.resource1}`, {
+      .get<APIResponse>(`${this.domainURL}/${this.resource1}`, {
         params: PARAMS,
       })
-      .pipe(map(({ data }) => ({ data: data.map(this.formatList) })))
+      .pipe(map(({ data, collectionSize }) => ({ data: (data as RadioTransceiverAPI[]).map(this.formatList), collectionSize })))
       .subscribe({
         next: (response) => {
           this.entries = response.data;
+
+          this.page = {
+            ...this.page,
+            collectionSize: response.collectionSize,
+          };
+
           this.entriesListener.next(response.data);
         },
       });

@@ -4,6 +4,7 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
+import { APIResponse } from '../shared/models/api-response';
 import { PageOptions } from '../shared/models/page-options';
 import { openPDF } from '../shared/utility';
 import { AccomplishmentReportAPI } from './models/accomplishment-report-api';
@@ -17,6 +18,7 @@ export class AccomplishmentReportService {
     current: 1,
     size: 10,
     search: '',
+    collectionSize: 0,
   };
   resourceType = new ReplaySubject<string>();
   saveAccomplishmentReportListener = new Subject();
@@ -28,6 +30,14 @@ export class AccomplishmentReportService {
   private resource1 = 'api/main/accomplishment-report';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
+
+  setPage(payload: PageOptions) {
+    this.page = payload;
+  }
+
+  getPage() {
+    return this.page;
+  }
 
   getEntries(): AccomplishmentReport[] {
     return this.entries;
@@ -66,13 +76,19 @@ export class AccomplishmentReportService {
       },
     });
     this.http
-      .get<{ data: AccomplishmentReportAPI[] }>(`${this.domainURL}/${this.resource1}`, {
+      .get<APIResponse>(`${this.domainURL}/${this.resource1}`, {
         params: PARAMS,
       })
-      .pipe(map(({ data }) => ({ data: data.map(this.formatList) })))
+      .pipe(map(({ data, collectionSize }) => ({ data: (data as AccomplishmentReportAPI[]).map(this.formatList), collectionSize })))
       .subscribe({
         next: (response) => {
           this.entries = response.data;
+
+          this.page = {
+            ...this.page,
+            collectionSize: response.collectionSize,
+          };
+
           this.entriesListener.next(response.data);
         },
       });

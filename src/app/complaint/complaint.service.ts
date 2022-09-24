@@ -4,6 +4,7 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DeficiencyNotice } from '../deficiency-notice/models/deficiency-notice.model';
+import { APIResponse } from '../shared/models/api-response';
 import { Approval } from '../shared/models/approvalStatus';
 import { PageOptions } from '../shared/models/page-options';
 import { formatDate, formatTime, openPDF } from '../shared/utility';
@@ -18,6 +19,7 @@ export class ComplaintService {
     current: 1,
     size: 10,
     search: '',
+    collectionSize: 0,
   };
   resourceType = new ReplaySubject<string>();
   createNewComplaintListener = new ReplaySubject<DeficiencyNotice>();
@@ -29,6 +31,14 @@ export class ComplaintService {
   private resource1 = 'api/main/complaint';
 
   constructor(private http: HttpClient) {}
+
+  setPage(payload: PageOptions) {
+    this.page = payload;
+  }
+
+  getPage() {
+    return this.page;
+  }
 
   getEntries(): Complaint[] {
     return this.entries;
@@ -67,13 +77,19 @@ export class ComplaintService {
       },
     });
     this.http
-      .get<{ data: ComplaintAPI[] }>(`${this.domainURL}/${this.resource1}`, {
+      .get<APIResponse>(`${this.domainURL}/${this.resource1}`, {
         params: PARAMS,
       })
-      .pipe(map(({ data }) => ({ data: data.map(this.formatList) })))
+      .pipe(map(({ data, collectionSize }) => ({ data: (data as ComplaintAPI[]).map(this.formatList), collectionSize })))
       .subscribe({
         next: (response) => {
           this.entries = response.data;
+
+          this.page = {
+            ...this.page,
+            collectionSize: response.collectionSize,
+          };
+
           this.entriesListener.next(response.data);
         },
       });

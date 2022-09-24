@@ -9,7 +9,7 @@ import { ClientEditComponent } from './containers/client-edit/client-edit.compon
 import { ClientViewComponent } from './containers/client-view/client-view.component';
 import { CardModule } from 'src/app/ui/card/card.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModalModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { ClientSearchComponent } from './components/client-search/client-search.component';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
@@ -34,6 +34,7 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     NgbTypeaheadModule,
     NgbAlertModule,
+    NgbPaginationModule,
   ],
   exports: [ClientEditComponent, ClientViewComponent, ClientSearchComponent],
 })
